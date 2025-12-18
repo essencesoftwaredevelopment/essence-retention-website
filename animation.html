@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Essence - Tri-Catalyst Engagement System (2D)</title>
+    <style>
+        /* CSS Variables */
+        :root {
+            --theme-color: #FFFFFF;
+            --theme-shadow-strong: rgba(255, 255, 255, 0.2);
+            --theme-shadow-weak: rgba(255, 255, 255, 0.1);
+            --theme-text-glow: rgba(255, 255, 255, 0.6);
+        }
+
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: #050505;
+            font-family: Zalando Sans Expanded, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        #animation-container {
+            position: relative;
+            width: 100%;
+            max-width: 1000px;
+            height: 400px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 10%;
+            box-sizing: border-box;
+        }
+
+        /* Canvas for the neon line - Z-Index 3 ensures it is TOP of boxes */
+        #line-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 3; 
+            pointer-events: none;
+        }
+
+        /* The Boxes */
+        .component-box {
+            position: relative;
+            z-index: 2; /* Below the canvas line */
+            width: 140px;
+            height: 140px;
+            /* Semi-transparent background */
+            background: rgba(10, 10, 10, 0.5); 
+            backdrop-filter: blur(4px);
+            border: 1px solid #333;
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.4s ease-out; /* Slower transition for smooth activation */
+            box-shadow: 0 0 0px rgba(0,0,0,0);
+        }
+
+        /* SVG Styling */
+        .component-box svg {
+            width: 50px;
+            height: 50px;
+            fill: none;
+            stroke: #555;
+            stroke-width: .8px; /* Slightly thicker for visibility */
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            transition: stroke 0.4s ease-out;
+        }
+
+        .component-label {
+            margin-top: 15px;
+            color: #555;
+            font-size: 14px;
+            font-weight: 400;
+            letter-spacing: 1px;
+            transition: color 0.4s ease-out;
+        }
+
+        /* Active States */
+        .component-box.active {
+            border-color: var(--theme-color);
+            box-shadow: 0 0 40px var(--theme-shadow-strong), inset 0 0 20px var(--theme-shadow-weak);
+            transform: scale(1.02);
+        }
+
+        .component-box.active svg { 
+            stroke: var(--theme-color); 
+        }
+
+        .component-box.active .component-label { 
+            color: var(--theme-color); 
+            text-shadow: 0 0 15px var(--theme-text-glow); 
+        }
+
+        .bg-grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="bg-grid"></div>
+
+    <div id="animation-container">
+        <canvas id="line-canvas"></canvas>
+
+        <div class="component-box" id="box-1">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+                <circle cx="9" cy="7" r="4"/>
+                <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            </svg>
+            <div class="component-label">Capture</div>
+        </div>
+
+        <div class="component-box" id="box-2">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"/>
+                <path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z"/>
+                <path d="M15 13a4.5 4.5 0 0 1-3-4 4.5 4.5 0 0 1-3 4"/>
+                <path d="M17.599 6.5a3 3 0 0 0 .399-1.375"/>
+                <path d="M6.003 5.125A3 3 0 0 0 6.401 6.5"/>
+                <path d="M3.477 10.896a4 4 0 0 1 .585-.396"/>
+                <path d="M19.938 10.5a4 4 0 0 1 .585.396"/>
+                <path d="M6 18a4 4 0 0 1-1.954-1.297"/>
+                <path d="M19.954 16.703A4 4 0 0 1 18 18"/>
+            </svg>
+            <div class="component-label">AI Conversion</div>
+        </div>
+
+        <div class="component-box" id="box-3">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/>
+                <polyline points="16 7 22 7 22 13"/>
+                <circle cx="12" cy="12" r="8" opacity="0"/>
+                <path d="M16 16c0 1.1-.9 2-2 2h-4c-1.1 0-2-.9-2-2V8c0-1.1.9-2 2-2h4c1.1 0 2 .9 2 2v8z" style="opacity:0;"/>
+            </svg>
+            <div class="component-label">Retain</div>
+        </div>
+
+    </div>
+
+    <script>
+        // UPDATED: Theme color set to White
+        const MAIN_THEME_COLOR = '#FFFFFF';
+
+        (function setupTheme() {
+            function hexToRgba(hex, alpha) {
+                // Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
+                const shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+                hex = hex.replace(shorthandRegex, function(m, r, g, b) {
+                    return r + r + g + g + b + b;
+                });
+
+                const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+                const r = result ? parseInt(result[1], 16) : 255;
+                const g = result ? parseInt(result[2], 16) : 255;
+                const b = result ? parseInt(result[3], 16) : 255;
+                return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+            }
+            const root = document.documentElement;
+            root.style.setProperty('--theme-color', MAIN_THEME_COLOR);
+            root.style.setProperty('--theme-shadow-strong', hexToRgba(MAIN_THEME_COLOR, 0.2));
+            root.style.setProperty('--theme-shadow-weak', hexToRgba(MAIN_THEME_COLOR, 0.1));
+            root.style.setProperty('--theme-text-glow', hexToRgba(MAIN_THEME_COLOR, 0.6));
+        })();
+
+        const canvas = document.getElementById('line-canvas');
+        const ctx = canvas.getContext('2d');
+        const container = document.getElementById('animation-container');
+        const boxes = [
+            document.getElementById('box-1'),
+            document.getElementById('box-2'),
+            document.getElementById('box-3')
+        ];
+
+        const config = {
+            lineSpeed: 9, 
+            trailLength: 500,
+            lineWidth: 2,
+            pauseDuration: 40,
+            colors: {
+                line: '#FFFFFF', // Pure White line
+                glow: MAIN_THEME_COLOR // White glow
+            },
+            boxHeight: 140,
+            boxBorderRadius: 20
+        };
+
+        let width, height;
+        let boltX = -config.trailLength; 
+        let pauseTimer = 0;
+        let boxPositions = [];
+
+        function resize() {
+            width = container.offsetWidth;
+            height = container.offsetHeight;
+            canvas.width = width;
+            canvas.height = height;
+            boxPositions = getBoxPositions();
+        }
+        window.addEventListener('resize', resize);
+        
+        function getBoxPositions() {
+            const containerRect = container.getBoundingClientRect();
+            return boxes.map(box => {
+                const rect = box.getBoundingClientRect();
+                return {
+                    left: rect.left - containerRect.left,
+                    right: rect.right - containerRect.left,
+                    width: rect.width,
+                    // Distance from center to top edge
+                    offsetY: (rect.height / 2) 
+                };
+            });
+        }
+        
+        resize();
+
+        // Exact Geometry Math for Squircle Pathing
+        function getStreamY(x, direction) {
+            const sign = direction === 'top' ? -1 : 1;
+            
+            for (let box of boxPositions) {
+                // Buffer to start the climb slightly before the actual edge
+                // This simulates the vertical wall stroke
+                const verticalRamp = 6; 
+                const L = box.left;
+                const R = box.right;
+                const r = config.boxBorderRadius;
+                const maxOffset = box.offsetY; // 70
+                
+                // Vertical rise start point = -50 (relative to center)
+                const cornerStartY = maxOffset - r; 
+
+                // Is X within the interaction zone of this box?
+                // Zone: [L - verticalRamp, R + verticalRamp]
+                if (x >= L - verticalRamp && x <= R + verticalRamp) {
+                    
+                    const lx = x - L; // Local X relative to box left
+
+                    // 1. Left Vertical Ramp (Simulated Wall)
+                    // x is between L-6 and L
+                    if (lx < 0) {
+                        // Map [-6, 0] to [0, cornerStartY]
+                        const rampPct = (lx + verticalRamp) / verticalRamp; // 0 to 1
+                        return sign * (rampPct * cornerStartY);
+                    }
+                    
+                    // 2. Left Corner Arc
+                    // x is between 0 and r (0 to 20)
+                    else if (lx < r) {
+                        const arcY = Math.sqrt(Math.pow(r, 2) - Math.pow(r - lx, 2));
+                        return sign * (cornerStartY + arcY);
+                    }
+
+                    // 3. Top / Bottom Flat Edge
+                    // x is between r and width-r
+                    else if (lx <= box.width - r) {
+                        return sign * maxOffset;
+                    }
+
+                    // 4. Right Corner Arc
+                    // x is between width-r and width
+                    else if (lx <= box.width) {
+                        const distFromRight = box.width - lx; // r to 0
+                        // Same logic as left corner but mirrored
+                        const arcY = Math.sqrt(Math.pow(r, 2) - Math.pow(r - distFromRight, 2));
+                        return sign * (cornerStartY + arcY);
+                    }
+
+                    // 5. Right Vertical Ramp (Simulated Wall)
+                    // x is between width and width + 6
+                    else {
+                        const distPastRight = lx - box.width; // 0 to 6
+                        const rampPct = 1 - (distPastRight / verticalRamp); // 1 to 0
+                        return sign * (rampPct * cornerStartY);
+                    }
+                }
+            }
+            return 0; 
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+            const centerY = height / 2;
+
+            if (pauseTimer > 0) {
+                pauseTimer--;
+            } else {
+                boltX += config.lineSpeed;
+            }
+
+            if (boltX - config.trailLength > width) {
+                boltX = -config.trailLength;
+                pauseTimer = config.pauseDuration;
+                // Reset active states
+                boxes.forEach((b) => b.classList.remove('active'));
+            }
+
+            if (boltX > -config.trailLength) {
+                // Gradient for the line trail
+                const gradient = ctx.createLinearGradient(boltX - config.trailLength, 0, boltX, 0);
+                gradient.addColorStop(0, 'rgba(255,255,255,0)'); 
+                gradient.addColorStop(0.2, 'rgba(255,255,255,0.1)'); 
+                gradient.addColorStop(0.8, config.colors.line);
+                gradient.addColorStop(1, '#FFFFFF'); // Bright white head
+
+                ctx.strokeStyle = gradient;
+                ctx.lineWidth = config.lineWidth;
+                ctx.lineCap = 'round';
+                
+                // Glow Effect
+                ctx.shadowBlur = 10;
+                ctx.shadowColor = config.colors.glow;
+
+                // Step size 1 for maximum smoothness on corners
+                const step = 1; 
+                const startX = Math.max(0, boltX - config.trailLength);
+                const endX = Math.min(width, boltX);
+
+                // Draw Top Stream
+                ctx.beginPath();
+                for (let x = startX; x <= endX; x += step) {
+                    const yOffset = getStreamY(x, 'top');
+                    if (x === startX) ctx.moveTo(x, centerY + yOffset);
+                    else ctx.lineTo(x, centerY + yOffset);
+                }
+                ctx.lineTo(endX, centerY + getStreamY(endX, 'top'));
+                ctx.stroke();
+
+                // Draw Bottom Stream
+                ctx.beginPath();
+                for (let x = startX; x <= endX; x += step) {
+                    const yOffset = getStreamY(x, 'bottom');
+                    if (x === startX) ctx.moveTo(x, centerY + yOffset);
+                    else ctx.lineTo(x, centerY + yOffset);
+                }
+                ctx.lineTo(endX, centerY + getStreamY(endX, 'bottom'));
+                ctx.stroke();
+                
+                ctx.shadowBlur = 0;
+            }
+
+            // Logic: Activate box ONLY when the bolt head has passed the right edge
+            boxPositions.forEach((pos, index) => {
+                if (boltX > pos.right) {
+                    if (!boxes[index].classList.contains('active')) {
+                        boxes[index].classList.add('active');
+                    }
+                }
+            });
+
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+
+    </script>
+</body>
+</html>
