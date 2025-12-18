@@ -17,7 +17,7 @@
       <nav class="site-header__nav">
         <a class="site-header__link" href="#hero">Overview</a>
         <a class="site-header__link" href="#tri-catalyst">System</a>
-        <a class="button button--primary site-header__cta" href="mailto:hello@essencedev.ai">Book a demo</a>
+        <a class="button button--primary site-header__cta" href="https://calendly.com/essencesoftwaredevelopment/discovery-call">Book a demo</a>
       </nav>
     </header>
 
@@ -39,7 +39,7 @@
             The next generation ecommerce retention systems.
           </p>
           <div class="hero__actions">
-            <a class="button button--primary" href="mailto:hello@essencedev.ai">Book a demo</a>
+            <a class="button button--primary" href="https://calendly.com/essencesoftwaredevelopment/discovery-call">Book a demo</a>
             <a class="button button--ghost" href="#tri-catalyst">See the system</a>
           </div>
         </div>
@@ -88,6 +88,87 @@
             </div>
           </div>
           <aside class="flow-detail-list" id="flow-detail-list"></aside>
+        </div>
+      </section>
+
+      <section class="email-marquee">
+        <div class="email-marquee__inner">
+          <h2 class="email-marquee__title">Impeccible Designs</h2>
+          <div class="email-marquee__viewport">
+            <div class="email-marquee__track">
+              <img
+                src="https://cdn.prod.website-files.com/65a27a6353a920f4f8feb14a/681cf8aa1ed1dbd9245d9f35_Your%20Vision%20Deserves%20the%20Best.png"
+                alt=""
+                class="email-marquee__image"
+              />
+              <img
+                src="https://cdn.prod.website-files.com/65a27a6353a920f4f8feb14a/681cf8a9310e45831c42a2ac_WM1.png"
+                alt=""
+                class="email-marquee__image"
+              />
+              <img
+                src="https://cdn.prod.website-files.com/65a27a6353a920f4f8feb14a/681cf8a9372933b3b5ead9c9_Frame%203.png"
+                alt=""
+                class="email-marquee__image"
+              />
+              <img
+                src="https://cdn.prod.website-files.com/65a27a6353a920f4f8feb14a/681cf8a9c919019936f292ca_7%20Days%20Out.png"
+                alt=""
+                class="email-marquee__image"
+              />
+              <img
+                src="https://cdn.prod.website-files.com/65a27a6353a920f4f8feb14a/681cf8a9058a32d099acb069_Frame%202.png"
+                alt=""
+                class="email-marquee__image"
+              />
+              <img
+                src="https://cdn.prod.website-files.com/65a27a6353a920f4f8feb14a/681cf8a6c880971c89a0db51_Aer.png"
+                alt=""
+                class="email-marquee__image"
+              />
+              <img
+                src="https://cdn.prod.website-files.com/65a27a6353a920f4f8feb14a/681cf8a9191229924bce4026_Email.png"
+                alt=""
+                class="email-marquee__image"
+              />
+
+              <img
+                src="https://cdn.prod.website-files.com/65a27a6353a920f4f8feb14a/681cf8aa1ed1dbd9245d9f35_Your%20Vision%20Deserves%20the%20Best.png"
+                alt=""
+                class="email-marquee__image"
+              />
+              <img
+                src="https://cdn.prod.website-files.com/65a27a6353a920f4f8feb14a/681cf8a9310e45831c42a2ac_WM1.png"
+                alt=""
+                class="email-marquee__image"
+              />
+              <img
+                src="https://cdn.prod.website-files.com/65a27a6353a920f4f8feb14a/681cf8a9372933b3b5ead9c9_Frame%203.png"
+                alt=""
+                class="email-marquee__image"
+              />
+              <img
+                src="https://cdn.prod.website-files.com/65a27a6353a920f4f8feb14a/681cf8a9c919019936f292ca_7%20Days%20Out.png"
+                alt=""
+                class="email-marquee__image"
+              />
+              <img
+                src="https://cdn.prod.website-files.com/65a27a6353a920f4f8feb14a/681cf8a9058a32d099acb069_Frame%202.png"
+                alt=""
+                class="email-marquee__image"
+              />
+              <img
+                src="https://cdn.prod.website-files.com/65a27a6353a920f4f8feb14a/681cf8a6c880971c89a0db51_Aer.png"
+                alt=""
+                class="email-marquee__image"
+              />
+              <img
+                src="https://cdn.prod.website-files.com/65a27a6353a920f4f8feb14a/681cf8a9191229924bce4026_Email.png"
+                alt=""
+                class="email-marquee__image"
+              />
+            </div>
+          </div>
         </div>
       </section>
 
@@ -314,10 +395,17 @@
           const card = document.createElement('article');
           const extraClass = item.id === 'box-1' ? ' flow-detail-card--capture' : '';
           card.className = `flow-detail-card${extraClass}`;
+          const coverHtml =
+            item.id === 'box-2'
+              ? `<div class="flow-detail-card__cover flow-detail-card__cover--ai-video">
+                  <video class="ai-video" src="assets/videos/vercel_loop.mp4" autoplay muted loop playsinline poster="" aria-label="Catalyst AI orchestration video"></video>
+                  <div class="ai-video__overlay"></div>
+                </div>`
+              : `<div class="flow-detail-card__cover" style="background-image:${item.cover};">
+                  ${item.id === 'box-1' ? '<img src="assets/images/pop-ups-cut.png" alt="Pop ups" class="flow-detail-card__graphic" />' : ''}
+                </div>`;
           card.innerHTML = `
-            <div class="flow-detail-card__cover" style="background-image:${item.cover};">
-              ${item.id === 'box-1' ? '<img src="assets/images/pop-ups.png" alt="Pop ups" class="flow-detail-card__graphic" />' : ''}
-            </div>
+            ${coverHtml}
             <div class="flow-detail-card__meta">
               <p class="flow-detail-card__subtitle">${item.subtitle}</p>
               <h3 class="flow-detail-card__title">${item.title}</h3>

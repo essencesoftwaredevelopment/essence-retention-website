@@ -58,7 +58,7 @@ body::before {
   z-index: 1;
   max-width: 1100px;
   margin: 0 auto;
-  padding: 40px 20px 80px;
+  padding: 40px 20px 140px;
 }
 
 main {
@@ -114,7 +114,7 @@ main {
   flex-direction: column;
   align-items: center;
   gap: 16px;
-  padding: 80px 48px 80px;
+  padding: 80px 48px 120px;
   width: 100vw;
   margin-top: -40px;
   margin-left: calc(50% - 50vw);
@@ -367,6 +367,30 @@ main {
   overflow: visible;
 }
 
+.flow-detail-card__cover--ai-video {
+  background: radial-gradient(circle at 50% 20%, rgba(0, 255, 255, 0.08), rgba(1, 4, 10, 0.9));
+  border-color: rgba(123, 233, 255, 0.25);
+  box-shadow: inset 0 0 45px rgba(0, 0, 0, 0.6), 0 25px 60px rgba(0, 255, 255, 0.12);
+  overflow: hidden;
+  position: relative;
+}
+
+.ai-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: saturate(1.1) brightness(1.02);
+}
+
+.ai-video__overlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 40% 30%, rgba(0, 255, 255, 0.2), rgba(0, 0, 0, 0.7));
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+
 .flow-detail-card__subtitle {
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -390,6 +414,89 @@ main {
   display: flex;
   flex-direction: column;
   gap: clamp(16px, 2vw, 24px);
+}
+
+/* ========== Email Marquee ========== */
+
+.email-marquee {
+  position: relative;
+  width: 100vw;
+  margin: 0 calc(50% - 50vw);
+  padding: 40px 0 80px;
+  overflow: hidden;
+}
+
+.email-marquee__inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.email-marquee__title {
+  font-size: clamp(1.9rem, 3vw, 2.4rem);
+  letter-spacing: 0.02em;
+  margin: 0;
+}
+
+.email-marquee__viewport {
+  position: relative;
+  overflow: hidden;
+  border-radius: calc(var(--radius) * 1.2);
+  padding: 18px;
+  background: linear-gradient(135deg, rgba(9, 12, 22, 0.9), rgba(15, 18, 30, 0.7));
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.45), inset 0 0 40px rgba(255, 255, 255, 0.02);
+}
+
+.email-marquee__viewport::before,
+.email-marquee__viewport::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 140px;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.email-marquee__viewport::before {
+  left: 0;
+  background: linear-gradient(90deg, var(--bg) 0%, transparent 80%);
+}
+
+.email-marquee__viewport::after {
+  right: 0;
+  background: linear-gradient(270deg, var(--bg) 0%, transparent 80%);
+}
+
+.email-marquee__track {
+  display: flex;
+  gap: 18px;
+  width: max-content;
+  align-items: flex-start;
+  animation: marquee 32s linear infinite;
+  will-change: transform;
+}
+
+.email-marquee__image {
+  flex: 0 0 auto;
+  width: 230px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+  background: #0a0a0f;
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
 }
 
 /* ========== Results Section ========== */
@@ -460,7 +567,7 @@ main {
   top: -20%;
   left: 50%;
   transform: translateX(-50%);
-  width: 130%;
+  width: 140%;
   max-width: none;
   filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.45));
   pointer-events: none;
@@ -554,5 +661,17 @@ main {
   .flow-detail-card {
     max-width: 100%;
     transform: translateY(0);
+  }
+
+  .email-marquee {
+    padding: 20px 0 60px;
+  }
+
+  .email-marquee__viewport {
+    padding: 12px;
+  }
+
+  .email-marquee__image {
+    width: 180px;
   }
 }
