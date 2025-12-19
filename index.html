@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.css" />
 </head>
 <body>
+  <div class="cursor" id="custom-cursor" aria-hidden="true"></div>
   <div class="page-grid" data-scroll-container>
     <header class="site-header" data-scroll-section>
       <div class="site-header__logo">ESSENCE Retention</div>
@@ -24,10 +25,25 @@
     <main data-scroll-section>
       <section class="hero" id="hero">
         <div class="hero__content">
-          <p class="eyebrow">Klaviyo + Shopify Partners</p>
+          <!-- <p class="eyebrow">Klaviyo + Shopify Partners</p> -->
           <h1 class="hero__title">
-            <span class="hero__title-accent">AI Enabled</span><br />Ecommerce Retention
+            <span class="hero__title-accent" style="font-style: italic; font-weight: 50;">Hyper-Performant</span>
+            <br />Ecommerce Retention
           </h1>
+          <!-- Subheading -->
+            <div class="hero__subhead-row" style="display: flex; align-items: center; justify-content: center; gap: 5px;">
+            <div class="hero__stars" style="display: flex; gap: 0.25rem;">
+              <span style="color: #fbbf24; font-size: 1rem;">★</span>
+              <span style="color: #fbbf24; font-size: 1rem;">★</span>
+              <span style="color: #fbbf24; font-size: 1rem;">★</span>
+              <span style="color: #fbbf24; font-size: 1rem;">★</span>
+              <span style="color: #fbbf24; font-size: 1rem;">★</span>
+            </div>
+            <p class="hero__subhead" style="text-align: center;">
+              "The next generation of ecommerce retention systems."
+            </p>
+            </div>
+          <!-- Hero Badges -->
           <div class="hero__badges">
             <div class="hero__logos">
               <img src="assets/images/klaviyo-partners.png" alt="Klaviyo Platinum Partner badge" class="hero__logo" />
@@ -35,9 +51,25 @@
             </div>
             <div class="hero__chip">11.2X AVG. ROI</div>
           </div>
-          <p class="hero__subhead">
-            The next generation ecommerce retention systems.
-          </p>
+          <!-- Loom Video Placeholder -->
+          <div class="hero__video-placeholder">
+            <div class="hero__video-embed" data-video-embed>
+              <div class="hero__video-guard" data-video-guard>
+                <button type="button" class="hero__video-play">
+                  <span class="hero__video-play-icon">▶</span>
+                  Watch overview
+                </button>
+                <span class="hero__video-hint">Scroll stays active under your cursor</span>
+              </div>
+              <iframe
+                src="https://www.loom.com/embed/038fa6f0844241f18506ea515b9d3de8"
+                frameborder="0"
+                allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen
+              ></iframe>
+            </div>
+          </div>
+           
           <div class="hero__actions">
             <a class="button button--primary" href="https://calendly.com/essencesoftwaredevelopment/discovery-call">Book a demo</a>
             <a class="button button--ghost" href="#tri-catalyst">See the system</a>
@@ -73,7 +105,7 @@
                   <path d="M6 18a4 4 0 0 1-1.954-1.297" />
                   <path d="M19.954 16.703A4 4 0 0 1 18 18" />
                 </svg>
-                <div class="component-label">AI Conversion</div>
+                <div class="component-label">Convert</div>
               </div>
 
               <div class="component-box" id="box-3">
@@ -172,11 +204,17 @@
         </div>
       </section>
 
+      <section class="revenue-banner">
+        <div class="revenue-banner__inner">
+          <h2 class="revenue-banner__title">Over $2,700,000 generated for our clients</h2>
+        </div>
+      </section>
+
       <section class="results" id="results">
         <div class="results__inner">
           <div>
             <p class="results__eyebrow">Results</p>
-            <h2 class="results__title">34.4% avg. revenue driven by Tri-Catalyst systems.</h2>
+            <h2 class="results__title">34.4% avg. revenue driven by our systems</h2>
             <p class="results__copy">
               Essence builds retention engines that compound LTV—no extra paid spend. We track contribution by cohort, campaign,
               and SKU to prove lift.
@@ -203,7 +241,7 @@
 
     <footer class="site-footer" data-scroll-section>
       <p>© <span id="year"></span> Essence Software Development. All rights reserved.</p>
-      <a href="mailto:placeholder@essence.ai">hello@essencedev.ai</a>
+      <a href="mailto:jacques@essencesoftwaredevelopment.com">jacques@essencesoftwaredevelopment.com</a>
     </footer>
   </div>
 
@@ -212,6 +250,61 @@
     if (yearEl) {
       yearEl.textContent = new Date().getFullYear();
     }
+  </script>
+  <script>
+    (function initCustomCursor() {
+      const cursor = document.getElementById('custom-cursor');
+      if (!cursor) return;
+      const isCoarse = window.matchMedia('(pointer: coarse)').matches;
+      if (isCoarse) {
+        cursor.style.display = 'none';
+        return;
+      }
+
+      document.body.classList.add('has-custom-cursor');
+      let x = window.innerWidth / 2;
+      let y = window.innerHeight / 2;
+      let targetX = x;
+      let targetY = y;
+      const ease = 0.18;
+      let rafId = null;
+
+      function update() {
+        const dx = targetX - x;
+        const dy = targetY - y;
+        x += dx * ease;
+        y += dy * ease;
+        cursor.style.transform = `translate3d(${x}px, ${y}px, 0) translate(-50%, -50%)`;
+        rafId = requestAnimationFrame(update);
+      }
+
+      function handleMove(event) {
+        targetX = event.clientX;
+        targetY = event.clientY;
+        cursor.classList.add('is-visible');
+        if (!rafId) rafId = requestAnimationFrame(update);
+      }
+
+      window.addEventListener('pointermove', handleMove, { passive: true });
+    })();
+  </script>
+  <script>
+    (function enableLoomScrollThrough() {
+      const embed = document.querySelector('[data-video-embed]');
+      if (!embed) return;
+      const guard = embed.querySelector('[data-video-guard]');
+      const iframe = embed.querySelector('iframe');
+      if (!guard || !iframe) return;
+
+      guard.addEventListener('click', () => {
+        embed.classList.add('is-interactive');
+        iframe.focus();
+      });
+
+      embed.addEventListener('mouseleave', () => {
+        embed.classList.remove('is-interactive');
+      });
+    })();
   </script>
   <script src="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.js"></script>
   <script>
@@ -234,6 +327,33 @@
         locoScroll.update();
       });
     }
+
+    (function setupAnchorScroll() {
+      const anchorLinks = document.querySelectorAll('a[href^="#"]');
+      if (!anchorLinks.length) return;
+
+      anchorLinks.forEach((link) => {
+        link.addEventListener('click', (event) => {
+          const hash = link.getAttribute('href');
+          if (!hash || hash === '#') return;
+          const target = document.querySelector(hash);
+          if (!target) return;
+          event.preventDefault();
+
+          if (window.__locoScroll && typeof window.__locoScroll.scrollTo === 'function') {
+            window.__locoScroll.scrollTo(target, { offset: -40, duration: 800, disableLerp: true });
+          } else {
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+
+          if (history.pushState) {
+            history.pushState(null, '', hash);
+          } else {
+            location.hash = hash;
+          }
+        });
+      });
+    })();
   </script>
   <script>
     (function initTriCatalystAnimation() {
@@ -251,19 +371,19 @@
           id: 'box-1',
           title: 'Capture Demand',
           subtitle: 'Stage 01 · Capture',
-          body: 'Catalytic landing pages, quizzes, and popup systems convert high-intent visitors into flows we can nurture on-demand.',
+          body: 'Landing pages, quizzes, and unique popup systems convert cold traffic visitors into contactable information.',
           cover: 'linear-gradient(135deg, #04261c, #12f39c)',
         },
         {
           id: 'box-2',
-          title: 'Catalyst AI Orchestration',
+          title: 'Convert with AI',
           subtitle: 'Stage 02 · Catalyst AI',
-          body: 'Our Catalyst AI engine ingests Shopify, Klaviyo, and onsite signals to trigger the perfect flow, offer, and channel in real time.',
+          body: 'Our AI system pulls live Shopify and Klaviyo data to activate campaigns, personalized flows, and channels in real time.',
           cover: 'linear-gradient(135deg, #110f2b, #6d5bff)',
         },
         {
           id: 'box-3',
-          title: 'Revenue Compounding',
+          title: 'Increase Customer LTV',
           subtitle: 'Stage 03 · Revenue',
           body: 'Revenue rooms surface cohort lift while automated win-back, VIP, and replenishment programs turn every touch into margin.',
           cover: 'linear-gradient(135deg, #271014, #ff6a3d)',
@@ -400,6 +520,10 @@
               ? `<div class="flow-detail-card__cover flow-detail-card__cover--ai-video">
                   <video class="ai-video" src="assets/videos/vercel_loop.mp4" autoplay muted loop playsinline poster="" aria-label="Catalyst AI orchestration video"></video>
                   <div class="ai-video__overlay"></div>
+                </div>`
+              : item.id === 'box-3'
+              ? `<div class="flow-detail-card__cover flow-detail-card__cover--results">
+                  <img src="assets/images/klaviyo-results.png" alt="Klaviyo results dashboard" class="flow-detail-card__image" />
                 </div>`
               : `<div class="flow-detail-card__cover" style="background-image:${item.cover};">
                   ${item.id === 'box-1' ? '<img src="assets/images/pop-ups-cut.png" alt="Pop ups" class="flow-detail-card__graphic" />' : ''}
