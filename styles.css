@@ -118,12 +118,13 @@ main {
   flex-direction: column;
   align-items: center;
   gap: 16px;
-  padding: 80px 48px 120px;
+  padding: 80px 48px 80px;
   width: 100vw;
   margin-top: -40px;
   margin-left: calc(50% - 50vw);
   margin-right: calc(50% - 50vw);
   background-color: transparent;
+  /* background-color: red; */
   overflow: visible;
 }
 
@@ -505,6 +506,80 @@ main {
   gap: clamp(16px, 2vw, 24px);
 }
 
+/* ========== Client Logo Marquee ========== */
+
+.client-logos {
+  width: 80vw;
+  margin: 0 calc(50% - 40vw);
+  padding: 12px 0 130px;
+}
+
+.client-logos__subhead {
+  max-width: 900px;
+  margin: 0 auto 12px;
+  padding: 0 20px;
+  text-align: center;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.client-logos__viewport {
+  position: relative;
+  overflow: hidden;
+  border-radius: calc(var(--radius) * 1.1);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 16px;
+  background: transparent;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 12%, #000 88%, transparent 100%);
+  mask-image: linear-gradient(90deg, transparent 0%, #000 12%, #000 88%, transparent 100%);
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+}
+
+.client-logos__viewport::before,
+.client-logos__viewport::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 140px;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.client-logos__viewport::before {
+  left: 0;
+  background: none;
+}
+
+.client-logos__viewport::after {
+  right: 0;
+  background: none;
+}
+
+.client-logos__track {
+  display: flex;
+  align-items: center;
+  gap: 34px;
+  width: max-content;
+  animation: marquee 32s linear infinite;
+  will-change: transform;
+}
+
+.client-logos__viewport:hover .client-logos__track {
+  animation-play-state: paused;
+}
+
+.client-logos__image {
+  flex: 0 0 auto;
+  display: block;
+  height: 56px;
+  width: auto;
+  max-width: 220px;
+  object-fit: contain;
+  padding: 12px 18px;
+}
+
 /* ========== Email Marquee ========== */
 
 .email-marquee {
@@ -788,7 +863,7 @@ main {
 
   .hero {
     margin-top: 10px;
-    padding: 64px 24px 70px;
+    padding: 64px 24px 10px;
   }
 
   .hero__badges {
@@ -839,6 +914,23 @@ main {
   .flow-detail-card {
     max-width: 100%;
     transform: translateY(0);
+  }
+
+  .client-logos {
+    padding: 8px 0 90px;
+  }
+
+  .client-logos__viewport {
+    padding: 12px;
+  }
+
+  .client-logos__track {
+    gap: 22px;
+  }
+
+  .client-logos__image {
+    height: 48px;
+    padding: 10px 14px;
   }
 
   .email-marquee {
