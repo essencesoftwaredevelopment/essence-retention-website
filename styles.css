@@ -90,8 +90,10 @@ main {
 }
 
 .site-header__logo {
-  font-size: 1.1rem;
-  letter-spacing: 0.06em;
+  display: block;
+  height: 18px;
+  width: auto;
+  object-fit: contain;
 }
 
 .site-header__nav {
@@ -158,10 +160,54 @@ main {
 }
 
 .hero__title-accent {
-  background: linear-gradient(90deg, #c6edff, #5effa1);
+  display: inline-block;
+  position: relative;
+  background: linear-gradient(90deg, #c6edff 0%, #8ff0d1 40%, #5effa1 70%, #4ee0ff 100%);
+  background-repeat: no-repeat;
+  background-size: 0% 100%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  opacity: 0;
+  letter-spacing: -0.04em;
+  text-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  filter: blur(6px);
+  will-change: opacity, background-size, letter-spacing, filter, text-shadow;
+  animation: heroWordFadeBurst 1.1s cubic-bezier(0.23, 1, 0.32, 1) 0.18s forwards;
+}
+
+@keyframes heroWordFadeBurst {
+  0% {
+    opacity: 0;
+    background-size: 0% 100%;
+    letter-spacing: -0.08em;
+    text-shadow: none;
+    filter: blur(8px);
+  }
+  55% {
+    opacity: 1;
+    background-size: 100% 100%;
+    letter-spacing: 0.08em;
+    text-shadow: 0 0 18px rgba(198, 237, 255, 0.5);
+    filter: blur(1.6px);
+  }
+  100% {
+    opacity: 1;
+    background-size: 100% 100%;
+    letter-spacing: 0;
+    text-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
+    filter: blur(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__title-accent {
+    animation: none;
+    opacity: 1;
+    letter-spacing: 0;
+    background-size: 100% 100%;
+    filter: none;
+  }
 }
 
 .hero__video-placeholder {
@@ -229,7 +275,7 @@ main {
   height: 100%;
   border: 0;
   display: block;
-  pointer-events: none;
+  pointer-events: auto;
 }
 
 .hero__video-embed.is-interactive .hero__video-guard {

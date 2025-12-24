@@ -14,7 +14,10 @@
   <div class="cursor" id="custom-cursor" aria-hidden="true"></div>
   <div class="page-grid" data-scroll-container>
     <header class="site-header" data-scroll-section>
-      <div class="site-header__logo">ESSENCE Retention</div>
+      <video class="site-header__logo" autoplay muted loop playsinline aria-label="ESSENCE Retention animated logo">
+        <source src="assets/videos/logo-vid-loop.mp4" type="video/mp4" />
+        ESSENCE Retention logo animation
+      </video>
       <nav class="site-header__nav">
         <a class="site-header__link" href="#hero">Overview</a>
         <a class="site-header__link" href="#tri-catalyst">System</a>
@@ -53,19 +56,14 @@
           </div>
           <!-- Loom Video Placeholder -->
           <div class="hero__video-placeholder">
-            <div class="hero__video-embed" data-video-embed>
-              <div class="hero__video-guard" data-video-guard>
-                <button type="button" class="hero__video-play">
-                  <span class="hero__video-play-icon">▶</span>
-                  Watch overview
-                </button>
-                <span class="hero__video-hint">Scroll stays active under your cursor</span>
-              </div>
+            <div class="hero__video-embed">
               <iframe
-                src="https://www.loom.com/embed/038fa6f0844241f18506ea515b9d3de8"
+                title="ESSENCE Retention overview"
+                src="https://www.youtube.com/embed/dwdlU0wVfWc?rel=0&modestbranding=1&playsinline=1&controls=0&fs=0&disablekb=1&autohide=1&iv_load_policy=3"
                 frameborder="0"
-                allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 allowfullscreen
+                loading="lazy"
               ></iframe>
             </div>
           </div>
@@ -284,6 +282,20 @@
     }
   </script>
   <script>
+    (function ensureLogoVideoLoops() {
+      const logoVideo = document.querySelector('.site-header__logo');
+      if (!(logoVideo instanceof HTMLVideoElement)) return;
+
+      const replay = () => {
+        logoVideo.currentTime = 0;
+        logoVideo.play().catch(() => {});
+      };
+
+      logoVideo.addEventListener('ended', replay);
+      logoVideo.play().catch(() => {});
+    })();
+  </script>
+  <script>
     (function initCustomCursor() {
       const cursor = document.getElementById('custom-cursor');
       if (!cursor) return;
@@ -320,24 +332,7 @@
       window.addEventListener('pointermove', handleMove, { passive: true });
     })();
   </script>
-  <script>
-    (function enableLoomScrollThrough() {
-      const embed = document.querySelector('[data-video-embed]');
-      if (!embed) return;
-      const guard = embed.querySelector('[data-video-guard]');
-      const iframe = embed.querySelector('iframe');
-      if (!guard || !iframe) return;
-
-      guard.addEventListener('click', () => {
-        embed.classList.add('is-interactive');
-        iframe.focus();
-      });
-
-      embed.addEventListener('mouseleave', () => {
-        embed.classList.remove('is-interactive');
-      });
-    })();
-  </script>
+  
   <script src="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.js"></script>
   <script>
     const scrollContainer = document.querySelector('[data-scroll-container]');
