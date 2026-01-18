@@ -4,20 +4,18 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>ESSENCE Retention</title>
+  <link rel="icon" type="image/x-icon" href="assets/images/favicon.ico" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.css" />
+  <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.css" /> -->
 </head>
 <body>
   <div class="cursor" id="custom-cursor" aria-hidden="true"></div>
   <div class="page-grid" data-scroll-container>
     <header class="site-header" data-scroll-section>
-      <video class="site-header__logo" autoplay muted loop playsinline aria-label="ESSENCE Retention animated logo">
-        <source src="assets/videos/logo-vid-loop.mp4" type="video/mp4" />
-        ESSENCE Retention logo animation
-      </video>
+      <img class="site-header__logo" src="assets/images/ESSENCE-Retention.png" alt="ESSENCE Retention logo" />
       <nav class="site-header__nav">
         <a class="site-header__link" href="#hero">Overview</a>
         <a class="site-header__link" href="#tri-catalyst">System</a>
@@ -106,6 +104,81 @@
           </div>
         </div>
       </div>
+
+      <section class="testimonials" id="testimonials">
+        <div class="testimonials__inner">
+          <div class="testimonials__header">
+            <p class="testimonials__eyebrow">Client Success Stories</p>
+            <h2 class="testimonials__title">Hear From Our Partners</h2>
+          </div>
+          <div class="testimonials__grid">
+            <!-- Testimonial 1: Paige DeAngelo -->
+            <div class="testimonial-card">
+              <div class="testimonial-card__header">
+                <div class="testimonial-card__info">
+                  <h3 class="testimonial-card__name">Paige DeAngelo</h3>
+                  <p class="testimonial-card__title">Founder of <strong>Aer Cosmetics</strong></p>
+                </div>
+                <div class="testimonial-card__stars">★ ★ ★ ★ ★</div>
+              </div>
+              <blockquote class="testimonial-card__quote">We Have 11 X'd Our Sales</blockquote>
+              <div class="testimonial-card__video">
+                <iframe 
+                  src="https://www.youtube.com/embed/sCkWw0e447Y" 
+                  frameborder="0" 
+                  allowfullscreen
+                  loading="lazy"
+                  title="Paige DeAngelo testimonial"
+                ></iframe>
+              </div>
+            </div>
+
+            <!-- Testimonial 2: John King -->
+            <div class="testimonial-card">
+              <div class="testimonial-card__header">
+                <div class="testimonial-card__info">
+                  <h3 class="testimonial-card__name">John King</h3>
+                  <p class="testimonial-card__title">Founder of <strong>Spicy Wear</strong></p>
+                </div>
+                <div class="testimonial-card__stars">★ ★ ★ ★ ★</div>
+              </div>
+              <blockquote class="testimonial-card__quote">They genuinely want to see you succeed</blockquote>
+              <div class="testimonial-card__video">
+                <iframe 
+                  src="https://youtube.com/embed/aikdwBMh9Io" 
+                  frameborder="0" 
+                  allowfullscreen
+                  loading="lazy"
+                  title="John King testimonial"
+                ></iframe>
+              </div>
+            </div>
+
+            <!-- Testimonial 3: Gavin Kennelly -->
+            <div class="testimonial-card">
+              <div class="testimonial-card__header">
+                <div class="testimonial-card__info">
+                  <h3 class="testimonial-card__name">Gavin Kennelly</h3>
+                  <p class="testimonial-card__title">Founder of <strong>Young Irish Entrepreneurs</strong> & <strong>Strive Fitness Company</strong></p>
+                </div>
+                <div class="testimonial-card__stars">★ ★ ★ ★ ★</div>
+              </div>
+              <blockquote class="testimonial-card__quote">Their experience made it very seamless for us</blockquote>
+              <div class="testimonial-card__video">
+                <iframe 
+                  src="https://www.youtube.com/embed/axN1Eil39NU" 
+                  frameborder="0" 
+                  allowfullscreen
+                  loading="lazy"
+                  title="Gavin Kennelly testimonial"
+                ></iframe>
+              </div>
+            </div>
+
+            
+          </div>
+        </div>
+      </section>
 
       <section class="flow-visual" id="tri-catalyst">
         <div class="flow-visual__grid" aria-hidden="true"></div>
@@ -267,6 +340,15 @@
         </div>
       </section>
 
+      <section class="faq-section">
+        <div class="faq-container">
+          <h2 class="faq-title">Frequently Asked Questions</h2>
+          <div class="faq-list" id="faq-list">
+            <!-- FAQs will be dynamically loaded here -->
+          </div>
+        </div>
+      </section>
+
     </main>
 
     <footer class="site-footer" data-scroll-section>
@@ -333,6 +415,7 @@
     })();
   </script>
   
+  <!-- Locomotive Scroll - Commented out due to scrolling issues
   <script src="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.js"></script>
   <script>
     const scrollContainer = document.querySelector('[data-scroll-container]');
@@ -382,6 +465,7 @@
       });
     })();
   </script>
+  -->
   <script>
     (function initTriCatalystAnimation() {
       const container = document.getElementById('animation-container');
@@ -725,6 +809,131 @@
           setDetailContent(currentDetail);
         }
       }
+    })();
+  </script>
+
+  <script>
+    // FAQ Data - Edit this JSON to add, remove, or modify FAQs
+    const faqData = [
+      {
+        "question": "What ROI do you typically generate for brands at our level?",
+        "answer": "Most brands see a meaningful lift within the first 30 to 60 days. Typical outcomes range from +15% to +40% increase in email/SMS attributed revenue, depending on current setup quality, traffic volume, and inventory depth. If you're already sending, we focus on improving profitability and consistency, not just volume."
+      },
+      {
+        "question": "How do you improve what we've already built without starting over?",
+        "answer": "We don't nuke accounts. We audit what exists, keep what's working, and rebuild only what's limiting results (messaging, segmentation, structure, timing, deliverability). You keep your existing data, list, flows, learnings, and brand voice, we simply make the system perform at a higher level."
+      },
+      {
+        "question": "We already have flows, what else can you add or optimize?",
+        "answer": "If flows exist, we upgrade them into a real retention engine:<br><br>• Better segmentation and conditional logic<br>• Higher-converting copy and creative<br>• Offer positioning without constant discounting<br>• Improved timing, split paths, and exclusions<br>• Advanced flows most brands don't have (replenishment, VIP, churn prevention, cross-sell, etc.)"
+      },
+      {
+        "question": "Do you work with brands doing 7+ figures and above?",
+        "answer": "Yes. We typically work with Shopify brands doing $50k to $250k/month, and also support brands well above 7 figures if there's enough complexity to justify a premium retention partner."
+      },
+      {
+        "question": "How do you segment advanced audiences for better performance?",
+        "answer": "We build segmentation around:<br><br>• Purchase behavior (frequency, recency, AOV, product)<br>• Engagement levels (opens/clicks, site activity)<br>• Lifecycle stages (new, active, at-risk, lapsed, VIP)<br>• Offer sensitivity (discount buyer vs. full price buyer)<br><br>This increases revenue while reducing fatigue."
+      },
+      {
+        "question": "Will this actually increase LTV, or just send more emails?",
+        "answer": "We're not here to \"send more.\" We're here to increase repeat purchase rate, retention, and lifetime value. More volume without strategy kills deliverability. We prioritize quality, relevance, and customer lifecycle."
+      },
+      {
+        "question": "How do you avoid list fatigue and unsubscribes?",
+        "answer": "We protect your list aggressively:<br><br>• Engagement-based sending (throttling unengaged users)<br>• Smart frequency caps<br>• Strong \"value-first\" campaign mix<br>• Deliverability monitoring<br>• Segmentation that prevents over-mailing"
+      },
+      {
+        "question": "Can you match our brand voice and tone consistently?",
+        "answer": "Yes. We run a structured tone-matching process: we analyze your site, ads, socials, customer reviews, and existing emails, then build a consistent messaging style guide. Every email follows that voice so the brand stays coherent."
+      },
+      {
+        "question": "How do you use data to decide what campaigns to send?",
+        "answer": "We don't guess. Campaign planning is based on:<br><br>• Shopify product performance + margin<br>• Cohort behavior (repeat timing + product rebuys)<br>• Flow gaps and customer lifecycle needs<br>• Klaviyo reporting (what actually drives conversions)<br>• Seasonality, launches, and inventory priorities"
+      },
+      {
+        "question": "Can you audit our current setup before making recommendations?",
+        "answer": "Yes. Every partnership starts with a full audit:<br><br>• Flows and campaigns<br>• Tracking + event setup<br>• Popups / list growth<br>• Segmentation<br>• Deliverability<br>• Creative and conversion structure<br><br>You'll get a clear roadmap before execution starts."
+      },
+      {
+        "question": "What does your reporting look like, can we track performance clearly?",
+        "answer": "Yes. We provide clear reporting that ties actions to results:<br><br>• Email + SMS revenue (accounting for attribution nuance)<br>• Campaign vs. flow split<br>• Revenue per recipient<br>• Deliverability and list health<br>• Weekly/monthly highlights + next actions"
+      },
+      {
+        "question": "How do you ensure deliverability stays high at our list size?",
+        "answer": "Deliverability is part of the system:<br><br>• Proper DNS setup (SPF/DKIM/DMARC + dedicated sending domain)<br>• Engagement filtering<br>• Smart warmup and ramping strategy<br>• Bounce/complaint monitoring<br>• Routine list cleaning and suppression management"
+      },
+      {
+        "question": "What's your onboarding process, how fast can we launch?",
+        "answer": "Fast. Most brands are live in 7 to 14 days. Onboarding includes:<br><br>• Account access + baseline capture<br>• Audit + roadmap<br>• Flow fixes + quick wins first<br>• Campaign engine setup (calendar + approvals)"
+      },
+      {
+        "question": "Do you handle everything or just consult and guide?",
+        "answer": "We do both, but most clients choose done-for-you. We can:<br><br>• fully manage retention (strategy + copy + design + build)<br>• or consult and direct your internal team"
+      },
+      {
+        "question": "How do you tie email strategy into product launches and promos?",
+        "answer": "We build launch sequences that maximize conversion without exhausting the list:<br><br>• Warmup/education<br>• Waitlist and early access<br>• Drop day sequencing<br>• Segmented urgency (VIP first, engaged next)<br>• Post-launch follow-up to capture missed buyers"
+      },
+      {
+        "question": "How do you work with our in-house team or other contractors?",
+        "answer": "Clean collaboration, no stepping on toes. We can plug into your existing ecosystem (designer, media buyer, brand team) and handle retention end-to-end while coordinating on creative priorities and promo schedule."
+      },
+      {
+        "question": "Can you help increase repeat purchase rate and retention?",
+        "answer": "Yes, that's the main focus. We target:<br><br>• higher repeat purchase rate<br>• higher LTV<br>• better second purchase conversion<br>• more predictable monthly revenue from returning customers"
+      },
+      {
+        "question": "Do you handle both campaigns and automations?",
+        "answer": "Yes. We handle:<br><br>• flows/automations (retention backbone)<br>• campaigns (weekly revenue engine)<br>• list growth (so the system scales)"
+      }
+    ];
+
+    // FAQ Accordion functionality
+    (function() {
+      const faqList = document.getElementById('faq-list');
+      
+      // Generate FAQ HTML from JSON data
+      faqData.forEach((faq, index) => {
+        const faqItem = document.createElement('div');
+        faqItem.className = 'faq-item';
+        faqItem.innerHTML = `
+          <button class="faq-question">
+            <span>${faq.question}</span>
+            <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+          <div class="faq-answer">
+            <p>${faq.answer}</p>
+          </div>
+        `;
+        faqList.appendChild(faqItem);
+      });
+      
+      // Add click event listeners to all FAQ items
+      const faqItems = document.querySelectorAll('.faq-item');
+      faqItems.forEach(item => {
+        const question = item.querySelector('.faq-question');
+        
+        question.addEventListener('click', () => {
+          const isOpen = item.classList.contains('is-open');
+          
+          // Close all other FAQ items
+          faqItems.forEach(otherItem => {
+            if (otherItem !== item) {
+              otherItem.classList.remove('is-open');
+            }
+          });
+          
+          // Toggle current item
+          if (isOpen) {
+            item.classList.remove('is-open');
+          } else {
+            item.classList.add('is-open');
+          }
+        });
+      });
     })();
   </script>
 </body>
