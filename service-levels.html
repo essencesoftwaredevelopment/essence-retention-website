@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pricing Table</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #000;
+            color: #FFFFFF;
+            padding: 40px 20px;
+            min-height: 100vh;
+        }
+
+        .pricing-table {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            align-items: stretch;
+        }
+
+        .pricing-card {
+            background: #121212;
+            border-radius: 16px;
+            padding: 40px 30px;
+            position: relative;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .pricing-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            padding: 2px;
+            background: linear-gradient(135deg, #0D8301, #FFFFFF, #0D8301);
+            border-radius: 16px;
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .pricing-card:hover::before {
+            opacity: 1;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .pricing-card.featured {
+            border-color: #0D8301;
+            background: linear-gradient(135deg, #000 0%, #333 100%);
+        }
+
+        .featured-badge {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #0D8301;
+            color: #FFFFFF;
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .plan-title {
+            font-size: 23px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #FFFFFF;
+        }
+
+        .plan-subtitle {
+            font-size: 16px;
+            color: #CCCCCC;
+            margin-bottom: 30px;
+            line-height: 1.4;
+        }
+
+        .plan-price {
+            font-size: 48px;
+            font-weight: 800;
+            margin-bottom: 40px;
+            color: #FFFFFF;
+        }
+
+        .plan-price .currency {
+            font-size: 24px;
+            vertical-align: top;
+        }
+
+        .plan-price .period {
+            font-size: 18px;
+            font-weight: 400;
+            color: #CCCCCC;
+        }
+
+        .custom-price {
+            font-size: 36px;
+            font-weight: 700;
+            color: #FFF;
+        }
+
+        .feature-list {
+            list-style: none;
+            margin-bottom: 40px;
+            flex-grow: 1;
+        }
+
+        .feature-list li {
+            display: flex;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 15px;
+            line-height: 1.4;
+        }
+
+        .feature-list li:last-child {
+            border-bottom: none;
+        }
+
+        .feature-name {
+            flex: 1;
+            color: #FFFFFF;
+            font-weight: 500;
+        }
+
+        .feature-value {
+            color: #0D8301;
+            font-weight: 600;
+            margin-left: 12px;
+        }
+
+        .feature-unavailable {
+            color: #888888;
+        }
+
+        .checkmark {
+            color: #0D8301;
+            font-weight: bold;
+            margin-right: 12px;
+        }
+
+        .cross {
+            color: #888888;
+            margin-right: 12px;
+        }
+
+        .cta-button {
+            display: block;
+            width: 100%;
+            padding: 16px 24px;
+            background: #0D8301;
+            color: #FFFFFF;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 16px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 2px solid #0D8301;
+            margin-top: auto;
+        }
+
+        .cta-button:hover {
+            background: transparent;
+            color: #0D8301;
+            transform: translateY(-2px);
+        }
+
+        .cta-button.secondary {
+            background: transparent;
+            color: #FFFFFF;
+            border-color: #FFFFFF;
+        }
+
+        .cta-button.secondary:hover {
+            background: #FFFFFF;
+            color: #111111;
+        }
+
+        @media (max-width: 768px) {
+            .pricing-table {
+                grid-template-columns: 1fr;
+                gap: 20px;
+                display: none;
+            }
+
+            .pricing-card {
+                padding: 30px 24px;
+            }
+
+            .plan-price {
+                font-size: 36px;
+            }
+        }
+         
+    </style>
+</head>
+
+<body>
+    <div class="pricing-table">
+        <!-- Essential Plan -->
+        <div class="pricing-card">
+            <h3 class="plan-title">ESSENCE Core</h3>
+            <p class="plan-subtitle">Perfect for small businesses getting started with email marketing</p>
+
+            <div class="plan-price">
+    <div style="font-size: 16px; font-weight: 400; color: #CCCCCC; margin-bottom: 8px;">For brands over:</div>
+    <div style="font-size: 48px; font-weight: 800; color: #FFFFFF;"><span class="currency">$</span>20k<span class="period">/month</span></div>
+</div>
+
+            <ul class="feature-list">
+                <li>
+                    <span class="feature-name">Active Flows</span>
+                    <span class="feature-value">4</span>
+                </li>
+                <li>
+                    <span class="feature-name">Campaigns</span>
+                    <span class="feature-value">8 p/m</span>
+                </li>
+                <li>
+                    <span class="feature-name">Segmentation</span>
+                    <span class="feature-value">Basic</span>
+                </li>
+                <li>
+                    <span class="feature-name">A/B Testing</span>
+                    <span class="feature-value cross">✕</span>
+                </li>
+                <li>
+                    <span class="feature-name">Reporting</span>
+                    <span class="feature-value">Standard</span>
+                </li>
+                <li>
+                    <span class="feature-name">Strategy</span>
+                    <span class="feature-value">Monthly</span>
+                </li>
+                <li>
+                    <span class="feature-name">Popup Testing</span>
+                    <span class="feature-value">1 active</span>
+                </li>
+                <li>
+                    <span class="feature-name">SMS</span>
+                    <span class="feature-value cross">✕</span>
+                </li>
+                <li>
+                    <span class="feature-name">Performance Guarantee</span>
+                    <span class="feature-value cross">✕</span>
+                </li>
+            </ul>
+
+            <a href="https://calendly.com/essencesoftwaredevelopment/discovery-call?utm_source=website&utm_content=over20k" class="cta-button">Book a Call</a>
+        </div>
+
+        <!-- Professional Plan -->
+        <div class="pricing-card featured">
+            <div class="featured-badge">Most Popular</div>
+            <h3 class="plan-title">ESSENCE Scale</h3>
+            <p class="plan-subtitle">Advanced features for growing businesses ready to scale</p>
+
+            <div class="plan-price">
+    					<div style="font-size: 16px; font-weight: 400; color: #CCCCCC; margin-bottom: 8px;">For brands over:</div>
+    					<div style="font-size: 48px; font-weight: 800; color: #FFFFFF;"><span class="currency">$</span>50k<span class="period">/month</span></div>
+						</div>
+
+            <ul class="feature-list">
+                <li>
+                    <span class="feature-name">Active Flows</span>
+                    <span class="feature-value">8</span>
+                </li>
+                <li>
+                    <span class="feature-name">Campaigns</span>
+                    <span class="feature-value">12 p/m</span>
+                </li>
+                <li>
+                    <span class="feature-name">Segmentation</span>
+                    <span class="feature-value">Advanced</span>
+                </li>
+                <li>
+                    <span class="feature-name">A/B Testing</span>
+                    <span class="feature-value checkmark">✓</span>
+                </li>
+                <li>
+                    <span class="feature-name">Reporting</span>
+                    <span class="feature-value">Advanced</span>
+                </li>
+                <li>
+                    <span class="feature-name">Strategy</span>
+                    <span class="feature-value">Bi-weekly</span>
+                </li>
+                <li>
+                    <span class="feature-name">Popup Testing</span>
+                    <span class="feature-value">3 active</span>
+                </li>
+                <li>
+                    <span class="feature-name">SMS</span>
+                    <span class="feature-value checkmark">✓</span>
+                </li>
+                <li>
+                    <span class="feature-name">Performance Guarantee</span>
+							      <span class="feature-value checkmark">✓</span>
+                </li>
+            </ul>
+
+            <a href="https://calendly.com/essencesoftwaredevelopment/discovery-call?utm_source=website&utm_content=over50k" class="cta-button">Book a Call</a>
+        </div>
+
+        <!-- Elite Plan -->
+        <div class="pricing-card">
+            <h3 class="plan-title">ESSENCE Elite</h3>
+            <p class="plan-subtitle">Enterprise solution with custom features and dedicated support</p>
+
+            <div class="plan-price">
+    					<div style="font-size: 16px; font-weight: 400; color: #CCCCCC; margin-bottom: 8px;">For brands over:</div>
+    					<div style="font-size: 48px; font-weight: 800; color: #FFFFFF;"><span class="currency">$</span>500k<span class="period">/month</span></div>
+						</div>
+
+            <ul class="feature-list">
+                <li>
+                    <span class="feature-name">Active Flows</span>
+                    <span class="feature-value">Unlimited</span>
+                </li>
+                <li>
+                    <span class="feature-name">Campaigns</span>
+                    <span class="feature-value">Unlimited</span>
+                </li>
+                <li>
+                    <span class="feature-name">Segmentation</span>
+                    <span class="feature-value">Custom</span>
+                </li>
+                <li>
+                    <span class="feature-name">A/B Testing</span>
+                    <span class="feature-value checkmark">✓</span>
+                </li>
+                <li>
+                    <span class="feature-name">Reporting</span>
+                    <span class="feature-value">Custom</span>
+                </li>
+                <li>
+                    <span class="feature-name">Strategy</span>
+                    <span class="feature-value">Weekly</span>
+                </li>
+                <li>
+                    <span class="feature-name">Popup Testing</span>
+                    <span class="feature-value">Unlimited</span>
+                </li>
+                <li>
+                    <span class="feature-name">SMS</span>
+                    <span class="feature-value checkmark">✓</span>
+                </li>
+                <li>
+                    <span class="feature-name">Performance Guarantee</span>
+                    <span class="feature-value checkmark">✓</span>
+                </li>
+            </ul>
+
+            <a href="https://calendly.com/essencesoftwaredevelopment/discovery-call?utm_source=website&utm_content=over200k" class="cta-button secondary">Book a Call</a>
+        </div>
+    </div>
+</body>
+
+</html>
