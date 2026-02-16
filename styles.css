@@ -169,7 +169,7 @@ main {
   -webkit-text-fill-color: transparent;
   background-clip: text;
   opacity: 0;
-  letter-spacing: -0.04em;
+  letter-spacing: -0.02em;
   text-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
   filter: blur(6px);
   will-change: opacity, background-size, letter-spacing, filter, text-shadow;
@@ -180,14 +180,14 @@ main {
   0% {
     opacity: 0;
     background-size: 0% 100%;
-    letter-spacing: -0.08em;
+    letter-spacing: -0.04em;
     text-shadow: none;
     filter: blur(8px);
   }
   55% {
     opacity: 1;
     background-size: 100% 100%;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.03em;
     text-shadow: 0 0 18px rgba(198, 237, 255, 0.5);
     filter: blur(1.6px);
   }
