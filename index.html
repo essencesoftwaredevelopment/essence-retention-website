@@ -29,6 +29,14 @@
   <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet" />
   <script src="https://fast.wistia.com/player.js" async></script>
   <script src="https://fast.wistia.com/embed/qw5dteiov3.js" async type="module"></script>
+  <script type="importmap">
+    {
+      "imports": {
+        "posthog-js": "./node_modules/posthog-js/dist/module.no-external.js"
+      }
+    }
+  </script>
+  <script type="module" src="assets/js/posthog-init.mjs"></script>
   <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.css" /> -->
 </head>
 
@@ -603,843 +611,91 @@
     </footer>
   </div>
 
-  <script>
-    const yearEl = document.getElementById('year');
-    if (yearEl) {
-      yearEl.textContent = new Date().getFullYear();
-    }
-  </script>
-  <script>
-    (function ensureLogoVideoLoops() {
-      const logoVideo = document.querySelector('.site-header__logo');
-      if (!(logoVideo instanceof HTMLVideoElement)) return;
+  <button class="lead-modal-teaser" id="lead-modal-teaser" type="button">3 Free On-Brand Emails</button>
 
-      const replay = () => {
-        logoVideo.currentTime = 0;
-        logoVideo.play().catch(() => { });
-      };
+  <div class="lead-modal" id="lead-modal" aria-hidden="true">
+    <div class="lead-modal__backdrop"></div>
+    <div class="lead-modal__dialog" id="lead-modal-dialog" data-step="1" role="dialog" aria-modal="true" aria-labelledby="lead-modal-title">
+      <button class="lead-modal__close" type="button" data-lead-modal-close aria-label="Close modal">&times;</button>
+      <img src="assets/images/emails.png" alt="Pop ups" class="lead-modal__graphic" />
+      <div class="lead-modal__content">
+        <div class="lead-modal__viewport">
+          <div class="lead-modal__steps">
+            <section class="lead-modal__step lead-modal__step--intro" aria-label="Free emails intro">
+              <h2 class="lead-modal__headline" id="lead-modal-title">Want 3 Free <br>On-Brand Emails?</h2>
+              <div class="lead-modal__actions">
+                <button class="button button--primary lead-modal__primary" id="lead-modal-next" type="button">YES</button>
+                <button class="lead-modal__secondary" type="button" data-lead-modal-close>No thanks</button>
+              </div>
+            </section>
 
-      logoVideo.addEventListener('ended', replay);
-      logoVideo.play().catch(() => { });
-    })();
-  </script>
-  <script>
-    (function initCustomCursor() {
-      const cursor = document.getElementById('custom-cursor');
-      if (!cursor) return;
-      const isCoarse = window.matchMedia('(pointer: coarse)').matches;
-      if (isCoarse) {
-        cursor.style.display = 'none';
-        return;
-      }
+            <section class="lead-modal__step lead-modal__step--website" aria-label="Website entry">
+              <p class="lead-modal__eyebrow">Step 2 of 3</p>
+              <h2 class="lead-modal__headline lead-modal__headline--compact">Enter your website</h2>
+              <p class="lead-modal__body">We’ll use it to tailor the 3 emails to your brand.</p>
+              <form class="lead-modal__form" id="lead-modal-form">
+                <label class="lead-modal__label" for="lead-modal-website">Website URL</label>
+                <input
+                  class="lead-modal__input"
+                  id="lead-modal-website"
+                  name="website"
+                  type="text"
+                  inputmode="url"
+                  autocomplete="url"
+                  placeholder="yourbrand.com"
+                  required
+                />
+                <div class="lead-modal__actions">
+                  <button class="button button--primary lead-modal__primary" type="submit">Continue</button>
+                  <button class="lead-modal__secondary" id="lead-modal-back" type="button">Back</button>
+                </div>
+              </form>
+            </section>
 
-      document.body.classList.add('has-custom-cursor');
-      let x = window.innerWidth / 2;
-      let y = window.innerHeight / 2;
-      let targetX = x;
-      let targetY = y;
-      const ease = 0.18;
-      let rafId = null;
+            <section class="lead-modal__step lead-modal__step--results" aria-label="Brand assets results">
+              <p class="lead-modal__eyebrow">Step 3 of 3</p>
+              <h2 class="lead-modal__headline lead-modal__headline--compact lead-modal__headline--live" id="lead-modal-results-title">Gathering brand dna...</h2>
+              <div class="lead-modal__progress-track" id="lead-modal-progress-track">
+                <div class="lead-modal__progress-bar" id="lead-modal-progress-bar"></div>
+              </div>
+              <p class="lead-modal__body" id="lead-modal-results-status">Analyzing your brand assets...</p>
 
-      function update() {
-        const dx = targetX - x;
-        const dy = targetY - y;
-        x += dx * ease;
-        y += dy * ease;
-        cursor.style.transform = `translate3d(${x}px, ${y}px, 0) translate(-50%, -50%)`;
-        rafId = requestAnimationFrame(update);
-      }
+              <div class="lead-modal__results is-loading" id="lead-modal-results" aria-live="polite">
+                <div class="lead-modal__results-main">
+                  <p class="lead-modal__results-label">Assets</p>
+                  <div class="lead-modal__logo-grid" id="lead-modal-results-logos"></div>
+                  <div class="lead-modal__color-grid" id="lead-modal-results-colors"></div>
+                  <div class="lead-modal__products" id="lead-modal-results-products"></div>
+                </div>
 
-      function handleMove(event) {
-        targetX = event.clientX;
-        targetY = event.clientY;
-        cursor.classList.add('is-visible');
-        if (!rafId) rafId = requestAnimationFrame(update);
-      }
+                <div class="lead-modal__generation-panel" aria-hidden="true">
+                  <div class="lead-modal__generation-card"></div>
+                  <div class="lead-modal__generation-card"></div>
+                  <div class="lead-modal__generation-card"></div>
+                </div>
+              </div>
 
-      window.addEventListener('pointermove', handleMove, { passive: true });
-    })();
-  </script>
+              <div class="lead-modal__actions lead-modal__actions--results">
+                <button class="lead-modal__secondary" id="lead-modal-restart" type="button">Go back</button>
+                <button class="button button--primary lead-modal__primary" id="lead-modal-book" type="button">Test these emails today →</button>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="assets/js/core-ui.js"></script>
 
   <!-- Locomotive Scroll - Commented out due to scrolling issues
   <script src="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.js"></script>
-  <script>
-    const scrollContainer = document.querySelector('[data-scroll-container]');
-    if (scrollContainer) {
-      const locoScroll = new LocomotiveScroll({
-        el: scrollContainer,
-        smooth: true,
-        multiplier: 1,
-        smartphone: { smooth: true },
-        tablet: { smooth: true },
-      });
-
-      window.__locoScroll = locoScroll;
-      locoScroll.on('scroll', (args) => {
-        window.dispatchEvent(new CustomEvent('loco-scroll', { detail: args }));
-      });
-
-      window.addEventListener('resize', () => {
-        locoScroll.update();
-      });
-    }
-
-    (function setupAnchorScroll() {
-      const anchorLinks = document.querySelectorAll('a[href^="#"]');
-      if (!anchorLinks.length) return;
-
-      anchorLinks.forEach((link) => {
-        link.addEventListener('click', (event) => {
-          const hash = link.getAttribute('href');
-          if (!hash || hash === '#') return;
-          const target = document.querySelector(hash);
-          if (!target) return;
-          event.preventDefault();
-
-          if (window.__locoScroll && typeof window.__locoScroll.scrollTo === 'function') {
-            window.__locoScroll.scrollTo(target, { offset: -40, duration: 800, disableLerp: true });
-          } else {
-            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          }
-
-          if (history.pushState) {
-            history.pushState(null, '', hash);
-          } else {
-            location.hash = hash;
-          }
-        });
-      });
-    })();
-  </script>
   -->
-  <script>
-    (function initTriCatalystAnimation() {
-      const container = document.getElementById('animation-container');
-      const canvas = document.getElementById('line-canvas');
-      if (!container || !canvas) return;
 
-      const MAIN_THEME_COLOR = '#FFFFFF';
-      const ctx = canvas.getContext('2d');
-      const boxes = Array.from(container.querySelectorAll('.component-box'));
-      if (!boxes.length) return;
-
-      const stageDetails = [
-        {
-          id: 'box-1',
-          title: 'Capture Demand',
-          subtitle: 'Stage 01 · Capture',
-          body: 'Landing pages, quizzes, and unique popup systems convert cold traffic visitors into contactable information.',
-          cover: 'linear-gradient(135deg, #04261c, #12f39c)',
-        },
-        {
-          id: 'box-2',
-          title: 'Convert with AI',
-          subtitle: 'Stage 02 · Catalyst AI',
-          body: 'Our AI system pulls live Shopify and Klaviyo data to activate campaigns, personalized flows, and channels in real time.',
-          cover: 'linear-gradient(135deg, #110f2b, #6d5bff)',
-        },
-        {
-          id: 'box-3',
-          title: 'Increase Customer LTV',
-          subtitle: 'Stage 03 · Revenue',
-          body: 'Revenue rooms surface cohort lift while automated win-back, VIP, and replenishment programs turn every touch into margin.',
-          cover: 'linear-gradient(135deg, #271014, #ff6a3d)',
-        },
-      ];
-
-      let activeDetailId = stageDetails[0]?.id || null;
-      const detailList = document.getElementById('flow-detail-list');
-      const detailCardEls = new Map();
-
-      (function setupTheme() {
-        function hexToRgba(hex, alpha) {
-          const shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
-          const expanded = hex.replace(shorthandRegex, (m, r, g, b) => r + r + g + g + b + b);
-          const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(expanded);
-          const r = result ? parseInt(result[1], 16) : 255;
-          const g = result ? parseInt(result[2], 16) : 255;
-          const b = result ? parseInt(result[3], 16) : 255;
-          return `rgba(${r}, ${g}, ${b}, ${alpha})`;
-        }
-        const root = document.documentElement;
-        root.style.setProperty('--theme-color', MAIN_THEME_COLOR);
-        root.style.setProperty('--theme-shadow-strong', hexToRgba(MAIN_THEME_COLOR, 0.2));
-        root.style.setProperty('--theme-shadow-weak', hexToRgba(MAIN_THEME_COLOR, 0.1));
-        root.style.setProperty('--theme-text-glow', hexToRgba(MAIN_THEME_COLOR, 0.6));
-      })();
-
-      const config = {
-        trailLength: 500,
-        lineWidth: 2,
-        colors: {
-          line: '#FFFFFF',
-          glow: MAIN_THEME_COLOR,
-        },
-        boxBorderRadius: 20,
-        easing: 0.15,
-      };
-
-      let width = 0;
-      let height = 0;
-      let boltY = -config.trailLength;
-      let targetBoltY = boltY;
-      let boxPositions = [];
-      let sectionTop = 0;
-      let sectionHeight = 1;
-      let rafId = null;
-      let streamCenterX = 0;
-      let virtualScrollY = window.scrollY || 0;
-      let pathSegments = [];
-
-      function getBoxPositions() {
-        const containerRect = container.getBoundingClientRect();
-        const positions = boxes.map((box) => {
-          const rect = box.getBoundingClientRect();
-          return {
-            top: rect.top - containerRect.top,
-            bottom: rect.bottom - containerRect.top,
-            height: rect.height,
-            width: rect.width,
-            offsetX: rect.width / 2,
-            centerX: rect.left - containerRect.left + rect.width / 2,
-          };
-        });
-        if (positions.length) {
-          streamCenterX =
-            positions.reduce((sum, pos) => sum + pos.centerX, 0) / positions.length;
-        } else {
-          streamCenterX = width / 2;
-        }
-        return positions;
-      }
-
-      function measureSection() {
-        const rect = container.getBoundingClientRect();
-        sectionTop = rect.top + virtualScrollY;
-        sectionHeight = Math.max(rect.height, 1);
-      }
-
-      function resize() {
-        width = container.offsetWidth;
-        height = container.offsetHeight;
-        canvas.width = width;
-        canvas.height = height;
-        boxPositions = getBoxPositions();
-        buildPathSegments();
-        measureSection();
-        requestDraw();
-      }
-
-      window.addEventListener('resize', resize);
-      resize();
-
-      function clamp(value, min, max) {
-        return Math.min(max, Math.max(min, value));
-      }
-
-      function updateScrollProgress() {
-        const triggerLine = virtualScrollY + window.innerHeight * 0.5;
-        const triggerStart = sectionTop;
-        const totalTravel = Math.max(height + config.trailLength, 1);
-        const rawProgress = (triggerLine - triggerStart) / totalTravel;
-        const progress = clamp(rawProgress, 0, 1);
-        targetBoltY = progress * (height + config.trailLength);
-        requestDraw();
-      }
-
-      function handleScrollInput(scrollValue) {
-        if (typeof scrollValue === 'number') {
-          virtualScrollY = scrollValue;
-        } else {
-          virtualScrollY = window.scrollY || 0;
-        }
-        updateScrollProgress();
-      }
-
-      window.addEventListener('scroll', () => handleScrollInput(), { passive: true });
-      window.addEventListener('loco-scroll', (event) => {
-        if (event.detail && event.detail.scroll) {
-          handleScrollInput(event.detail.scroll.y);
-        }
-      });
-      handleScrollInput(virtualScrollY);
-
-      function renderDetailCards() {
-        if (!detailList) return;
-        detailList.innerHTML = '';
-        detailCardEls.clear();
-        stageDetails.forEach((item) => {
-          const card = document.createElement('article');
-          const extraClass = item.id === 'box-1' ? ' flow-detail-card--capture' : '';
-          card.className = `flow-detail-card${extraClass}`;
-          const coverHtml =
-            item.id === 'box-2'
-              ? `<div class="flow-detail-card__cover flow-detail-card__cover--ai-video">
-                  <video class="ai-video" src="assets/videos/vercel_loop.mp4" autoplay muted loop playsinline poster="" aria-label="Catalyst AI orchestration video"></video>
-                  <div class="ai-video__overlay"></div>
-                </div>`
-              : item.id === 'box-3'
-                ? `<div class="flow-detail-card__cover flow-detail-card__cover--results">
-                  <img src="assets/images/klaviyo-results.png" alt="Klaviyo results dashboard" class="flow-detail-card__image" />
-                </div>`
-                : `<div class="flow-detail-card__cover" style="background-image:${item.cover};">
-                  ${item.id === 'box-1' ? '<img src="assets/images/pop-ups-cut.png" alt="Pop ups" class="flow-detail-card__graphic" />' : ''}
-                </div>`;
-          card.innerHTML = `
-            ${coverHtml}
-            <div class="flow-detail-card__meta">
-              <p class="flow-detail-card__subtitle">${item.subtitle}</p>
-              <h3 class="flow-detail-card__title">${item.title}</h3>
-              <p class="flow-detail-card__body">${item.body}</p>
-            </div>
-          `;
-          detailList.appendChild(card);
-          detailCardEls.set(item.id, card);
-        });
-        if (window.__locoScroll && typeof window.__locoScroll.update === 'function') {
-          window.__locoScroll.update();
-        }
-      }
-
-      renderDetailCards();
-
-      function setDetailContent(id) {
-        const detail = stageDetails.find((item) => item.id === id);
-        if (!detail) return;
-        activeDetailId = detail.id;
-        detailCardEls.forEach((card, key) => {
-          if (key === id) card.classList.add('is-active');
-          else card.classList.remove('is-active');
-        });
-      }
-
-      setDetailContent(activeDetailId);
-
-      function requestDraw() {
-        if (rafId) return;
-        rafId = requestAnimationFrame(draw);
-      }
-
-      function draw() {
-        rafId = null;
-        const diff = targetBoltY - boltY;
-        if (Math.abs(diff) > 0.5) {
-          boltY += diff * config.easing;
-          requestDraw();
-        } else {
-          boltY = targetBoltY;
-        }
-        render();
-      }
-
-      function render() {
-        ctx.clearRect(0, 0, width, height);
-        if (boltY <= 0) return;
-
-        const startY = Math.max(0, boltY - config.trailLength);
-        const endY = Math.min(height, boltY);
-        drawStreams(startY, endY);
-        updateBoxStates();
-      }
-
-      function drawStreams(startY, endY) {
-        if (endY <= startY || !pathSegments.length) return;
-        const gradient = ctx.createLinearGradient(0, startY, 0, endY);
-        gradient.addColorStop(0, 'rgba(255,255,255,0)');
-        gradient.addColorStop(0.2, 'rgba(255,255,255,0.1)');
-        gradient.addColorStop(0.8, config.colors.line);
-        gradient.addColorStop(1, '#FFFFFF');
-
-        ctx.strokeStyle = gradient;
-        ctx.lineWidth = config.lineWidth;
-        ctx.lineCap = 'round';
-        ctx.lineJoin = 'round';
-        ctx.shadowBlur = 10;
-        ctx.shadowColor = config.colors.glow;
-
-        ctx.save();
-        ctx.beginPath();
-        ctx.rect(0, startY, width, endY - startY);
-        ctx.clip();
-
-        ctx.beginPath();
-        pathSegments.forEach((segment, index) => {
-          if (segment.type === 'move') {
-            ctx.moveTo(segment.x, segment.y);
-          } else if (segment.type === 'line') {
-            ctx.lineTo(segment.x, segment.y);
-          } else if (segment.type === 'arc') {
-            ctx.arcTo(segment.cpx, segment.cpy, segment.x, segment.y, segment.radius);
-          }
-        });
-
-        ctx.stroke();
-        ctx.restore();
-        ctx.shadowBlur = 0;
-      }
-
-      function buildPathSegments() {
-        const centerX = streamCenterX || width / 2;
-        pathSegments = [];
-        pathSegments.push({ type: 'move', x: centerX, y: 0 });
-
-        boxPositions.forEach((box) => {
-          const top = box.top;
-          const bottom = box.bottom;
-          const radius = Math.min(config.boxBorderRadius, box.offsetX, box.height / 2);
-          const leftInner = centerX - box.offsetX + radius;
-          const leftEdge = centerX - box.offsetX;
-          const rightInner = centerX + box.offsetX - radius;
-          const rightEdge = centerX + box.offsetX;
-
-          pathSegments.push({ type: 'line', x: centerX, y: top });
-          pathSegments.push({ type: 'line', x: leftInner, y: top });
-          pathSegments.push({
-            type: 'arc',
-            cpx: leftEdge,
-            cpy: top,
-            x: leftEdge,
-            y: top + radius,
-            radius,
-          });
-          pathSegments.push({ type: 'line', x: leftEdge, y: bottom - radius });
-          pathSegments.push({
-            type: 'arc',
-            cpx: leftEdge,
-            cpy: bottom,
-            x: leftInner,
-            y: bottom,
-            radius,
-          });
-          pathSegments.push({ type: 'line', x: centerX, y: bottom });
-
-          pathSegments.push({ type: 'move', x: centerX, y: top });
-          pathSegments.push({ type: 'line', x: rightInner, y: top });
-          pathSegments.push({
-            type: 'arc',
-            cpx: rightEdge,
-            cpy: top,
-            x: rightEdge,
-            y: top + radius,
-            radius,
-          });
-          pathSegments.push({ type: 'line', x: rightEdge, y: bottom - radius });
-          pathSegments.push({
-            type: 'arc',
-            cpx: rightEdge,
-            cpy: bottom,
-            x: rightInner,
-            y: bottom,
-            radius,
-          });
-          pathSegments.push({ type: 'line', x: centerX, y: bottom });
-
-          currentY = bottom;
-        });
-
-        pathSegments.push({ type: 'line', x: centerX, y: height });
-      }
-
-      function updateBoxStates() {
-        let currentDetail = activeDetailId || stageDetails[0]?.id;
-        const tolerance = 10;
-        boxPositions.forEach((pos, index) => {
-          if (boltY > pos.bottom) boxes[index].classList.add('active');
-          else boxes[index].classList.remove('active');
-
-          if (boltY >= pos.top - tolerance) {
-            currentDetail = boxes[index].id;
-          }
-        });
-        if (currentDetail && currentDetail !== activeDetailId) {
-          setDetailContent(currentDetail);
-        }
-      }
-    })();
-  </script>
-
+  <script src="assets/js/tri-catalyst.js"></script>
   <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
-
-  <script>
-    // FAQ Data - Edit this JSON to add, remove, or modify FAQs
-    const faqData = [
-      {
-        "question": "What ROI do you typically generate for brands at our level?",
-        "answer": "Most brands see a meaningful lift within the first 30 to 60 days. Typical outcomes range from +15% to +40% increase in email/SMS attributed revenue, depending on current setup quality, traffic volume, and inventory depth. If you're already sending, we focus on improving profitability and consistency, not just volume."
-      },
-      {
-        "question": "How do you improve what we've already built without starting over?",
-        "answer": "We don't nuke accounts. We audit what exists, keep what's working, and rebuild only what's limiting results (messaging, segmentation, structure, timing, deliverability). You keep your existing data, list, flows, learnings, and brand voice, we simply make the system perform at a higher level."
-      },
-      {
-        "question": "We already have flows, what else can you add or optimize?",
-        "answer": "If flows exist, we upgrade them into a real retention engine:<br><br>• Better segmentation and conditional logic<br>• Higher-converting copy and creative<br>• Offer positioning without constant discounting<br>• Improved timing, split paths, and exclusions<br>• Advanced flows most brands don't have (replenishment, VIP, churn prevention, cross-sell, etc.)"
-      },
-      {
-        "question": "Do you work with brands doing 7+ figures and above?",
-        "answer": "Yes. We typically work with Shopify brands doing $50k to $1M/month, and also support brands well above 7 figures if there's enough complexity to justify a premium retention partner."
-      },
-      {
-        "question": "How do you segment advanced audiences for better performance?",
-        "answer": "We build segmentation around:<br><br>• Purchase behavior (frequency, recency, AOV, product)<br>• Engagement levels (opens/clicks, site activity)<br>• Lifecycle stages (new, active, at-risk, lapsed, VIP)<br>• Offer sensitivity (discount buyer vs. full price buyer)<br><br>This increases revenue while reducing fatigue."
-      },
-      {
-        "question": "Will this actually increase LTV, or just send more emails?",
-        "answer": "We're not here to \"send more.\" We're here to increase repeat purchase rate, retention, and lifetime value. More volume without strategy kills deliverability. We prioritize quality, relevance, and customer lifecycle."
-      },
-      {
-        "question": "How do you avoid list fatigue and unsubscribes?",
-        "answer": "We protect your list aggressively:<br><br>• Engagement-based sending (throttling unengaged users)<br>• Smart frequency caps<br>• Strong \"value-first\" campaign mix<br>• Deliverability monitoring<br>• Segmentation that prevents over-mailing"
-      },
-      {
-        "question": "Can you match our brand voice and tone consistently?",
-        "answer": "Yes. We run a structured tone-matching process: we analyze your site, ads, socials, customer reviews, and existing emails, then build a consistent messaging style guide. Every email follows that voice so the brand stays coherent."
-      },
-      {
-        "question": "How do you use data to decide what campaigns to send?",
-        "answer": "We don't guess. Campaign planning is based on:<br><br>• Shopify product performance + margin<br>• Cohort behavior (repeat timing + product rebuys)<br>• Flow gaps and customer lifecycle needs<br>• Klaviyo reporting (what actually drives conversions)<br>• Seasonality, launches, and inventory priorities"
-      },
-      {
-        "question": "Can you audit our current setup before making recommendations?",
-        "answer": "Yes. Every partnership starts with a full audit:<br><br>• Flows and campaigns<br>• Tracking + event setup<br>• Popups / list growth<br>• Segmentation<br>• Deliverability<br>• Creative and conversion structure<br><br>You'll get a clear roadmap before execution starts."
-      },
-      {
-        "question": "What does your reporting look like, can we track performance clearly?",
-        "answer": "Yes. We provide clear reporting that ties actions to results:<br><br>• Email + SMS revenue (accounting for attribution nuance)<br>• Campaign vs. flow split<br>• Revenue per recipient<br>• Deliverability and list health<br>• Weekly/monthly highlights + next actions"
-      },
-      {
-        "question": "How do you ensure deliverability stays high at our list size?",
-        "answer": "Deliverability is part of the system:<br><br>• Proper DNS setup (SPF/DKIM/DMARC + dedicated sending domain)<br>• Engagement filtering<br>• Smart warmup and ramping strategy<br>• Bounce/complaint monitoring<br>• Routine list cleaning and suppression management"
-      },
-      {
-        "question": "What's your onboarding process, how fast can we launch?",
-        "answer": "Fast. Most brands are live in 7 to 14 days. Onboarding includes:<br><br>• Account access + baseline capture<br>• Audit + roadmap<br>• Flow fixes + quick wins first<br>• Campaign engine setup (calendar + approvals)"
-      },
-      {
-        "question": "Do you handle everything or just consult and guide?",
-        "answer": "We do both, but most clients choose done-for-you. We can:<br><br>• fully manage retention (strategy + copy + design + build)<br>• or consult and direct your internal team"
-      },
-      {
-        "question": "How do you tie email strategy into product launches and promos?",
-        "answer": "We build launch sequences that maximize conversion without exhausting the list:<br><br>• Warmup/education<br>• Waitlist and early access<br>• Drop day sequencing<br>• Segmented urgency (VIP first, engaged next)<br>• Post-launch follow-up to capture missed buyers"
-      },
-      {
-        "question": "How do you work with our in-house team or other contractors?",
-        "answer": "Clean collaboration, no stepping on toes. We can plug into your existing ecosystem (designer, media buyer, brand team) and handle retention end-to-end while coordinating on creative priorities and promo schedule."
-      },
-      {
-        "question": "Can you help increase repeat purchase rate and retention?",
-        "answer": "Yes, that's the main focus. We target:<br><br>• higher repeat purchase rate<br>• higher LTV<br>• better second purchase conversion<br>• more predictable monthly revenue from returning customers"
-      },
-      {
-        "question": "Do you handle both campaigns and automations?",
-        "answer": "Yes. We handle:<br><br>• flows/automations (retention backbone)<br>• campaigns (weekly revenue engine)<br>• list growth (so the system scales)"
-      }
-    ];
-
-    const calendlyUrl = 'https://calendly.com/essencesoftwaredevelopment/discovery-call';
-
-    const wireCalendlyPopup = () => {
-      const buttons = document.querySelectorAll('.button--primary[href*="calendly.com/essencesoftwaredevelopment/discovery-call"]');
-      buttons.forEach(button => {
-        button.addEventListener('click', (event) => {
-          event.preventDefault();
-          if (window.Calendly && typeof window.Calendly.initPopupWidget === 'function') {
-            window.Calendly.initPopupWidget({ url: calendlyUrl });
-          } else {
-            window.location.href = calendlyUrl;
-          }
-        });
-      });
-    };
-
-    if (document.readyState === 'complete') {
-      wireCalendlyPopup();
-    } else {
-      window.addEventListener('load', wireCalendlyPopup);
-    }
-
-    // FAQ Accordion functionality
-    (function () {
-      const faqList = document.getElementById('faq-list');
-
-      // Generate FAQ HTML from JSON data
-      faqData.forEach((faq, index) => {
-        const faqItem = document.createElement('div');
-        faqItem.className = 'faq-item';
-        faqItem.innerHTML = `
-          <button class="faq-question">
-            <span>${faq.question}</span>
-            <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <polyline points="6 9 12 15 18 9"></polyline>
-            </svg>
-          </button>
-          <div class="faq-answer">
-            <p>${faq.answer}</p>
-          </div>
-        `;
-        faqList.appendChild(faqItem);
-      });
-
-      // Add click event listeners to all FAQ items
-      const faqItems = document.querySelectorAll('.faq-item');
-      faqItems.forEach(item => {
-        const question = item.querySelector('.faq-question');
-
-        question.addEventListener('click', () => {
-          const isOpen = item.classList.contains('is-open');
-
-          // Close all other FAQ items
-          faqItems.forEach(otherItem => {
-            if (otherItem !== item) {
-              otherItem.classList.remove('is-open');
-            }
-          });
-
-          // Toggle current item
-          if (isOpen) {
-            item.classList.remove('is-open');
-          } else {
-            item.classList.add('is-open');
-          }
-        });
-      });
-    })();
-  </script>
-
-  <script>
-    // Grid Tracer Animation
-    (function() {
-        const canvas = document.getElementById('tracerCanvas');
-        const ctx = canvas.getContext('2d');
-
-        const GRID_WIDTH = 20;
-        const GRID_HEIGHT = 400; 
-        const TRACER_COUNT = 10; 
-        const TRAIL_LENGTH = 12;
-        const TRACER_COLOR = 'rgba(255, 255, 255, 0.9)';
-        const GLOW_COLOR = 'rgba(255, 255, 255, 0.4)';
-        const TURN_COOLDOWN_MAX = 9; 
-
-        let width, height;
-        let cellSizeX, cellSizeY;
-        let tracers = [];
-
-        class Tracer {
-            constructor() {
-                this.reset(true); 
-            }
-
-            reset(anywhere = false) {
-                if (anywhere) {
-                    this.gridX = Math.floor(Math.random() * (GRID_WIDTH + 1));
-                    this.gridY = Math.floor(Math.random() * (GRID_HEIGHT + 1));
-                    // Bias towards upward movement (dir 3)
-                    const rand = Math.random();
-                    if (rand < 0.5) {
-                        this.dir = 3; // up
-                    } else if (rand < 0.7) {
-                        this.dir = 0; // right
-                    } else if (rand < 0.9) {
-                        this.dir = 2; // left
-                    } else {
-                        this.dir = 1; // down
-                    }
-                } else {
-                    // Spawn more from bottom edge to move upward
-                    const rand = Math.random();
-                    if (rand < 0.5) {
-                        // Bottom edge, moving up
-                        this.gridX = Math.floor(Math.random() * (GRID_WIDTH + 1));
-                        this.gridY = GRID_HEIGHT + 2;
-                        this.dir = 3;
-                    } else if (rand < 0.7) {
-                        // Left edge
-                        this.gridX = -2;
-                        this.gridY = Math.floor(Math.random() * (GRID_HEIGHT + 1));
-                        this.dir = 0;
-                    } else if (rand < 0.9) {
-                        // Right edge
-                        this.gridX = GRID_WIDTH + 2;
-                        this.gridY = Math.floor(Math.random() * (GRID_HEIGHT + 1));
-                        this.dir = 2;
-                    } else {
-                        // Top edge
-                        this.gridX = Math.floor(Math.random() * (GRID_WIDTH + 1));
-                        this.gridY = -2;
-                        this.dir = 1;
-                    }
-                }
-                
-                this.x = this.gridX * cellSizeX;
-                this.y = this.gridY * cellSizeY;
-                
-                this.speed = 0.15 + Math.random() * 0.15; 
-                this.progress = 0;
-                this.turnCooldown = 0; 
-                this.history = []; 
-                
-                for(let i = 0; i < TRAIL_LENGTH; i++) {
-                    this.history.push({x: this.x, y: this.y});
-                }
-            }
-
-            update() {
-                this.progress += this.speed;
-
-                if (this.progress >= 1) {
-                    let arrivedX = this.gridX;
-                    let arrivedY = this.gridY;
-                    if (this.dir === 0) arrivedX++;
-                    else if (this.dir === 1) arrivedY++;
-                    else if (this.dir === 2) arrivedX--;
-                    else if (this.dir === 3) arrivedY--;
-
-                    this.history.unshift({x: arrivedX * cellSizeX, y: arrivedY * cellSizeY});
-                    if (this.history.length > TRAIL_LENGTH) this.history.pop();
-
-                    this.gridX = arrivedX;
-                    this.gridY = arrivedY;
-                    this.progress -= 1;
-
-                    if (this.gridX < -15 || this.gridX > GRID_WIDTH + 15 || 
-                        this.gridY < -15 || this.gridY > GRID_HEIGHT + 15) {
-                        this.reset();
-                        return;
-                    }
-
-                    if (this.turnCooldown > 0) {
-                        this.turnCooldown--;
-                    } else {
-                        const turnChance = 0.08; 
-                        if (Math.random() < turnChance) {
-                            // Bias towards turning up (direction 3)
-                            if (this.dir !== 3 && Math.random() < 0.6) {
-                                // Try to turn towards up
-                                if (this.dir === 0 || this.dir === 2) {
-                                    // If moving horizontally, turn up or down
-                                    this.dir = Math.random() < 0.7 ? 3 : 1;
-                                } else if (this.dir === 1) {
-                                    // If moving down, turn left or right (can turn up later)
-                                    this.dir = Math.random() < 0.5 ? 0 : 2;
-                                }
-                            } else {
-                                // Normal random turn
-                                const turn = Math.random() < 0.5 ? 1 : -1;
-                                this.dir = (this.dir + turn + 4) % 4;
-                            }
-                            this.turnCooldown = TURN_COOLDOWN_MAX; 
-                        }
-                    }
-                }
-
-                const originX = this.gridX * cellSizeX;
-                const originY = this.gridY * cellSizeY;
-                
-                let dx = 0, dy = 0;
-                if (this.dir === 0) dx = cellSizeX;
-                else if (this.dir === 1) dy = cellSizeY;
-                else if (this.dir === 2) dx = -cellSizeX;
-                else if (this.dir === 3) dy = -cellSizeY;
-
-                this.x = originX + (dx * this.progress);
-                this.y = originY + (dy * this.progress);
-            }
-
-            draw() {
-                ctx.beginPath();
-                ctx.lineWidth = 1;
-                ctx.lineCap = 'round';
-                ctx.lineJoin = 'round';
-                
-                ctx.shadowBlur = 4;
-                ctx.shadowColor = GLOW_COLOR;
-                
-                ctx.moveTo(this.x, this.y);
-                for (let i = 0; i < this.history.length; i++) {
-                    ctx.lineTo(this.history[i].x, this.history[i].y);
-                }
-
-                const lastPoint = this.history[this.history.length - 1];
-                const grad = ctx.createLinearGradient(this.x, this.y, lastPoint.x, lastPoint.y);
-                grad.addColorStop(0, TRACER_COLOR);
-                grad.addColorStop(1, 'transparent');
-                
-                ctx.strokeStyle = grad;
-                ctx.stroke();
-
-                ctx.beginPath();
-                ctx.fillStyle = '#fff';
-                ctx.arc(this.x, this.y, 0.8, 0, Math.PI * 2);
-                ctx.fill();
-                
-                ctx.shadowBlur = 0;
-            }
-        }
-
-        function init() {
-            resize();
-            tracers = [];
-            for (let i = 0; i < TRACER_COUNT; i++) {
-                tracers.push(new Tracer());
-            }
-            animate();
-        }
-
-        function resize() {
-            width = window.innerWidth;
-            height = Math.max(window.innerHeight, document.body.scrollHeight);
-            canvas.width = width;
-            canvas.height = height;
-            cellSizeX = width / GRID_WIDTH;
-            cellSizeY = height / GRID_HEIGHT;
-            
-            tracers.forEach(t => t.reset(true));
-        }
-
-        function drawGrid() {
-            ctx.beginPath();
-            ctx.strokeStyle = 'rgba(255, 255, 255, 0)';
-            ctx.lineWidth = 1;
-
-            for (let i = 0; i <= GRID_WIDTH; i++) {
-                ctx.moveTo(i * cellSizeX, 0);
-                ctx.lineTo(i * cellSizeX, height);
-            }
-
-            for (let j = 0; j <= GRID_HEIGHT; j++) {
-                ctx.moveTo(0, j * cellSizeY);
-                ctx.lineTo(width, j * cellSizeY);
-            }
-            ctx.stroke();
-        }
-
-        function animate() {
-            ctx.clearRect(0, 0, width, height);
-
-            drawGrid();
-
-            tracers.forEach(tracer => {
-                tracer.update();
-                tracer.draw();
-            });
-
-            requestAnimationFrame(animate);
-        }
-
-        window.addEventListener('resize', resize);
-        window.addEventListener('load', init);
-        
-        // Observe body size changes to update canvas height
-        const resizeObserver = new ResizeObserver(() => {
-            const newHeight = Math.max(window.innerHeight, document.body.scrollHeight);
-            if (Math.abs(newHeight - height) > 10) { // Only update if significant change
-                resize();
-            }
-        });
-        resizeObserver.observe(document.body);
-    })();
-  </script>
+  <script src="assets/js/site-interactions.js"></script>
+  <script src="assets/js/grid-tracer.js"></script>
 </body>
 
 </html>

@@ -7,6 +7,21 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <script type="importmap">
+        {
+            "imports": {
+                "posthog-js": "./node_modules/posthog-js/dist/module.no-external.js"
+            }
+        }
+    </script>
+    <script type="module">
+        import posthog from 'posthog-js';
+
+        posthog.init('phc_AWPpoUk36vJppq9rYn4SVVtE78HKvHAiGA2TEpPSGfnC', {
+            api_host: 'https://eu.i.posthog.com',
+            defaults: '2026-01-30'
+        });
+    </script>
     <style>
         /* CSS Variables */
         :root {

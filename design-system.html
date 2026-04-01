@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ESSENCE — Design System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet" />
+  <script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
+  <script type="importmap">
+    {
+      "imports": {
+        "posthog-js": "./node_modules/posthog-js/dist/module.no-external.js"
+      }
+    }
+  </script>
+  <script type="module">
+    import posthog from 'posthog-js';
+
+    posthog.init('phc_AWPpoUk36vJppq9rYn4SVVtE78HKvHAiGA2TEpPSGfnC', {
+      api_host: 'https://eu.i.posthog.com',
+      defaults: '2026-01-30'
+    });
+  </script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+      background: #050505;
+      color: #f3f5ff;
+      padding: 80px;
+      min-height: 100vh;
+    }
+
+    /* ---- Layout ---- */
+    .ds-page { max-width: 1440px; margin: 0 auto; display: flex; flex-direction: column; gap: 96px; }
+    .ds-section { display: flex; flex-direction: column; gap: 32px; }
+    .ds-section__title {
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #5bf3b5;
+      padding-bottom: 16px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    /* ---- Header ---- */
+    .ds-header { margin-bottom: 32px; }
+    .ds-header h1 {
+      font-size: 48px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      background: linear-gradient(90deg, #c6edff 0%, #8ff0d1 40%, #5effa1 70%, #4ee0ff 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .ds-header p { font-size: 18px; color: #adb0c6; line-height: 1.6; max-width: 600px; }
+
+    /* ---- Colors ---- */
+    .color-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px; }
+    .color-card {
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: #0e0e13;
+    }
+    .color-card__swatch { height: 120px; }
+    .color-card__info { padding: 16px; display: flex; flex-direction: column; gap: 4px; }
+    .color-card__name { font-size: 14px; font-weight: 600; }
+    .color-card__value { font-size: 13px; color: #adb0c6; font-family: monospace; }
+    .color-card__role { font-size: 12px; color: #adb0c6; opacity: 0.7; }
+
+    /* ---- Typography ---- */
+    .type-scale { display: flex; flex-direction: column; gap: 32px; }
+    .type-sample {
+      display: flex; align-items: baseline; gap: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .type-sample__meta { min-width: 200px; display: flex; flex-direction: column; gap: 4px; }
+    .type-sample__label { font-size: 12px; color: #5bf3b5; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 600; }
+    .type-sample__specs { font-size: 12px; color: #adb0c6; font-family: monospace; }
+    .type-sample__text { flex: 1; }
+
+    /* ---- Spacing ---- */
+    .spacing-grid { display: flex; flex-direction: column; gap: 20px; }
+    .spacing-row { display: flex; align-items: center; gap: 24px; }
+    .spacing-row__label { min-width: 100px; font-size: 13px; color: #adb0c6; font-family: monospace; }
+    .spacing-row__bar { height: 24px; background: rgba(91, 243, 181, 0.2); border: 1px solid rgba(91, 243, 181, 0.4); border-radius: 6px; }
+    .spacing-row__value { font-size: 13px; color: #adb0c6; font-family: monospace; min-width: 50px; }
+
+    /* ---- Radii ---- */
+    .radii-grid { display: flex; gap: 32px; flex-wrap: wrap; }
+    .radius-sample {
+      display: flex; flex-direction: column; align-items: center; gap: 12px;
+    }
+    .radius-sample__box {
+      width: 100px; height: 100px;
+      border: 2px solid rgba(91, 243, 181, 0.4);
+      background: rgba(91, 243, 181, 0.06);
+    }
+    .radius-sample__label { font-size: 12px; color: #adb0c6; font-family: monospace; text-align: center; }
+
+    /* ---- Shadows ---- */
+    .shadow-grid { display: flex; gap: 40px; flex-wrap: wrap; }
+    .shadow-sample {
+      display: flex; flex-direction: column; align-items: center; gap: 16px;
+    }
+    .shadow-sample__box {
+      width: 160px; height: 100px;
+      border-radius: 18px;
+      background: #0e0e13;
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    .shadow-sample__label { font-size: 12px; color: #adb0c6; text-align: center; max-width: 180px; }
+
+    /* ---- Buttons ---- */
+    .button-grid { display: flex; gap: 20px; flex-wrap: wrap; align-items: center; }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      min-height: 44px; padding: 10px 24px;
+      border-radius: 999px; font-weight: 600; font-size: 16px;
+      text-decoration: none; line-height: 1.2; text-align: center;
+      border: none; cursor: pointer; font-family: inherit;
+    }
+    .btn--primary { background: #5bf3b5; color: #04140d; box-shadow: 0 0 25px rgba(91, 243, 181, 0.3); }
+    .btn--ghost { background: transparent; border: 1px solid rgba(255,255,255,0.2); color: #f3f5ff; }
+    .btn--cta {
+      display: block; width: 280px; padding: 16px 24px;
+      background: #5bf3b5; color: #000; text-decoration: none;
+      border-radius: 12px; font-weight: 600; font-size: 16px; text-align: center;
+      border: 2px solid #5bf3b5; font-family: inherit;
+    }
+    .btn--cta-secondary {
+      display: block; width: 280px; padding: 16px 24px;
+      background: transparent; color: #fff; text-decoration: none;
+      border-radius: 12px; font-weight: 600; font-size: 16px; text-align: center;
+      border: 2px solid #fff; font-family: inherit;
+    }
+
+    /* ---- Cards ---- */
+    .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 24px; }
+    .card {
+      border-radius: 24px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(7, 9, 18, 0.75);
+      box-shadow: 0 30px 80px rgba(0,0,0,0.45);
+      padding: 32px;
+      backdrop-filter: blur(18px);
+      display: flex; flex-direction: column; gap: 16px;
+    }
+    .card__eyebrow { font-size: 12px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: #5bf3b5; }
+    .card__title { font-size: 24px; font-weight: 700; }
+    .card__body { font-size: 15px; color: #adb0c6; line-height: 1.7; }
+
+    .card--pricing {
+      background: #121212;
+      border-radius: 16px;
+      padding: 40px 30px;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+
+    .card--panel {
+      background: linear-gradient(120deg, rgba(14, 14, 19, 0.9), rgba(10, 12, 20, 0.4));
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,0.05);
+      box-shadow: 0 40px 120px rgba(0,0,0,0.55);
+      padding: 24px;
+    }
+
+    /* ---- Chips & Badges ---- */
+    .chip-grid { display: flex; gap: 16px; flex-wrap: wrap; align-items: center; }
+    .chip {
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: rgba(91, 243, 182, 0.057);
+      border: 1px solid rgba(91, 243, 182, 0.075);
+      font-weight: 500;
+      color: #f3f5ff;
+      font-size: 14px;
+    }
+    .chip--badge {
+      display: flex; align-items: center; gap: 32px;
+      padding: 8px 30px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.1);
+      background-color: rgba(0,0,0,0.075);
+      font-size: 14px;
+      color: #adb0c6;
+    }
+    .chip--featured {
+      background: #5bf3b5;
+      color: #000;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border: none;
+    }
+    .eyebrow-tag {
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      font-size: 12px;
+      color: #5bf3b5;
+      font-weight: 600;
+    }
+
+    /* ---- Icons ---- */
+    .icon-grid { display: flex; gap: 32px; flex-wrap: wrap; }
+    .icon-sample {
+      display: flex; flex-direction: column; align-items: center; gap: 12px;
+      width: 100px;
+    }
+    .icon-sample svg { width: 48px; height: 48px; fill: none; stroke: #5bf3b5; stroke-width: 1.2px; stroke-linecap: round; stroke-linejoin: round; }
+    .icon-sample__label { font-size: 12px; color: #adb0c6; }
+
+    /* ---- Component Box ---- */
+    .component-box-sample {
+      width: 200px; height: 140px;
+      background: rgba(10, 10, 10, 0.55);
+      backdrop-filter: blur(4px);
+      border: 1px solid #5bf3b5;
+      border-radius: 20px;
+      display: flex; flex-direction: column;
+      justify-content: center; align-items: center;
+      box-shadow: 0 0 40px rgba(91,243,181,0.2), inset 0 0 20px rgba(91,243,181,0.1);
+    }
+    .component-box-sample svg { width: 50px; height: 50px; fill: none; stroke: #5bf3b5; stroke-width: 0.8px; stroke-linecap: round; stroke-linejoin: round; }
+    .component-box-sample .comp-label { margin-top: 15px; color: #5bf3b5; font-size: 14px; letter-spacing: 0.08em; text-transform: uppercase; text-shadow: 0 0 15px rgba(91,243,181,0.6); }
+
+    /* ---- Stars ---- */
+    .stars { display: flex; gap: 4px; color: #fbbf24; font-size: 16px; }
+
+    /* ---- Testimonial Card ---- */
+    .testimonial-sample {
+      background: rgba(10, 12, 20, 0.75);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 22px;
+      padding: 20px;
+      display: flex; flex-direction: column; gap: 12px;
+      max-width: 320px;
+      box-shadow: 0 40px 120px rgba(0,0,0,0.55);
+    }
+    .testimonial-sample__name { font-size: 16px; font-weight: 600; }
+    .testimonial-sample__role { font-size: 13px; color: #adb0c6; }
+    .testimonial-sample__quote { font-size: 16px; font-weight: 600; line-height: 1.3; }
+
+    /* ---- Person Card ---- */
+    .person-sample {
+      background: linear-gradient(180deg, rgba(11,11,20,0.6) 0%, rgba(12,12,15,0.6) 100%);
+      backdrop-filter: blur(20px);
+      border-radius: 21px;
+      padding: 24px 28px;
+      display: flex; gap: 35px; align-items: center;
+      border: 1px solid rgba(255,255,255,0.1);
+      box-shadow: 0 0 0 0.5px rgba(255,255,255,0.15) inset, 0 8px 32px rgba(0,0,0,0.4);
+    }
+    .person-sample__avatar {
+      width: 120px; height: 120px; border-radius: 50%;
+      background: linear-gradient(135deg, rgba(92,92,92,0.26), rgba(255,255,255,0.26));
+      flex-shrink: 0;
+    }
+    .person-sample__info { display: flex; flex-direction: column; gap: 8px; }
+    .person-sample__name { font-size: 22px; font-weight: 500; }
+    .person-sample__title { font-size: 16px; font-weight: 300; color: #adb0c6; }
+    .person-sample__link {
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: 7px 40px; border-radius: 999px; height: 41px;
+      color: #fff; font-size: 14px; font-weight: 300; text-decoration: none;
+      background: rgba(0, 172, 46, 0.2);
+      border: 1px solid rgba(0, 255, 100, 0.3);
+    }
+
+    /* ---- Revenue Banner ---- */
+    .banner-sample {
+      padding: 18px 26px;
+      border-radius: 14px;
+      background: linear-gradient(90deg, rgba(91, 243, 181, 0.12), rgba(91, 243, 181, 0.04));
+      border: 1px solid rgba(91, 243, 181, 0.35);
+      box-shadow: 0 15px 45px rgba(0,0,0,0.25), inset 0 0 30px rgba(91,243,181,0.05);
+      text-align: center;
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    /* ---- FAQ item ---- */
+    .faq-sample {
+      background: rgba(14, 14, 19, 0.7);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 18px;
+      overflow: hidden;
+    }
+    .faq-sample__q {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 18px 20px;
+      font-size: 16px; font-weight: 600;
+    }
+    .faq-sample__icon { width: 20px; height: 20px; stroke: #5bf3b5; fill: none; }
+    .faq-sample__a { padding: 0 20px 18px; color: #adb0c6; line-height: 1.6; font-size: 15px; }
+  </style>
+</head>
+<body>
+  <div class="ds-page">
+
+    <!-- Header -->
+    <div class="ds-header">
+      <h1>ESSENCE Design System</h1>
+      <p>Visual language, tokens, and component inventory for the ESSENCE Retention website.</p>
+    </div>
+
+    <!-- ============ COLORS ============ -->
+    <section class="ds-section">
+      <h2 class="ds-section__title">Colors</h2>
+      <div class="color-grid">
+        <div class="color-card">
+          <div class="color-card__swatch" style="background:#050505;"></div>
+          <div class="color-card__info">
+            <span class="color-card__name">Background</span>
+            <span class="color-card__value">#050505</span>
+            <span class="color-card__role">--bg · Page background</span>
+          </div>
+        </div>
+        <div class="color-card">
+          <div class="color-card__swatch" style="background:#0e0e13;"></div>
+          <div class="color-card__info">
+            <span class="color-card__name">Panel</span>
+            <span class="color-card__value">#0e0e13</span>
+            <span class="color-card__role">--bg-panel · Cards, header</span>
+          </div>
+        </div>
+        <div class="color-card">
+          <div class="color-card__swatch" style="background:rgba(20, 20, 33, 0.65);"></div>
+          <div class="color-card__info">
+            <span class="color-card__name">Glass</span>
+            <span class="color-card__value">rgba(20,20,33,0.65)</span>
+            <span class="color-card__role">--bg-glass · Glassmorphic fills</span>
+          </div>
+        </div>
+        <div class="color-card">
+          <div class="color-card__swatch" style="background:#121212;"></div>
+          <div class="color-card__info">
+            <span class="color-card__name">Card Surface</span>
+            <span class="color-card__value">#121212</span>
+            <span class="color-card__role">Pricing cards</span>
+          </div>
+        </div>
+        <div class="color-card">
+          <div class="color-card__swatch" style="background:#f3f5ff;"></div>
+          <div class="color-card__info">
+            <span class="color-card__name" style="color:#0e0e13;">Primary Text</span>
+            <span class="color-card__value">#f3f5ff</span>
+            <span class="color-card__role">--text-primary</span>
+          </div>
+        </div>
+        <div class="color-card">
+          <div class="color-card__swatch" style="background:#adb0c6;"></div>
+          <div class="color-card__info">
+            <span class="color-card__name">Secondary Text</span>
+            <span class="color-card__value">#adb0c6</span>
+            <span class="color-card__role">--text-secondary</span>
+          </div>
+        </div>
+        <div class="color-card">
+          <div class="color-card__swatch" style="background:#5bf3b5;"></div>
+          <div class="color-card__info">
+            <span class="color-card__name">Accent Green</span>
+            <span class="color-card__value">#5bf3b5</span>
+            <span class="color-card__role">--accent · CTAs, highlights</span>
+          </div>
+        </div>
+        <div class="color-card">
+          <div class="color-card__swatch" style="background:#ff6a3d;"></div>
+          <div class="color-card__info">
+            <span class="color-card__name">Accent Orange</span>
+            <span class="color-card__value">#ff6a3d</span>
+            <span class="color-card__role">--accent-2 · Secondary accent</span>
+          </div>
+        </div>
+        <div class="color-card">
+          <div class="color-card__swatch" style="background:#fbbf24;"></div>
+          <div class="color-card__info">
+            <span class="color-card__name">Star Gold</span>
+            <span class="color-card__value">#fbbf24</span>
+            <span class="color-card__role">Ratings, stars</span>
+          </div>
+        </div>
+        <div class="color-card">
+          <div class="color-card__swatch" style="background:rgba(91,243,181,0.25); border:1px solid rgba(91,243,181,0.4);"></div>
+          <div class="color-card__info">
+            <span class="color-card__name">Border Accent</span>
+            <span class="color-card__value">rgba(91,243,181,0.25)</span>
+            <span class="color-card__role">--border · Focus, active states</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ GRADIENTS ============ -->
+    <section class="ds-section">
+      <h2 class="ds-section__title">Gradients</h2>
+      <div class="color-grid">
+        <div class="color-card">
+          <div class="color-card__swatch" style="background: linear-gradient(90deg, #c6edff 0%, #8ff0d1 40%, #5effa1 70%, #4ee0ff 100%);"></div>
+          <div class="color-card__info">
+            <span class="color-card__name">Hero Text Gradient</span>
+            <span class="color-card__value">#c6edff → #4ee0ff</span>
+            <span class="color-card__role">Headlines, emphasis text</span>
+          </div>
+        </div>
+        <div class="color-card">
+          <div class="color-card__swatch" style="background: linear-gradient(135deg, rgba(14, 14, 19, 0.95), rgba(10, 12, 20, 0.7));"></div>
+          <div class="color-card__info">
+            <span class="color-card__name">Card Gradient</span>
+            <span class="color-card__value">Panel → transparent</span>
+            <span class="color-card__role">Tier cards, panels</span>
+          </div>
+        </div>
+        <div class="color-card">
+          <div class="color-card__swatch" style="background: linear-gradient(135deg, var(--text-primary, #f3f5ff), #5bf3b5);"></div>
+          <div class="color-card__info">
+            <span class="color-card__name">Title Gradient</span>
+            <span class="color-card__value">#f3f5ff → #5bf3b5</span>
+            <span class="color-card__role">Section headings</span>
+          </div>
+        </div>
+        <div class="color-card">
+          <div class="color-card__swatch" style="background: linear-gradient(90deg, rgba(91, 243, 181, 0.12), rgba(91, 243, 181, 0.04));"></div>
+          <div class="color-card__info">
+            <span class="color-card__name">Banner Gradient</span>
+            <span class="color-card__value">Accent tinted</span>
+            <span class="color-card__role">Revenue banner, highlights</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ TYPOGRAPHY ============ -->
+    <section class="ds-section">
+      <h2 class="ds-section__title">Typography</h2>
+      <div class="type-scale">
+        <div class="type-sample">
+          <div class="type-sample__meta">
+            <span class="type-sample__label">Display</span>
+            <span class="type-sample__specs">Plus Jakarta Sans 700<br>clamp(2.5rem, 4vw, 3.8rem) / 1.1</span>
+          </div>
+          <div class="type-sample__text" style="font-size: 56px; font-weight: 700; line-height: 1.1; letter-spacing: -0.02em;">Lifetime Customers</div>
+        </div>
+        <div class="type-sample">
+          <div class="type-sample__meta">
+            <span class="type-sample__label">Section Title</span>
+            <span class="type-sample__specs">Plus Jakarta Sans 600<br>clamp(1.8rem, 3vw, 2.6rem) / 1.2</span>
+          </div>
+          <div class="type-sample__text" style="font-size: 38px; font-weight: 600; line-height: 1.2;">Choose Your Growth Path</div>
+        </div>
+        <div class="type-sample">
+          <div class="type-sample__meta">
+            <span class="type-sample__label">Card Title</span>
+            <span class="type-sample__specs">Plus Jakarta Sans 700<br>24px / 1.2</span>
+          </div>
+          <div class="type-sample__text" style="font-size: 24px; font-weight: 700; line-height: 1.2;">AI-Driven Popup Capture</div>
+        </div>
+        <div class="type-sample">
+          <div class="type-sample__meta">
+            <span class="type-sample__label">Plan Title</span>
+            <span class="type-sample__specs">Plus Jakarta Sans 700<br>23px / 1.3</span>
+          </div>
+          <div class="type-sample__text" style="font-size: 23px; font-weight: 700;">ESSENCE Core</div>
+        </div>
+        <div class="type-sample">
+          <div class="type-sample__meta">
+            <span class="type-sample__label">Prefix / Italic</span>
+            <span class="type-sample__specs">Plus Jakarta Sans 400 italic<br>clamp(1.35rem, 3vw, 1.9rem) / 1.3</span>
+          </div>
+          <div class="type-sample__text" style="font-size: 28px; font-weight: 400; font-style: italic; line-height: 1.3;">Turn One Time Buyers Into</div>
+        </div>
+        <div class="type-sample">
+          <div class="type-sample__meta">
+            <span class="type-sample__label">Body</span>
+            <span class="type-sample__specs">Plus Jakarta Sans 400<br>16px / 1.6</span>
+          </div>
+          <div class="type-sample__text" style="font-size: 16px; font-weight: 400; line-height: 1.6; color: #adb0c6;">Essence builds retention engines that compound LTV—no extra paid spend. We track contribution by cohort, campaign, and SKU to prove lift.</div>
+        </div>
+        <div class="type-sample">
+          <div class="type-sample__meta">
+            <span class="type-sample__label">Eyebrow</span>
+            <span class="type-sample__specs">Plus Jakarta Sans 600<br>12–13px / 1.4<br>uppercase · 0.2em tracking</span>
+          </div>
+          <div class="type-sample__text" style="font-size: 13px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: #5bf3b5;">Client Success Stories</div>
+        </div>
+        <div class="type-sample">
+          <div class="type-sample__meta">
+            <span class="type-sample__label">Stat Value</span>
+            <span class="type-sample__specs">Plus Jakarta Sans 700<br>26px / 1</span>
+          </div>
+          <div class="type-sample__text" style="font-size: 26px; font-weight: 700;">12.48x</div>
+        </div>
+        <div class="type-sample">
+          <div class="type-sample__meta">
+            <span class="type-sample__label">Price Display</span>
+            <span class="type-sample__specs">Plus Jakarta Sans 800<br>48px / 1.1</span>
+          </div>
+          <div class="type-sample__text" style="font-size: 48px; font-weight: 800;"><span style="font-size: 24px; vertical-align: top;">$</span>7 Figures<span style="font-size: 18px; font-weight: 400; color: #ccc;">/year</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SPACING ============ -->
+    <section class="ds-section">
+      <h2 class="ds-section__title">Spacing Scale</h2>
+      <div class="spacing-grid">
+        <div class="spacing-row"><span class="spacing-row__label">4px</span><div class="spacing-row__bar" style="width:4px;"></div><span class="spacing-row__value">xs</span></div>
+        <div class="spacing-row"><span class="spacing-row__label">8px</span><div class="spacing-row__bar" style="width:8px;"></div><span class="spacing-row__value">sm</span></div>
+        <div class="spacing-row"><span class="spacing-row__label">12px</span><div class="spacing-row__bar" style="width:12px;"></div><span class="spacing-row__value">md</span></div>
+        <div class="spacing-row"><span class="spacing-row__label">16px</span><div class="spacing-row__bar" style="width:16px;"></div><span class="spacing-row__value">base</span></div>
+        <div class="spacing-row"><span class="spacing-row__label">20px</span><div class="spacing-row__bar" style="width:20px;"></div><span class="spacing-row__value">lg</span></div>
+        <div class="spacing-row"><span class="spacing-row__label">24px</span><div class="spacing-row__bar" style="width:24px;"></div><span class="spacing-row__value">xl</span></div>
+        <div class="spacing-row"><span class="spacing-row__label">32px</span><div class="spacing-row__bar" style="width:32px;"></div><span class="spacing-row__value">2xl</span></div>
+        <div class="spacing-row"><span class="spacing-row__label">48px</span><div class="spacing-row__bar" style="width:48px;"></div><span class="spacing-row__value">3xl</span></div>
+        <div class="spacing-row"><span class="spacing-row__label">60px</span><div class="spacing-row__bar" style="width:60px;"></div><span class="spacing-row__value">4xl</span></div>
+        <div class="spacing-row"><span class="spacing-row__label">80px</span><div class="spacing-row__bar" style="width:80px;"></div><span class="spacing-row__value">5xl</span></div>
+        <div class="spacing-row"><span class="spacing-row__label">140px</span><div class="spacing-row__bar" style="width:140px;"></div><span class="spacing-row__value">section</span></div>
+      </div>
+    </section>
+
+    <!-- ============ BORDER RADIUS ============ -->
+    <section class="ds-section">
+      <h2 class="ds-section__title">Border Radius</h2>
+      <div class="radii-grid">
+        <div class="radius-sample">
+          <div class="radius-sample__box" style="border-radius: 12px;"></div>
+          <span class="radius-sample__label">12px<br>Small cards</span>
+        </div>
+        <div class="radius-sample">
+          <div class="radius-sample__box" style="border-radius: 16px;"></div>
+          <span class="radius-sample__label">16px<br>Pricing cards</span>
+        </div>
+        <div class="radius-sample">
+          <div class="radius-sample__box" style="border-radius: 18px;"></div>
+          <span class="radius-sample__label">18px (--radius)<br>Base radius</span>
+        </div>
+        <div class="radius-sample">
+          <div class="radius-sample__box" style="border-radius: 22px;"></div>
+          <span class="radius-sample__label">22px (1.2×)<br>Detail cards</span>
+        </div>
+        <div class="radius-sample">
+          <div class="radius-sample__box" style="border-radius: 27px;"></div>
+          <span class="radius-sample__label">27px (1.5×)<br>Tier cards</span>
+        </div>
+        <div class="radius-sample">
+          <div class="radius-sample__box" style="border-radius: 50px;"></div>
+          <span class="radius-sample__label">999px<br>Pills, buttons</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SHADOWS ============ -->
+    <section class="ds-section">
+      <h2 class="ds-section__title">Shadows</h2>
+      <div class="shadow-grid">
+        <div class="shadow-sample">
+          <div class="shadow-sample__box" style="box-shadow: 0 40px 120px rgba(0,0,0,0.55);"></div>
+          <span class="shadow-sample__label">Primary<br>0 40px 120px rgba(0,0,0,0.55)</span>
+        </div>
+        <div class="shadow-sample">
+          <div class="shadow-sample__box" style="box-shadow: 0 30px 80px rgba(0,0,0,0.45);"></div>
+          <span class="shadow-sample__label">Card<br>0 30px 80px rgba(0,0,0,0.45)</span>
+        </div>
+        <div class="shadow-sample">
+          <div class="shadow-sample__box" style="box-shadow: 0 20px 60px rgba(91,243,181,0.15), 0 0 80px rgba(91,243,181,0.08);"></div>
+          <span class="shadow-sample__label">Accent Glow<br>Green hover state</span>
+        </div>
+        <div class="shadow-sample">
+          <div class="shadow-sample__box" style="box-shadow: 0 0 25px rgba(91,243,181,0.3);"></div>
+          <span class="shadow-sample__label">CTA Glow<br>0 0 25px accent/0.3</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ BUTTONS ============ -->
+    <section class="ds-section">
+      <h2 class="ds-section__title">Buttons</h2>
+      <div class="button-grid">
+        <button class="btn btn--primary">Get a FREE Retention Audit</button>
+        <button class="btn btn--ghost">Explore service tiers</button>
+      </div>
+      <div class="button-grid" style="margin-top: 20px;">
+        <button class="btn--cta">Book a Call</button>
+        <button class="btn--cta-secondary">Book a Call</button>
+      </div>
+    </section>
+
+    <!-- ============ CHIPS & BADGES ============ -->
+    <section class="ds-section">
+      <h2 class="ds-section__title">Chips &amp; Badges</h2>
+      <div class="chip-grid">
+        <span class="chip">11.2X AVG. ROI</span>
+        <span class="chip--badge">Klaviyo Partners · Shopify Partners · 11.2X ROI</span>
+        <span class="chip--featured">Most Popular</span>
+        <span class="eyebrow-tag">Service Options</span>
+        <div class="stars">★ ★ ★ ★ ★</div>
+      </div>
+    </section>
+
+    <!-- ============ ICONS ============ -->
+    <section class="ds-section">
+      <h2 class="ds-section__title">Icons</h2>
+      <div class="icon-grid">
+        <div class="icon-sample">
+          <svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          <span class="icon-sample__label">Capture</span>
+        </div>
+        <div class="icon-sample">
+          <svg viewBox="0 0 24 24"><path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"/><path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z"/></svg>
+          <span class="icon-sample__label">Convert</span>
+        </div>
+        <div class="icon-sample">
+          <svg viewBox="0 0 24 24"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+          <span class="icon-sample__label">Retain</span>
+        </div>
+        <div class="icon-sample">
+          <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+          <span class="icon-sample__label">Chevron (FAQ)</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ COMPONENT SAMPLES ============ -->
+    <section class="ds-section">
+      <h2 class="ds-section__title">Components</h2>
+
+      <!-- Header Panel -->
+      <p style="font-size: 14px; color: #adb0c6; margin-bottom: 8px;">Header / Panel</p>
+      <div class="card--panel" style="display: flex; align-items: center; justify-content: space-between;">
+        <span style="font-size: 16px; font-weight: 600;">ESSENCE Retention</span>
+        <div style="display: flex; gap: 16px; align-items: center;">
+          <span style="color: #adb0c6; font-size: 15px;">Overview</span>
+          <span style="color: #adb0c6; font-size: 15px;">System</span>
+          <button class="btn btn--primary" style="font-size: 14px; padding: 8px 18px; min-height: 36px;">Get a FREE Retention Audit</button>
+        </div>
+      </div>
+
+      <!-- Detail Card -->
+      <p style="font-size: 14px; color: #adb0c6; margin-top: 32px; margin-bottom: 8px;">Detail Card</p>
+      <div class="card" style="max-width: 480px;">
+        <span class="card__eyebrow">Capture</span>
+        <h3 class="card__title">AI-Driven Popup Capture</h3>
+        <p class="card__body">Custom-built popups powered by behavioral AI that capture high-intent visitors at the perfect moment.</p>
+      </div>
+
+      <!-- Tri-Catalyst Box -->
+      <p style="font-size: 14px; color: #adb0c6; margin-top: 32px; margin-bottom: 8px;">Tri-Catalyst Box (Active State)</p>
+      <div style="display: flex; gap: 32px;">
+        <div class="component-box-sample">
+          <svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          <span class="comp-label">Capture</span>
+        </div>
+      </div>
+
+      <!-- Testimonial Card -->
+      <p style="font-size: 14px; color: #adb0c6; margin-top: 32px; margin-bottom: 8px;">Testimonial Card</p>
+      <div class="testimonial-sample">
+        <div>
+          <div class="testimonial-sample__name">Paige DeAngelo</div>
+          <div class="testimonial-sample__role">Founder of <strong style="color:#f3f5ff;">Aer Cosmetics</strong></div>
+        </div>
+        <div class="stars">★ ★ ★ ★ ★</div>
+        <div class="testimonial-sample__quote">"We Have 11 X'd Our Sales"</div>
+        <div style="width: 100%; aspect-ratio: 9/16; background: rgba(0,0,0,0.4); border-radius: 18px;"></div>
+      </div>
+
+      <!-- Person Card -->
+      <p style="font-size: 14px; color: #adb0c6; margin-top: 32px; margin-bottom: 8px;">Person / Team Card</p>
+      <div class="person-sample">
+        <div class="person-sample__avatar"></div>
+        <div class="person-sample__info">
+          <div class="person-sample__name">Jacques Schaeken</div>
+          <div class="person-sample__title">Founder & COO</div>
+          <a class="person-sample__link">View LinkedIn →</a>
+        </div>
+      </div>
+
+      <!-- Revenue Banner -->
+      <p style="font-size: 14px; color: #adb0c6; margin-top: 32px; margin-bottom: 8px;">Revenue Banner</p>
+      <div class="banner-sample">Over $2,700,000 generated for our clients</div>
+
+      <!-- FAQ Item -->
+      <p style="font-size: 14px; color: #adb0c6; margin-top: 32px; margin-bottom: 8px;">FAQ Item</p>
+      <div class="faq-sample" style="max-width: 600px;">
+        <div class="faq-sample__q">
+          <span>What results can I expect?</span>
+          <svg class="faq-sample__icon" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="faq-sample__a">Most brands see measurable retention lift within the first 90 days, with an average 11.2X ROI across our portfolio.</div>
+      </div>
+
+      <!-- Stat Card -->
+      <p style="font-size: 14px; color: #adb0c6; margin-top: 32px; margin-bottom: 8px;">Stat Card</p>
+      <div style="display: flex; gap: 16px;">
+        <div style="background: rgba(14,14,19,0.7); border: 1px solid rgba(255,255,255,0.06); border-radius: 20px; padding: 16px 24px; text-align: center; min-width: 140px;">
+          <div style="font-size: 26px; font-weight: 700;">12.48x</div>
+          <div style="margin-top: 6px; color: #adb0c6; font-size: 14px;">Spicy Wear ROI</div>
+        </div>
+        <div style="background: rgba(14,14,19,0.7); border: 1px solid rgba(255,255,255,0.06); border-radius: 20px; padding: 16px 24px; text-align: center; min-width: 140px;">
+          <div style="font-size: 26px; font-weight: 700;">34.4%</div>
+          <div style="margin-top: 6px; color: #adb0c6; font-size: 14px;">Retention contribution</div>
+        </div>
+        <div style="background: rgba(14,14,19,0.7); border: 1px solid rgba(255,255,255,0.06); border-radius: 20px; padding: 16px 24px; text-align: center; min-width: 140px;">
+          <div style="font-size: 26px; font-weight: 700;">90 days</div>
+          <div style="margin-top: 6px; color: #adb0c6; font-size: 14px;">To unlock lift</div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</body>
+</html>
