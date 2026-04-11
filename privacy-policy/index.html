@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Privacy Policy | ESSENCE Notion Connector</title>
+  <meta name="description"
+    content="Privacy Policy for the ESSENCE Notion Connector." />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Privacy Policy | ESSENCE Notion Connector" />
+  <meta property="og:description"
+    content="Learn how ESSENCE Retention collects, uses, and protects personal data for the ESSENCE Notion Connector." />
+  <meta property="og:image" content="/assets/images/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="ESSENCE Retention" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Privacy Policy | ESSENCE Notion Connector" />
+  <meta name="twitter:description"
+    content="Learn how ESSENCE Retention collects, uses, and protects personal data for the ESSENCE Notion Connector." />
+  <meta name="twitter:image" content="/assets/images/og-image.png" />
+  <link rel="icon" type="image/x-icon" href="../assets/images/favicon.ico" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="../styles.css" />
+  <style>
+    body {
+      min-height: 100vh;
+    }
+
+    .policy-page {
+      padding-top: 18px;
+    }
+
+    .policy-header {
+      gap: 20px;
+    }
+
+    .policy-header__brand {
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .policy-header__nav {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .policy-main {
+      padding: 72px 0 20px;
+    }
+
+    .policy-hero {
+      max-width: 760px;
+      margin: 0 auto 28px;
+      text-align: center;
+    }
+
+    .policy-kicker {
+      margin: 0 0 12px;
+      color: var(--accent);
+      font-size: 0.82rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .policy-title {
+      margin: 0;
+      font-size: clamp(2.6rem, 6vw, 4.5rem);
+      line-height: 0.98;
+      letter-spacing: -0.04em;
+    }
+
+    .policy-title span {
+      display: inline-block;
+      background: linear-gradient(90deg, #d9f6ff 0%, #9bf0d8 40%, #5bf3b5 75%, #ffb28a 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .policy-summary {
+      margin: 18px auto 0;
+      max-width: 640px;
+      color: var(--text-secondary);
+      font-size: 1.05rem;
+      line-height: 1.75;
+    }
+
+    .policy-card {
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 34px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 28px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.015)),
+        rgba(8, 10, 16, 0.88);
+      box-shadow: 0 30px 90px rgba(0, 0, 0, 0.35);
+      backdrop-filter: blur(20px);
+    }
+
+    .policy-meta {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+      margin-bottom: 26px;
+    }
+
+    .policy-meta__item {
+      padding: 16px 18px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.025);
+    }
+
+    .policy-meta__label {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--text-secondary);
+      font-size: 0.84rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    .policy-meta__value {
+      color: var(--text-primary);
+      font-size: 1rem;
+      line-height: 1.5;
+    }
+
+    .policy-notice {
+      margin: 0 0 30px;
+      padding: 18px 20px;
+      border-left: 3px solid var(--accent);
+      border-radius: 18px;
+      background: rgba(91, 243, 181, 0.08);
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    .policy-section + .policy-section {
+      margin-top: 28px;
+      padding-top: 28px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .policy-section h2 {
+      margin: 0 0 12px;
+      font-size: clamp(1.3rem, 3vw, 1.8rem);
+      line-height: 1.2;
+    }
+
+    .policy-section p,
+    .policy-section li {
+      color: var(--text-secondary);
+      font-size: 1rem;
+      line-height: 1.8;
+    }
+
+    .policy-section p {
+      margin: 0;
+    }
+
+    .policy-section p + p {
+      margin-top: 14px;
+    }
+
+    .policy-list {
+      margin: 14px 0 0;
+      padding-left: 20px;
+    }
+
+    .policy-list li + li {
+      margin-top: 10px;
+    }
+
+    .policy-contact {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 16px;
+      color: var(--text-primary);
+      text-decoration: none;
+    }
+
+    @media (max-width: 900px) {
+      .policy-meta {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 700px) {
+      .policy-page {
+        padding-top: 10px;
+      }
+
+      .policy-main {
+        padding-top: 48px;
+      }
+
+      .policy-card {
+        padding: 24px 20px;
+        border-radius: 22px;
+      }
+
+      .policy-header {
+        justify-content: center;
+      }
+
+      .policy-header__nav {
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page-grid policy-page">
+    <header class="site-header policy-header">
+      <a class="policy-header__brand" href="/" aria-label="ESSENCE Retention home">
+        <img class="site-header__logo" src="../assets/images/ESSENCE-Retention.png" alt="ESSENCE Retention logo" />
+      </a>
+      <nav class="policy-header__nav" aria-label="Privacy page navigation">
+        <a class="site-header__link" href="/">Back to Home</a>
+        <a class="button button--ghost" href="mailto:jacques@essencesoftwaredevelopment.com">Contact Us</a>
+      </nav>
+    </header>
+
+    <main class="policy-main">
+      <section class="policy-hero">
+        <p class="policy-kicker">ESSENCE Notion Connector</p>
+        <h1 class="policy-title">Privacy <span>Policy</span></h1>
+        <p class="policy-summary">
+          This Privacy Policy describes how ESSENCE Retention collects, uses, and protects personal data in connection
+          with the ESSENCE Notion Connector.
+        </p>
+      </section>
+
+      <section class="policy-card" aria-label="Privacy policy content">
+        <div class="policy-meta">
+          <div class="policy-meta__item">
+            <span class="policy-meta__label">Effective Date</span>
+            <span class="policy-meta__value">April 11, 2026</span>
+          </div>
+          <div class="policy-meta__item">
+            <span class="policy-meta__label">Service</span>
+            <span class="policy-meta__value">ESSENCE Notion Connector</span>
+          </div>
+        </div>
+
+        <p class="policy-notice">
+          This document is a general GDPR-compliant template based on the information provided. It is recommended to
+          have this policy reviewed by a qualified legal professional to ensure full compliance with applicable laws
+          and your specific business model.
+        </p>
+
+        <section class="policy-section">
+          <h2>1. Introduction</h2>
+          <p>This Privacy Policy describes how ESSENCE Retention (“we”, “us”, “our”) collects, uses, and protects
+            personal data in connection with the use of the ESSENCE Notion Connector (the “Service”).</p>
+          <p>We are committed to processing personal data in accordance with the General Data Protection Regulation (EU)
+            2016/679 (“GDPR”).</p>
+        </section>
+
+        <section class="policy-section">
+          <h2>2. Types of Personal Data Collected</h2>
+          <ul class="policy-list">
+            <li>User Account Data: Name and email address.</li>
+            <li>Notion Workspace Data: Data accessible through the Notion API as authorized by the user.</li>
+            <li>Meta Ads Data: Campaign performance data, comments, and feedback retrieved via the Meta Ads API.</li>
+            <li>Technical Data: IP address, device information, and usage-related data.</li>
+          </ul>
+        </section>
+
+        <section class="policy-section">
+          <h2>3. Categories of Data Subjects</h2>
+          <p>We process personal data relating to users of the ESSENCE Notion Connector (account holders).</p>
+        </section>
+
+        <section class="policy-section">
+          <h2>4. Purpose of Data Processing</h2>
+          <ul class="policy-list">
+            <li>To synchronize Meta Ads reporting data into Notion workspaces.</li>
+            <li>To provide analytics and feedback workflows.</li>
+            <li>To maintain and improve the Service.</li>
+            <li>To provide customer support and respond to user inquiries.</li>
+          </ul>
+        </section>
+
+        <section class="policy-section">
+          <h2>5. Legal Basis for Processing</h2>
+          <p>Under GDPR, we rely on the following legal bases:</p>
+          <ul class="policy-list">
+            <li>Performance of a contract (Article 6(1)(b)) – to provide the Service.</li>
+            <li>Legitimate interests (Article 6(1)(f)) – to improve and maintain the Service.</li>
+            <li>Consent (Article 6(1)(a)) – where required, particularly for integrations and data access permissions.</li>
+          </ul>
+        </section>
+
+        <section class="policy-section">
+          <h2>6. Data Storage and Retention</h2>
+          <ul class="policy-list">
+            <li>Data is stored using Notion and Supabase infrastructure.</li>
+            <li>Data may also be processed via hosting providers including Vercel and DigitalOcean.</li>
+            <li>Personal data is retained indefinitely, unless a deletion request is made.</li>
+            <li>Users have the right to request deletion of their data at any time.</li>
+          </ul>
+        </section>
+
+        <section class="policy-section">
+          <h2>7. Sharing of Data with Third Parties</h2>
+          <p>We may share personal data with the following third parties strictly as necessary to provide the Service:</p>
+          <ul class="policy-list">
+            <li>Notion API (for workspace integration).</li>
+            <li>Meta (Facebook) Ads API (for advertising data retrieval).</li>
+            <li>Supabase (authentication and database services).</li>
+            <li>Vercel and DigitalOcean (hosting and infrastructure providers).</li>
+          </ul>
+          <p>All third-party processors are required to implement appropriate safeguards for personal data.</p>
+        </section>
+
+        <section class="policy-section">
+          <h2>8. International Data Transfers</h2>
+          <p>Some of our service providers are located outside the European Economic Area (EEA), including in the
+            United States.</p>
+          <p>Where personal data is transferred outside the EEA, we ensure appropriate safeguards are in place, such as:</p>
+          <ul class="policy-list">
+            <li>Standard Contractual Clauses (SCCs) approved by the European Commission.</li>
+            <li>Transfers to providers participating in recognized data protection frameworks where applicable.</li>
+          </ul>
+        </section>
+
+        <section class="policy-section">
+          <h2>9. User Rights Under GDPR</h2>
+          <p>Users have the following rights:</p>
+          <ul class="policy-list">
+            <li>Right of Access – to request a copy of their personal data.</li>
+            <li>Right to Rectification – to correct inaccurate or incomplete data.</li>
+            <li>Right to Erasure (“Right to be Forgotten”) – to request deletion of personal data.</li>
+            <li>Right to Restrict Processing.</li>
+            <li>Right to Data Portability.</li>
+            <li>Right to Object to processing.</li>
+          </ul>
+          <p>To exercise these rights, users may contact us via email at:</p>
+          <a class="policy-contact"
+            href="mailto:jacques@essencesoftwaredevelopment.com">jacques@essencesoftwaredevelopment.com</a>
+        </section>
+
+        <section class="policy-section">
+          <h2>10. Data Security</h2>
+          <p>We implement appropriate technical and organizational measures to protect personal data, including:</p>
+          <ul class="policy-list">
+            <li>Encryption in transit and at rest.</li>
+            <li>Access controls to restrict unauthorized access.</li>
+            <li>Authentication systems managed via Supabase.</li>
+            <li>Regular monitoring and security practices to prevent unauthorized access or disclosure.</li>
+          </ul>
+        </section>
+
+        <section class="policy-section">
+          <h2>11. Data Deletion and User Control</h2>
+          <p>Users may request:</p>
+          <ul class="policy-list">
+            <li>Access to their data.</li>
+            <li>Correction of inaccuracies.</li>
+            <li>Deletion of their data.</li>
+          </ul>
+          <p>All requests can be made via email and will be handled in accordance with applicable data protection laws.</p>
+        </section>
+
+        <section class="policy-section">
+          <h2>12. Contact Information</h2>
+          <p>If you have any questions about this Privacy Policy or your personal data, please contact:</p>
+          <p>ESSENCE Retention<br />
+            34 Glencairn Lawn<br />
+            The Gallops, Leopardstown<br />
+            Dublin 18, Ireland</p>
+          <a class="policy-contact"
+            href="mailto:jacques@essencesoftwaredevelopment.com">jacques@essencesoftwaredevelopment.com</a>
+        </section>
+
+        <section class="policy-section">
+          <h2>13. Changes to This Privacy Policy</h2>
+          <p>We may update this Privacy Policy from time to time. Any changes will be posted with an updated “Effective
+            Date.” Continued use of the Service constitutes acceptance of the updated policy.</p>
+        </section>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>© <span id="year"></span> Essence Software Development. All rights reserved.</p>
+      <div class="site-footer__links">
+        <a href="/">Home</a>
+        <a href="mailto:jacques@essencesoftwaredevelopment.com">jacques@essencesoftwaredevelopment.com</a>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    const yearTarget = document.getElementById("year");
+    if (yearTarget) {
+      yearTarget.textContent = new Date().getFullYear();
+    }
+  </script>
+</body>
+
+</html>

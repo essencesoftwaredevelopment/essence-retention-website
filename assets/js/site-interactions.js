@@ -115,6 +115,7 @@ const faqData = [
   const resultsContainer = document.getElementById('lead-modal-results');
   const resultsLogos = document.getElementById('lead-modal-results-logos');
   const resultsColors = document.getElementById('lead-modal-results-colors');
+  const resultsFonts = document.getElementById('lead-modal-results-fonts');
   const resultsProducts = document.getElementById('lead-modal-results-products');
   if (!leadModal) return;
   const generationCards = Array.from(leadModal.querySelectorAll('.lead-modal__generation-card'));
@@ -224,6 +225,84 @@ const faqData = [
     window.setTimeout(resolve, duration);
   });
 
+  const leadsApiBaseMeta = document.querySelector('meta[name="leads-api-base-url"]');
+  let resolvedLeadsApiBaseUrl = null;
+  let leadsApiBaseUrlPromise = null;
+
+  const readGeneratedRuntimeConfig = () => {
+    const runtimeValue = typeof window.__ESSENCE_RUNTIME_CONFIG__?.leadsApiBaseUrl === 'string'
+      ? window.__ESSENCE_RUNTIME_CONFIG__.leadsApiBaseUrl.trim()
+      : '';
+
+    return runtimeValue;
+  };
+
+  const readLeadApiBaseMeta = () => {
+    const rawValue = typeof leadsApiBaseMeta?.content === 'string'
+      ? leadsApiBaseMeta.content.trim()
+      : '';
+
+    if (!rawValue || rawValue === '__LEADS_API_BASE_URL__') {
+      return '';
+    }
+
+    return rawValue;
+  };
+
+  const resolveLeadApiBaseUrl = async () => {
+    if (resolvedLeadsApiBaseUrl) {
+      return resolvedLeadsApiBaseUrl;
+    }
+
+    const generatedValue = readGeneratedRuntimeConfig();
+    if (generatedValue) {
+      resolvedLeadsApiBaseUrl = generatedValue;
+      return resolvedLeadsApiBaseUrl;
+    }
+
+    const metaValue = readLeadApiBaseMeta();
+    if (metaValue) {
+      resolvedLeadsApiBaseUrl = metaValue;
+      return resolvedLeadsApiBaseUrl;
+    }
+
+    if (!leadsApiBaseUrlPromise) {
+      leadsApiBaseUrlPromise = fetch('/api/runtime-config', { method: 'GET' })
+        .then((response) => response.ok ? response.json() : null)
+        .then((payload) => {
+          const runtimeValue = typeof payload?.leadsApiBaseUrl === 'string'
+            ? payload.leadsApiBaseUrl.trim()
+            : '';
+
+          if (!runtimeValue) {
+            throw new Error('Lead API base URL is not configured.');
+          }
+
+          resolvedLeadsApiBaseUrl = runtimeValue;
+          return resolvedLeadsApiBaseUrl;
+        })
+        .catch((error) => {
+          leadsApiBaseUrlPromise = null;
+          throw error instanceof Error
+            ? error
+            : new Error('Lead API base URL is not configured.');
+        });
+    }
+
+    return leadsApiBaseUrlPromise;
+  };
+
+  const logLeadRequest = async (label, path, options = {}) => {
+    const baseUrl = await resolveLeadApiBaseUrl();
+    const absoluteUrl = new URL(path, baseUrl).toString();
+    console.info(`[LeadModal] ${label}`, {
+      method: options.method || 'GET',
+      baseUrl,
+      url: absoluteUrl,
+    });
+    return absoluteUrl;
+  };
+
   const preloadLeadModalAssets = async (brandData, productData) => {
     const sources = new Set();
     const logos = Array.isArray(brandData?.logos) ? brandData.logos : [];
@@ -242,6 +321,104 @@ const faqData = [
     });
 
     await Promise.all(Array.from(sources, preloadImage));
+  };
+
+  const dedupeByKey = (items, getKey) => {
+    const seen = new Set();
+    return items.filter((item) => {
+      const key = getKey(item);
+      if (!key || seen.has(key)) {
+        return false;
+      }
+      seen.add(key);
+      return true;
+    });
+  };
+
+  const toTitleCase = (value) => value
+    .replace(/([a-z])([A-Z])/g, '$1 $2')
+    .replace(/[_-]+/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .replace(/\b\w/g, (match) => match.toUpperCase());
+
+  const extractBrandContext = (payload) => {
+    const brand = payload?.retrieve?.brand ?? {};
+    const styleguide = payload?.styleguide ?? {};
+    const brandName = [
+      brand?.title,
+      brand?.name,
+      brand?.domain,
+      payload?.domain,
+    ].find((value) => typeof value === 'string' && value.trim()) || '';
+
+    const logos = dedupeByKey(
+      (Array.isArray(brand?.logos) ? brand.logos : [])
+        .filter((logo) => logo && typeof logo.url === 'string' && logo.url.trim())
+        .map((logo) => ({
+          url: logo.url.trim(),
+          alt: typeof brandName === 'string' && brandName ? `${brandName} logo` : 'Brand logo',
+        })),
+      (logo) => logo.url,
+    );
+
+    const semanticColors = Object.entries(styleguide?.colors ?? {})
+      .filter(([, hex]) => typeof hex === 'string' && hex.trim())
+      .map(([name, hex]) => ({
+        hex: hex.trim(),
+        name: toTitleCase(name),
+      }));
+
+    const brandColors = (Array.isArray(brand?.colors) ? brand.colors : [])
+      .filter((color) => color && typeof color.hex === 'string' && color.hex.trim())
+      .map((color) => ({
+        hex: color.hex.trim(),
+        name: typeof color.name === 'string' ? color.name.trim() : '',
+      }));
+
+    const colors = dedupeByKey(
+      [...brandColors, ...semanticColors],
+      (color) => color.hex.toLowerCase(),
+    );
+
+    const fontMap = new Map();
+    const addFont = (fontFamily, usage) => {
+      if (typeof fontFamily !== 'string' || !fontFamily.trim()) {
+        return;
+      }
+
+      const family = fontFamily.trim();
+      const key = family.toLowerCase();
+      if (!fontMap.has(key)) {
+        fontMap.set(key, {
+          family,
+          usages: [],
+        });
+      }
+
+      const font = fontMap.get(key);
+      if (!font.usages.includes(usage)) {
+        font.usages.push(usage);
+      }
+    };
+
+    if (styleguide?.typography?.p) {
+      addFont(styleguide.typography.p.fontFamily, 'Body');
+    }
+
+    const headings = styleguide?.typography?.headings ?? {};
+    Object.entries(headings).forEach(([level, definition]) => {
+      addFont(definition?.fontFamily, level.toUpperCase());
+    });
+
+    const fonts = Array.from(fontMap.values());
+
+    return {
+      brandName: typeof brandName === 'string' ? brandName.trim() : '',
+      logos,
+      colors,
+      fonts,
+    };
   };
 
   const seededRatio = (seed, offset) => {
@@ -368,7 +545,10 @@ const faqData = [
       }
 
       try {
-        const response = await fetch(`/api/leads/generateHero?emailIndex=${emailIndex}`, {
+        const requestUrl = await logLeadRequest('generateHero request', `/api/leads/generateHero?emailIndex=${emailIndex}`, {
+          method: 'POST',
+        });
+        const response = await fetch(requestUrl, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -579,6 +759,23 @@ const faqData = [
       }
     }
 
+    if (resultsFonts) {
+      resultsFonts.innerHTML = '';
+      const label = document.createElement('p');
+      label.className = 'lead-modal__results-label lead-modal__results-label--products';
+      label.textContent = 'Fonts';
+      resultsFonts.appendChild(label);
+
+      const track = document.createElement('div');
+      track.className = 'lead-modal__font-track';
+
+      for (let i = 0; i < 3; i += 1) {
+        track.appendChild(makeSkeletonCell('lead-modal__font-card'));
+      }
+
+      resultsFonts.appendChild(track);
+    }
+
     resetProducts();
     resetGenerationCards();
 
@@ -597,6 +794,9 @@ const faqData = [
     }
     if (resultsColors) {
       resultsColors.innerHTML = '<p class="lead-modal__empty">No colors found.</p>';
+    }
+    if (resultsFonts) {
+      resultsFonts.innerHTML = '<p class="lead-modal__empty">No fonts found.</p>';
     }
     if (resultsProducts) {
       resultsProducts.innerHTML = '<p class="lead-modal__empty">No products found.</p>';
@@ -663,6 +863,7 @@ const faqData = [
 
     const logos = Array.isArray(brandData?.logos) ? brandData.logos : [];
     const colors = Array.isArray(brandData?.colors) ? brandData.colors : [];
+    const fonts = Array.isArray(brandData?.fonts) ? brandData.fonts : [];
     const products = Array.isArray(productData?.products) ? productData.products : [];
     const brandName = typeof brandData?.brandName === 'string'
       ? brandData.brandName.trim()
@@ -725,6 +926,55 @@ const faqData = [
         if (!insertedColors) {
           resultsColors.innerHTML = '<p class="lead-modal__empty">No colors found.</p>';
         }
+      }
+    }
+
+    if (resultsFonts) {
+      resultsFonts.innerHTML = '';
+
+      const label = document.createElement('p');
+      label.className = 'lead-modal__results-label lead-modal__results-label--products';
+      label.textContent = 'Fonts';
+      resultsFonts.appendChild(label);
+
+      if (!fonts.length) {
+        const empty = document.createElement('p');
+        empty.className = 'lead-modal__empty';
+        empty.textContent = 'No fonts found.';
+        resultsFonts.appendChild(empty);
+      } else {
+        const track = document.createElement('div');
+        track.className = 'lead-modal__font-track';
+
+        fonts.slice(0, 4).forEach((font) => {
+          if (!font || typeof font.family !== 'string' || !font.family.trim()) return;
+
+          const card = document.createElement('article');
+          card.className = 'lead-modal__font-card';
+
+          const preview = document.createElement('p');
+          preview.className = 'lead-modal__font-preview';
+          preview.textContent = 'Aa';
+          preview.style.fontFamily = font.family;
+
+          const name = document.createElement('p');
+          name.className = 'lead-modal__font-name';
+          name.textContent = font.family;
+          name.style.fontFamily = font.family;
+
+          const meta = document.createElement('p');
+          meta.className = 'lead-modal__font-meta';
+          meta.textContent = Array.isArray(font.usages) && font.usages.length
+            ? font.usages.join(' / ')
+            : 'Brand font';
+
+          card.appendChild(preview);
+          card.appendChild(name);
+          card.appendChild(meta);
+          queueReveal(track, card);
+        });
+
+        resultsFonts.appendChild(track);
       }
     }
 
@@ -829,8 +1079,6 @@ const faqData = [
         void resultsProgressBar.offsetWidth;
         resultsProgressBar.classList.add('is-running');
       }
-      requestGeneratedHeroes(website, heroGenerationRunId);
-
       clearResultsExpandTimer();
       resultsExpandTimer = window.setTimeout(() => {
         if (leadModalDialog?.dataset.step !== '3') return;
@@ -844,39 +1092,44 @@ const faqData = [
       }
 
       try {
-        const [assetsResponse, productsResponse] = await Promise.all([
-          fetch(`/api/leads/brandAssets?url=${encodeURIComponent(website)}`, { method: 'GET' }),
-          fetch(`/api/leads/brandProducts?url=${encodeURIComponent(website)}`, { method: 'GET' }),
-        ]);
+        const brandContextUrl = await logLeadRequest('brandContext request', `/api/leads/brandContext?url=${encodeURIComponent(website)}`);
+        const brandProductsUrl = await logLeadRequest('brandProducts request', `/api/leads/brandProducts?url=${encodeURIComponent(website)}`);
+        const assetsResponse = await fetch(brandContextUrl, { method: 'GET' });
+        const productsResponsePromise = fetch(brandProductsUrl, { method: 'GET' })
+          .catch((error) => {
+            console.warn('[BrandProducts] request failed:', error);
+            return null;
+          });
 
         if (!assetsResponse.ok) {
-          throw new Error('Could not fetch brand assets right now.');
+          throw new Error('Could not fetch brand context right now.');
         }
 
         const payload = await assetsResponse.json();
-        let productsPayload = null;
-
-        if (productsResponse.ok) {
-          productsPayload = await productsResponse.json();
-        }
-
-        console.log('[BrandAssets] extraction response:', payload);
-        const isSuccess = payload && typeof payload === 'object' && payload.ok === true;
-        if (isSuccess && payload.data) {
-          sessionStorage.setItem('leadModalBrandAssets', JSON.stringify(payload.data));
+        console.log('[BrandContext] extraction response:', payload);
+        const isSuccess = payload && typeof payload === 'object' && payload.success === true;
+        if (isSuccess) {
+          const brandData = extractBrandContext(payload);
+          requestGeneratedHeroes(website, heroGenerationRunId);
+          sessionStorage.setItem('leadModalBrandContext', JSON.stringify(payload));
+          const productsResponse = await productsResponsePromise;
+          let productsPayload = null;
+          if (productsResponse?.ok) {
+            productsPayload = await productsResponse.json();
+          }
           if (productsPayload && productsPayload.ok === true) {
             sessionStorage.setItem('leadModalBrandProducts', JSON.stringify(productsPayload.data));
           }
-          await renderExtractionResults(payload.data, productsPayload?.data);
+          await renderExtractionResults(brandData, productsPayload?.data);
         } else {
-          const errorMessage = payload && typeof payload.error === 'string'
-            ? payload.error
-            : 'We could not find assets for that URL.';
+          const errorMessage = payload && typeof payload.message === 'string'
+            ? payload.message
+            : 'We could not find brand context for that URL.';
           setResultError(errorMessage);
         }
       } catch (error) {
-        const message = error instanceof Error ? error.message : 'Could not fetch brand assets right now.';
-        console.error('[BrandAssets] extraction error:', error);
+        const message = error instanceof Error ? error.message : 'Could not fetch brand context right now.';
+        console.error('[BrandContext] extraction error:', error);
         setResultError(message);
       } finally {
         if (submitButton instanceof HTMLButtonElement) {

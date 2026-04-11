@@ -20,6 +20,7 @@
   <meta name="twitter:description"
     content="Turn one-time buyers into lifetime customers with ESSENCE's tri-catalyst ecommerce retention system." />
   <meta name="twitter:image" content="/assets/images/og-image.png" />
+  <meta name="leads-api-base-url" content="__LEADS_API_BASE_URL__" />
   <link rel="icon" type="image/x-icon" href="assets/images/favicon.ico" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -607,10 +608,14 @@
 
     <footer class="site-footer" data-scroll-section>
       <p>© <span id="year"></span> Essence Software Development. All rights reserved.</p>
-      <a href="mailto:jacques@essencesoftwaredevelopment.com">jacques@essencesoftwaredevelopment.com</a>
+      <div class="site-footer__links">
+        <a href="/privacy-policy">Privacy Policy</a>
+        <a href="mailto:jacques@essencesoftwaredevelopment.com">jacques@essencesoftwaredevelopment.com</a>
+      </div>
     </footer>
   </div>
 
+  <!--
   <button class="lead-modal-teaser" id="lead-modal-teaser" type="button">3 Free On-Brand Emails</button>
 
   <div class="lead-modal" id="lead-modal" aria-hidden="true">
@@ -665,6 +670,7 @@
                   <p class="lead-modal__results-label">Assets</p>
                   <div class="lead-modal__logo-grid" id="lead-modal-results-logos"></div>
                   <div class="lead-modal__color-grid" id="lead-modal-results-colors"></div>
+                  <div class="lead-modal__font-grid" id="lead-modal-results-fonts"></div>
                   <div class="lead-modal__products" id="lead-modal-results-products"></div>
                 </div>
 
@@ -685,8 +691,10 @@
       </div>
     </div>
   </div>
+  -->
 
   <script src="assets/js/core-ui.js"></script>
+  <script src="assets/js/runtime-config.generated.js"></script>
 
   <!-- Locomotive Scroll - Commented out due to scrolling issues
   <script src="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.js"></script>

@@ -2,3 +2,4 @@
 .vscode
 
 .env
+assets/js/runtime-config.generated.js

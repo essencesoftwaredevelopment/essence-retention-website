@@ -1,6 +1,9 @@
 {
   "scripts": {
+    "prepare:runtime-config": "node scripts/generate-runtime-config.mjs",
+    "predev": "npm run prepare:runtime-config",
     "dev": "node server.mjs",
+    "preserve:static": "npm run prepare:runtime-config",
     "serve:static": "npx serve ."
   },
   "dependencies": {

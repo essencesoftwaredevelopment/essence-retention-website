@@ -12,7 +12,7 @@ const __dirname = path.dirname(__filename);
 const rootDir = __dirname;
 const port = Number(process.env.PORT || 4173);
 const leadsApiBaseUrl = process.env.LEADS_API_BASE_URL || "https://essence-ai-ten.vercel.app";
-const { validateLeadUrl } = leadUrlValidation;
+const { validateLeadUrl, resolveLeadUrlQuery } = leadUrlValidation;
 
 const mimeTypes = {
   ".html": "text/html; charset=utf-8",
@@ -32,12 +32,41 @@ const mimeTypes = {
   ".mp4": "video/mp4",
 };
 
+function escapeHtmlAttribute(value) {
+  return String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/"/g, "&quot;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+}
+
 function sendJson(res, statusCode, payload) {
   res.writeHead(statusCode, {
     "Content-Type": "application/json; charset=utf-8",
     "Cache-Control": "no-store",
   });
   res.end(JSON.stringify(payload));
+}
+
+function logProxyRequest(label, requestUrl, upstreamUrl, extra = {}) {
+  console.log(`[LeadsProxy] ${label}`, {
+    requestUrl,
+    upstreamUrl,
+    ...extra,
+  });
+}
+
+function handleRuntimeConfig(req, res) {
+  if (req.method !== "GET") {
+    res.setHeader("Allow", "GET");
+    res.writeHead(405);
+    res.end();
+    return;
+  }
+
+  sendJson(res, 200, {
+    leadsApiBaseUrl,
+  });
 }
 
 async function readJsonBody(req) {
@@ -82,6 +111,7 @@ async function handleLeadBrandAssets(req, res, url) {
   try {
     const upstream = new URL("/api/leads/brandAssets", leadsApiBaseUrl);
     upstream.searchParams.set("url", normalizedUrl);
+    logProxyRequest("brandAssets", url.toString(), upstream.toString(), { normalizedUrl });
 
     const upstreamResponse = await fetch(upstream, { method: "GET" });
     const text = await upstreamResponse.text();
@@ -133,6 +163,7 @@ async function handleLeadBrandProducts(req, res, url) {
   try {
     const upstream = new URL("/api/leads/brandProducts", leadsApiBaseUrl);
     upstream.searchParams.set("url", normalizedUrl);
+    logProxyRequest("brandProducts", url.toString(), upstream.toString(), { normalizedUrl });
 
     const upstreamResponse = await fetch(upstream, { method: "GET" });
     const text = await upstreamResponse.text();
@@ -161,6 +192,68 @@ async function handleLeadBrandProducts(req, res, url) {
     const message = error instanceof Error ? error.message : "fetch failed";
     return sendJson(res, 502, {
       error: "Failed to fetch brand products",
+      message,
+    });
+  }
+}
+
+async function handleLeadBrandContext(req, res, url) {
+  if (req.method !== "GET") {
+    res.setHeader("Allow", "GET");
+    res.writeHead(405);
+    res.end();
+    return;
+  }
+
+  let requestTarget;
+  try {
+    requestTarget = await resolveLeadUrlQuery({
+      url: url.searchParams.get("url") || "",
+      domain: url.searchParams.get("domain") || "",
+    });
+  } catch (error) {
+    return sendJson(res, 400, {
+      error: "Invalid url",
+      message: error instanceof Error ? error.message : "Provide a valid website url or domain.",
+    });
+  }
+
+  try {
+    const upstream = new URL("/api/leads/brandContext", leadsApiBaseUrl);
+    const currentHost = typeof req.headers.host === "string" ? req.headers.host : "";
+
+    if (currentHost && upstream.host === currentHost) {
+      return sendJson(res, 502, {
+        error: "Failed to fetch brand context",
+        message: "LEADS_API_BASE_URL points to this deployment and would recurse.",
+      });
+    }
+
+    upstream.searchParams.set(requestTarget.sourceParam, requestTarget.upstreamParamValue);
+    logProxyRequest("brandContext", url.toString(), upstream.toString(), {
+      normalizedUrl: requestTarget.normalizedUrl,
+      normalizedDomain: requestTarget.normalizedDomain,
+    });
+
+    const upstreamResponse = await fetch(upstream, { method: "GET" });
+    const text = await upstreamResponse.text();
+    const payload = text ? JSON.parse(text) : null;
+
+    if (!upstreamResponse.ok) {
+      const message = payload && typeof payload.message === "string"
+        ? payload.message
+        : "fetch failed";
+      return sendJson(res, 502, {
+        error: "Failed to fetch brand context",
+        message,
+      });
+    }
+
+    return sendJson(res, 200, payload ?? {});
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "fetch failed";
+    return sendJson(res, 502, {
+      error: "Failed to fetch brand context",
       message,
     });
   }
@@ -202,6 +295,10 @@ async function handleLeadGenerateHero(req, res, url) {
     if (emailIndex) {
       upstream.searchParams.set("emailIndex", emailIndex);
     }
+    logProxyRequest("generateHero", url.toString(), upstream.toString(), {
+      normalizedUrl,
+      emailIndex: emailIndex || "",
+    });
 
     const upstreamResponse = await fetch(upstream, {
       method: "POST",
@@ -268,6 +365,20 @@ async function serveStatic(res, filePath) {
     const ext = path.extname(resolvedPath).toLowerCase();
     const contentType = mimeTypes[ext] || "application/octet-stream";
 
+    if (contentType.startsWith("text/html")) {
+      const html = data.toString("utf8").replaceAll(
+        "__LEADS_API_BASE_URL__",
+        escapeHtmlAttribute(leadsApiBaseUrl),
+      );
+
+      res.writeHead(200, {
+        "Content-Type": contentType,
+        "Cache-Control": "no-cache",
+      });
+      res.end(html);
+      return;
+    }
+
     res.writeHead(200, {
       "Content-Type": contentType,
       "Cache-Control": "no-cache",
@@ -283,6 +394,10 @@ const server = http.createServer(async (req, res) => {
   const host = req.headers.host || `localhost:${port}`;
   const url = new URL(req.url || "/", `http://${host}`);
 
+  if (url.pathname.startsWith("/api/leads/")) {
+    console.log(`[LeadsProxy] inbound ${req.method || "GET"} ${url.toString()}`);
+  }
+
   if (url.pathname === "/api/leads/brandAssets") {
     await handleLeadBrandAssets(req, res, url);
     return;
@@ -293,6 +408,11 @@ const server = http.createServer(async (req, res) => {
     return;
   }
 
+  if (url.pathname === "/api/leads/brandContext") {
+    await handleLeadBrandContext(req, res, url);
+    return;
+  }
+
   if (url.pathname === "/api/leads/generateHero") {
     await handleLeadGenerateHero(req, res, url);
     return;
@@ -300,6 +420,11 @@ const server = http.createServer(async (req, res) => {
 
   if (url.pathname === "/api/leads/brandFonts") {
     handleLeadBrandFonts(req, res);
+    return;
+  }
+
+  if (url.pathname === "/api/runtime-config") {
+    handleRuntimeConfig(req, res);
     return;
   }
 
