@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Campaign Calendar</title>
+<style>
+  :root {
+    --color-emerald-300: oklch(84.5% .143 164.978);
+    --color-emerald-900: oklch(37.8% .077 168.94);
+    --radius: .625rem;
+    --background: oklch(100% 0 0);
+    --foreground: oklch(14.5% 0 0);
+    --card: oklch(100% 0 0);
+    --card-foreground: oklch(14.5% 0 0);
+    --primary: oklch(20.5% 0 0);
+    --primary-foreground: oklch(98.5% 0 0);
+    --muted: oklch(97% 0 0);
+    --muted-foreground: oklch(55.6% 0 0);
+    --accent: oklch(97% 0 0);
+    --border: oklch(92.2% 0 0);
+    --ring: oklch(70.8% 0 0);
+    --font-geist-sans: "Geist", "Geist Fallback", ui-sans-serif, system-ui, sans-serif;
+  }
+
+  * {
+    box-sizing: border-box;
+    border: 0 solid;
+    margin: 0;
+    padding: 0;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    line-height: 1.5;
+    font-family: var(--font-geist-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body {
+    background: oklch(98% 0 0);
+    padding: 0.75rem;
+    min-height: 100vh;
+    color: var(--foreground);
+    font-size: 13px;
+  }
+
+  .calendar-section {
+    max-width: 100%;
+    margin: 0 auto;
+    overflow: hidden;
+    border-radius: calc(var(--radius) + 8px);
+    border: 1px solid var(--border);
+    background-color: var(--card);
+    box-shadow: 0 1px 3px 0 #0000001a, 0 1px 2px -1px #0000001a;
+  }
+
+  .calendar-header {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 1rem 1.5rem;
+  }
+
+  @media (min-width: 1024px) {
+    .calendar-header {
+      flex-direction: row;
+      align-items: flex-start;
+      justify-content: space-between;
+    }
+  }
+
+  .header-title-block {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .header-title-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .header-title-row svg {
+    height: 1rem;
+    width: 1rem;
+    color: var(--primary);
+  }
+
+  .header-title {
+    font-size: 1.125rem;
+    line-height: calc(1.75 / 1.125);
+    font-weight: 600;
+    letter-spacing: -0.025em;
+  }
+
+  .header-subtitle {
+    max-width: 34rem;
+    font-size: 0.75rem;
+    line-height: calc(1 / .75);
+    color: var(--muted-foreground);
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+  }
+
+  .header-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  @media (min-width: 640px) {
+    .header-controls {
+      flex-direction: row;
+      align-items: center;
+    }
+  }
+
+  .campaign-count {
+    font-size: 0.75rem;
+    line-height: calc(1 / .75);
+    color: var(--muted-foreground);
+  }
+
+  .nav-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .nav-btn {
+    display: inline-flex;
+    height: 2.5rem;
+    width: 2.5rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.75rem;
+    border: 1px solid var(--border);
+    background-color: var(--background);
+    color: var(--foreground);
+    cursor: pointer;
+    transition: background-color 0.15s cubic-bezier(.4, 0, .2, 1);
+  }
+
+  .nav-btn:hover {
+    background-color: var(--accent);
+  }
+
+  .nav-btn svg {
+    height: 1rem;
+    width: 1rem;
+  }
+
+  .date-range-btn {
+    display: inline-flex;
+    min-width: 10rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.75rem;
+    border: 1px solid var(--border);
+    background-color: var(--background);
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    line-height: calc(1.25 / .875);
+    font-weight: 500;
+    color: var(--foreground);
+    cursor: pointer;
+    transition: background-color 0.15s cubic-bezier(.4, 0, .2, 1);
+  }
+
+  .date-range-btn:hover {
+    background-color: var(--accent);
+  }
+
+  .ideation-btn {
+    display: inline-flex;
+    height: 2.5rem;
+    align-items: center;
+    gap: 0.5rem;
+    border-radius: 0.75rem;
+    background-color: var(--primary);
+    padding: 0 1rem;
+    font-size: 0.875rem;
+    line-height: calc(1.25 / .875);
+    font-weight: 500;
+    color: var(--primary-foreground);
+    cursor: pointer;
+    transition: background-color 0.15s cubic-bezier(.4, 0, .2, 1);
+  }
+
+  .ideation-btn:hover {
+    background-color: oklch(20.5% 0 0 / 0.9);
+  }
+
+  .ideation-btn svg {
+    height: 1rem;
+    width: 1rem;
+  }
+
+  .weekday-row {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    background-color: var(--background);
+  }
+
+  .weekday {
+    background-color: var(--background);
+    padding: 0.375rem 0.5rem;
+    text-align: center;
+    font-size: 10px;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--muted-foreground);
+  }
+
+  @media (min-width: 640px) {
+    .weekday {
+      padding: 0.375rem 0.75rem;
+    }
+  }
+
+  .calendar-body {
+    overflow: hidden;
+    background-color: var(--border);
+  }
+
+  .calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 1px;
+  }
+
+  .day-cell {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+    min-height: 90px;
+    background-color: var(--background);
+    padding: 0.25rem;
+    min-width: 0;
+    overflow: hidden;
+  }
+
+  .day-cell.has-top-border {
+    border-top: 1px solid var(--border);
+  }
+
+  .day-cell .add-btn {
+    position: absolute;
+    left: 0;
+    top: 0;
+    display: inline-flex;
+    height: 1.5rem;
+    width: 1.5rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.375rem;
+    border: 1px solid var(--border);
+    background-color: var(--card);
+    color: var(--muted-foreground);
+    opacity: 0;
+    box-shadow: 0 1px 2px 0 #0000000d;
+    cursor: pointer;
+    transition: opacity 0.15s, color 0.15s, border-color 0.15s;
+  }
+
+  .day-cell:hover .add-btn,
+  .day-cell:focus-within .add-btn {
+    opacity: 1;
+  }
+
+  .add-btn:hover {
+    border-color: var(--ring);
+    color: var(--foreground);
+  }
+
+  .add-btn svg {
+    height: 0.875rem;
+    width: 0.875rem;
+  }
+
+  .day-number-row {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .day-number {
+    display: inline-flex;
+    height: 1.25rem;
+    min-width: 1.25rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9999px;
+    padding: 0 0.25rem;
+    font-size: 11px;
+    line-height: 1;
+    font-weight: 400;
+  }
+
+  .day-number.muted {
+    color: var(--muted-foreground);
+  }
+
+  .day-number.foreground {
+    color: var(--foreground);
+  }
+
+  .day-number.today {
+    background-color: var(--primary);
+    color: var(--primary-foreground);
+  }
+
+  .day-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .campaign-card {
+    border-radius: 8px;
+    background: linear-gradient(to bottom right, var(--color-emerald-900), var(--color-emerald-300));
+    padding: 1px;
+    box-shadow: 0 1px 2px 0 #0000000d;
+    cursor: grab;
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  .campaign-card.revealed {
+    animation: cardFadeIn 0.5s cubic-bezier(0, 0, 0.2, 1) forwards;
+  }
+
+  .campaign-card:active {
+    cursor: grabbing;
+  }
+
+  @keyframes cardFadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .card-inner {
+    min-height: 60px;
+    overflow: hidden;
+    border-radius: 7px;
+    background-color: var(--background);
+    box-shadow: 0 1px 2px 0 #0000000d;
+  }
+
+  .card-content {
+    position: relative;
+    display: flex;
+    height: 100%;
+    min-height: 60px;
+    flex-direction: column;
+    padding: 0.25rem 0.375rem;
+  }
+
+  .card-title-block {
+    min-width: 0;
+  }
+
+  .card-title-row {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+  }
+
+  .card-icon {
+    height: 0.75rem;
+    width: 0.75rem;
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .card-icon svg {
+    height: 100%;
+    width: 100%;
+  }
+
+  .card-title {
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1.1rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .card-tag {
+    margin-top: 0.125rem;
+    display: inline-flex;
+    max-width: 100%;
+    align-items: center;
+    border-radius: 9999px;
+    background-color: var(--muted);
+    padding: 0.0625rem 0.375rem;
+    font-size: 9px;
+    font-weight: 600;
+    line-height: 0.875rem;
+    color: var(--muted-foreground);
+  }
+
+  .card-tag span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .card-footer {
+    margin-top: 0.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.5rem;
+  }
+
+  .card-footer-text {
+    display: inline-flex;
+    align-items: center;
+    font-size: 9px;
+    font-weight: 500;
+    color: var(--foreground);
+  }
+
+  .card-footer-text .icon {
+    height: 0.75rem;
+    width: 0.75rem;
+    margin-right: 0.125rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+</style>
+</head>
+<body>
+
+<section class="calendar-section">
+  <div class="calendar-header">
+    <div class="header-title-block">
+      <div class="header-title-row">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M8 2v4"></path>
+          <path d="M16 2v4"></path>
+          <rect width="18" height="18" x="3" y="4" rx="2"></rect>
+          <path d="M3 10h18"></path>
+        </svg>
+        <h2 class="header-title">Campaign Calendar</h2>
+      </div>
+      <p class="header-subtitle">Notion campaigns with newly generated calendar suggestions.</p>
+    </div>
+    <div class="header-controls">
+      <div class="campaign-count">5 campaigns in view</div>
+      <div class="nav-controls">
+        <button type="button" class="nav-btn" aria-label="Previous month">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="m15 18-6-6 6-6"></path>
+          </svg>
+        </button>
+        <button type="button" class="date-range-btn">Apr 20 - May 31, 2026</button>
+        <button type="button" class="nav-btn" aria-label="Next month">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="m9 18 6-6-6-6"></path>
+          </svg>
+        </button>
+        <button type="button" class="ideation-btn">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="m21.64 3.64-1.28-1.28a1.21 1.21 0 0 0-1.72 0L2.36 18.64a1.21 1.21 0 0 0 0 1.72l1.28 1.28a1.2 1.2 0 0 0 1.72 0L21.64 5.36a1.2 1.2 0 0 0 0-1.72"></path>
+            <path d="m14 7 3 3"></path>
+            <path d="M5 6v4"></path>
+            <path d="M19 14v4"></path>
+            <path d="M10 2v2"></path>
+            <path d="M7 8H3"></path>
+            <path d="M21 16h-4"></path>
+            <path d="M11 3H9"></path>
+          </svg>
+          Campaign Ideation
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <div class="weekday-row">
+      <div class="weekday">Mon</div>
+      <div class="weekday">Tue</div>
+      <div class="weekday">Wed</div>
+      <div class="weekday">Thu</div>
+      <div class="weekday">Fri</div>
+      <div class="weekday">Sat</div>
+      <div class="weekday">Sun</div>
+    </div>
+
+    <div class="calendar-body">
+      <div class="calendar-grid">
+
+        <!-- April 20 -->
+        <div class="day-cell has-top-border">
+          <button type="button" class="add-btn" aria-label="Add campaign idea for April 20, 2026">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg>
+          </button>
+          <div class="day-number-row"><span class="day-number muted">20</span></div>
+          <div class="day-content"></div>
+        </div>
+
+        <!-- April 21 -->
+        <div class="day-cell has-top-border">
+          <button type="button" class="add-btn" aria-label="Add campaign idea for April 21, 2026">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg>
+          </button>
+          <div class="day-number-row"><span class="day-number muted">21</span></div>
+          <div class="day-content">
+            <div class="campaign-card">
+              <div class="card-inner">
+                <div class="card-content">
+                  <div class="card-title-block">
+                    <div class="card-title-row">
+                      <span class="card-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="oklch(50.8% .118 165.612)"><path d="M12 2l1.5 6.5L20 10l-6.5 1.5L12 18l-1.5-6.5L4 10l6.5-1.5z"/></svg>
+                      </span>
+                      <div class="card-title">Indulgence Meets Nutrition: The Caramel Bar Experience</div>
+                    </div>
+                    <span class="card-tag"><span>Benefit Focus</span></span>
+                  </div>
+                  <div class="card-footer">
+                    <span class="card-footer-text">
+                      <span class="icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="oklch(50.8% .118 165.612)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                      </span>
+                      <span>Brief ready</span>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- April 22 -->
+        <div class="day-cell has-top-border">
+          <button type="button" class="add-btn" aria-label="Add campaign idea for April 22, 2026">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg>
+          </button>
+          <div class="day-number-row"><span class="day-number muted">22</span></div>
+          <div class="day-content"></div>
+        </div>
+
+        <!-- April 23 -->
+        <div class="day-cell has-top-border">
+          <button type="button" class="add-btn" aria-label="Add campaign idea for April 23, 2026">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg>
+          </button>
+          <div class="day-number-row"><span class="day-number muted">23</span></div>
+          <div class="day-content">
+            <div class="campaign-card">
+              <div class="card-inner">
+                <div class="card-content">
+                  <div class="card-title-block">
+                    <div class="card-title-row">
+                      <span class="card-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="oklch(50.8% .118 165.612)"><path d="M12 2l1.5 6.5L20 10l-6.5 1.5L12 18l-1.5-6.5L4 10l6.5-1.5z"/></svg></span>
+                      <div class="card-title">Your Morning Fuel: Start the Day the Right Way</div>
+                    </div>
+                    <span class="card-tag"><span>Lifestyle</span></span>
+                  </div>
+                  <div class="card-footer">
+                    <span class="card-footer-text">
+                      <span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="oklch(50.8% .118 165.612)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+                      <span>Brief ready</span>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- April 24 -->
+        <div class="day-cell has-top-border">
+          <button type="button" class="add-btn" aria-label="Add campaign idea for April 24, 2026">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg>
+          </button>
+          <div class="day-number-row"><span class="day-number muted">24</span></div>
+          <div class="day-content"></div>
+        </div>
+
+        <!-- April 25 -->
+        <div class="day-cell has-top-border">
+          <button type="button" class="add-btn" aria-label="Add campaign idea for April 25, 2026">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg>
+          </button>
+          <div class="day-number-row"><span class="day-number muted">25</span></div>
+          <div class="day-content">
+            <div class="campaign-card">
+              <div class="card-inner">
+                <div class="card-content">
+                  <div class="card-title-block">
+                    <div class="card-title-row">
+                      <span class="card-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="oklch(50.8% .118 165.612)"><path d="M12 2l1.5 6.5L20 10l-6.5 1.5L12 18l-1.5-6.5L4 10l6.5-1.5z"/></svg>
+                      </span>
+                      <div class="card-title">Clean Protein for Clean Energy: Why Ingredients Matter</div>
+                    </div>
+                    <span class="card-tag"><span>Industry Education</span></span>
+                  </div>
+                  <div class="card-footer">
+                    <span class="card-footer-text">
+                      <span class="icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="oklch(50.8% .118 165.612)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                      </span>
+                      <span>Brief ready</span>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- April 26 -->
+        <div class="day-cell has-top-border">
+          <button type="button" class="add-btn" aria-label="Add campaign idea for April 26, 2026">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg>
+          </button>
+          <div class="day-number-row"><span class="day-number muted">26</span></div>
+          <div class="day-content"></div>
+        </div>
+
+        <!-- April 27 -->
+        <div class="day-cell">
+          <button type="button" class="add-btn" aria-label="Add campaign idea for April 27, 2026">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg>
+          </button>
+          <div class="day-number-row"><span class="day-number muted">27</span></div>
+          <div class="day-content"></div>
+        </div>
+
+        <!-- April 28 -->
+        <div class="day-cell">
+          <button type="button" class="add-btn" aria-label="Add campaign idea for April 28, 2026">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg>
+          </button>
+          <div class="day-number-row"><span class="day-number muted">28</span></div>
+          <div class="day-content">
+            <div class="campaign-card">
+              <div class="card-inner">
+                <div class="card-content">
+                  <div class="card-title-block">
+                    <div class="card-title-row">
+                      <span class="card-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="oklch(50.8% .118 165.612)"><path d="M12 2l1.5 6.5L20 10l-6.5 1.5L12 18l-1.5-6.5L4 10l6.5-1.5z"/></svg></span>
+                      <div class="card-title">The Protein Gap: Are You Getting Enough?</div>
+                    </div>
+                    <span class="card-tag"><span>Industry Education</span></span>
+                  </div>
+                  <div class="card-footer">
+                    <span class="card-footer-text">
+                      <span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="oklch(50.8% .118 165.612)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+                      <span>Brief ready</span>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- April 29 -->
+        <div class="day-cell">
+          <button type="button" class="add-btn" aria-label="Add campaign idea for April 29, 2026">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg>
+          </button>
+          <div class="day-number-row"><span class="day-number muted">29</span></div>
+          <div class="day-content"></div>
+        </div>
+
+        <!-- April 30 -->
+        <div class="day-cell">
+          <button type="button" class="add-btn" aria-label="Add campaign idea for April 30, 2026">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg>
+          </button>
+          <div class="day-number-row"><span class="day-number muted">30</span></div>
+          <div class="day-content">
+            <div class="campaign-card">
+              <div class="card-inner">
+                <div class="card-content">
+                  <div class="card-title-block">
+                    <div class="card-title-row">
+                      <span class="card-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="oklch(50.8% .118 165.612)"><path d="M12 2l1.5 6.5L20 10l-6.5 1.5L12 18l-1.5-6.5L4 10l6.5-1.5z"/></svg>
+                      </span>
+                      <div class="card-title">Beyond Candy: Protein Bars That Truly Satisfy</div>
+                    </div>
+                    <span class="card-tag"><span>Comparison Us Vs Them</span></span>
+                  </div>
+                  <div class="card-footer">
+                    <span class="card-footer-text">
+                      <span class="icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="oklch(50.8% .118 165.612)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                      </span>
+                      <span>Brief ready</span>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- May 1 -->
+        <div class="day-cell">
+          <button type="button" class="add-btn" aria-label="Add campaign idea for May 1, 2026">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg>
+          </button>
+          <div class="day-number-row"><span class="day-number foreground">May 1</span></div>
+          <div class="day-content"></div>
+        </div>
+
+        <!-- May 2 (today) -->
+        <div class="day-cell">
+          <button type="button" class="add-btn" aria-label="Add campaign idea for May 2, 2026">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg>
+          </button>
+          <div class="day-number-row"><span class="day-number today">2</span></div>
+          <div class="day-content">
+            <div class="campaign-card">
+              <div class="card-inner">
+                <div class="card-content">
+                  <div class="card-title-block">
+                    <div class="card-title-row">
+                      <span class="card-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="oklch(50.8% .118 165.612)"><path d="M12 2l1.5 6.5L20 10l-6.5 1.5L12 18l-1.5-6.5L4 10l6.5-1.5z"/></svg>
+                      </span>
+                      <div class="card-title">Not Just Numbers: The Real Power of Protein</div>
+                    </div>
+                    <span class="card-tag"><span>Industry Education</span></span>
+                  </div>
+                  <div class="card-footer">
+                    <span class="card-footer-text">
+                      <span class="icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="oklch(50.8% .118 165.612)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                      </span>
+                      <span>Brief ready</span>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- May 3 -->
+        <div class="day-cell">
+          <button type="button" class="add-btn" aria-label="Add campaign idea for May 3, 2026">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg>
+          </button>
+          <div class="day-number-row"><span class="day-number foreground">3</span></div>
+          <div class="day-content"></div>
+        </div>
+
+        <!-- May 4 -->
+        <div class="day-cell">
+          <button type="button" class="add-btn" aria-label="Add campaign idea for May 4, 2026">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg>
+          </button>
+          <div class="day-number-row"><span class="day-number foreground">4</span></div>
+          <div class="day-content"></div>
+        </div>
+
+        <!-- May 5 -->
+        <div class="day-cell">
+          <button type="button" class="add-btn" aria-label="Add campaign idea for May 5, 2026">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg>
+          </button>
+          <div class="day-number-row"><span class="day-number foreground">5</span></div>
+          <div class="day-content">
+            <div class="campaign-card">
+              <div class="card-inner">
+                <div class="card-content">
+                  <div class="card-title-block">
+                    <div class="card-title-row">
+                      <span class="card-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="oklch(50.8% .118 165.612)"><path d="M12 2l1.5 6.5L20 10l-6.5 1.5L12 18l-1.5-6.5L4 10l6.5-1.5z"/></svg></span>
+                      <div class="card-title">Summer-Ready: Snacks That Don't Compromise</div>
+                    </div>
+                    <span class="card-tag"><span>Seasonal</span></span>
+                  </div>
+                  <div class="card-footer">
+                    <span class="card-footer-text">
+                      <span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="oklch(50.8% .118 165.612)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+                      <span>Brief ready</span>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- May 6 -->
+        <div class="day-cell">
+          <button type="button" class="add-btn" aria-label="Add campaign idea for May 6, 2026">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg>
+          </button>
+          <div class="day-number-row"><span class="day-number foreground">6</span></div>
+          <div class="day-content"></div>
+        </div>
+
+        <!-- May 7 -->
+        <div class="day-cell">
+          <button type="button" class="add-btn" aria-label="Add campaign idea for May 7, 2026">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg>
+          </button>
+          <div class="day-number-row"><span class="day-number foreground">7</span></div>
+          <div class="day-content">
+            <div class="campaign-card">
+              <div class="card-inner">
+                <div class="card-content">
+                  <div class="card-title-block">
+                    <div class="card-title-row">
+                      <span class="card-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="oklch(50.8% .118 165.612)"><path d="M12 2l1.5 6.5L20 10l-6.5 1.5L12 18l-1.5-6.5L4 10l6.5-1.5z"/></svg>
+                      </span>
+                      <div class="card-title">From Ingredients to Action: Fueling Your Best Day</div>
+                    </div>
+                    <span class="card-tag"><span>Feature Deep Dive</span></span>
+                  </div>
+                  <div class="card-footer">
+                    <span class="card-footer-text">
+                      <span class="icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="oklch(50.8% .118 165.612)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                      </span>
+                      <span>Brief ready</span>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- May 8-31: empty days -->
+        <div class="day-cell"><button type="button" class="add-btn" aria-label="Add"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg></button><div class="day-number-row"><span class="day-number foreground">8</span></div><div class="day-content"><div class="campaign-card"><div class="card-inner"><div class="card-content"><div class="card-title-block"><div class="card-title-row"><span class="card-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="oklch(50.8% .118 165.612)"><path d="M12 2l1.5 6.5L20 10l-6.5 1.5L12 18l-1.5-6.5L4 10l6.5-1.5z"/></svg></span><div class="card-title">Fuel Without the Guilt: Redefining the Snack Break</div></div><span class="card-tag"><span>Benefit Focus</span></span></div><div class="card-footer"><span class="card-footer-text"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="oklch(50.8% .118 165.612)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span><span>Brief ready</span></span></div></div></div></div></div></div>
+        <div class="day-cell"><button type="button" class="add-btn" aria-label="Add"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg></button><div class="day-number-row"><span class="day-number foreground">9</span></div><div class="day-content"></div></div>
+        <div class="day-cell"><button type="button" class="add-btn" aria-label="Add"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg></button><div class="day-number-row"><span class="day-number foreground">10</span></div><div class="day-content"></div></div>
+        <div class="day-cell"><button type="button" class="add-btn" aria-label="Add"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg></button><div class="day-number-row"><span class="day-number foreground">11</span></div><div class="day-content"></div></div>
+        <div class="day-cell"><button type="button" class="add-btn" aria-label="Add"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg></button><div class="day-number-row"><span class="day-number foreground">12</span></div><div class="day-content"><div class="campaign-card"><div class="card-inner"><div class="card-content"><div class="card-title-block"><div class="card-title-row"><span class="card-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="oklch(50.8% .118 165.612)"><path d="M12 2l1.5 6.5L20 10l-6.5 1.5L12 18l-1.5-6.5L4 10l6.5-1.5z"/></svg></span><div class="card-title">Real Ingredients, Real Results</div></div><span class="card-tag"><span>Feature Deep Dive</span></span></div><div class="card-footer"><span class="card-footer-text"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="oklch(50.8% .118 165.612)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span><span>Brief ready</span></span></div></div></div></div></div></div>
+        <div class="day-cell"><button type="button" class="add-btn" aria-label="Add"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg></button><div class="day-number-row"><span class="day-number foreground">13</span></div><div class="day-content"></div></div>
+        <div class="day-cell"><button type="button" class="add-btn" aria-label="Add"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg></button><div class="day-number-row"><span class="day-number foreground">14</span></div><div class="day-content"><div class="campaign-card"><div class="card-inner"><div class="card-content"><div class="card-title-block"><div class="card-title-row"><span class="card-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="oklch(50.8% .118 165.612)"><path d="M12 2l1.5 6.5L20 10l-6.5 1.5L12 18l-1.5-6.5L4 10l6.5-1.5z"/></svg></span><div class="card-title">Why Athletes Are Switching to Clean Protein</div></div><span class="card-tag"><span>Social Proof</span></span></div><div class="card-footer"><span class="card-footer-text"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="oklch(50.8% .118 165.612)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span><span>Brief ready</span></span></div></div></div></div></div></div>
+        <div class="day-cell"><button type="button" class="add-btn" aria-label="Add"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg></button><div class="day-number-row"><span class="day-number foreground">15</span></div><div class="day-content"></div></div>
+        <div class="day-cell"><button type="button" class="add-btn" aria-label="Add"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg></button><div class="day-number-row"><span class="day-number foreground">16</span></div><div class="day-content"><div class="campaign-card"><div class="card-inner"><div class="card-content"><div class="card-title-block"><div class="card-title-row"><span class="card-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="oklch(50.8% .118 165.612)"><path d="M12 2l1.5 6.5L20 10l-6.5 1.5L12 18l-1.5-6.5L4 10l6.5-1.5z"/></svg></span><div class="card-title">Beat the Afternoon Slump Naturally</div></div><span class="card-tag"><span>Lifestyle</span></span></div><div class="card-footer"><span class="card-footer-text"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="oklch(50.8% .118 165.612)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span><span>Brief ready</span></span></div></div></div></div></div></div>
+        <div class="day-cell"><button type="button" class="add-btn" aria-label="Add"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg></button><div class="day-number-row"><span class="day-number foreground">17</span></div><div class="day-content"></div></div>
+        <div class="day-cell"><button type="button" class="add-btn" aria-label="Add"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg></button><div class="day-number-row"><span class="day-number foreground">18</span></div><div class="day-content"></div></div>
+        <div class="day-cell"><button type="button" class="add-btn" aria-label="Add"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg></button><div class="day-number-row"><span class="day-number foreground">19</span></div><div class="day-content"><div class="campaign-card"><div class="card-inner"><div class="card-content"><div class="card-title-block"><div class="card-title-row"><span class="card-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="oklch(50.8% .118 165.612)"><path d="M12 2l1.5 6.5L20 10l-6.5 1.5L12 18l-1.5-6.5L4 10l6.5-1.5z"/></svg></span><div class="card-title">Our Best-Selling Bar, Now in Three New Flavours</div></div><span class="card-tag"><span>Product Launch</span></span></div><div class="card-footer"><span class="card-footer-text"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="oklch(50.8% .118 165.612)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span><span>Brief ready</span></span></div></div></div></div></div></div>
+        <div class="day-cell"><button type="button" class="add-btn" aria-label="Add"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg></button><div class="day-number-row"><span class="day-number foreground">20</span></div><div class="day-content"></div></div>
+        <div class="day-cell"><button type="button" class="add-btn" aria-label="Add"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg></button><div class="day-number-row"><span class="day-number foreground">21</span></div><div class="day-content"><div class="campaign-card"><div class="card-inner"><div class="card-content"><div class="card-title-block"><div class="card-title-row"><span class="card-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="oklch(50.8% .118 165.612)"><path d="M12 2l1.5 6.5L20 10l-6.5 1.5L12 18l-1.5-6.5L4 10l6.5-1.5z"/></svg></span><div class="card-title">The Science Behind Satiety</div></div><span class="card-tag"><span>Industry Education</span></span></div><div class="card-footer"><span class="card-footer-text"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="oklch(50.8% .118 165.612)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span><span>Brief ready</span></span></div></div></div></div></div></div>
+        <div class="day-cell"><button type="button" class="add-btn" aria-label="Add"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg></button><div class="day-number-row"><span class="day-number foreground">22</span></div><div class="day-content"></div></div>
+        <div class="day-cell"><button type="button" class="add-btn" aria-label="Add"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg></button><div class="day-number-row"><span class="day-number foreground">23</span></div><div class="day-content"><div class="campaign-card"><div class="card-inner"><div class="card-content"><div class="card-title-block"><div class="card-title-row"><span class="card-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="oklch(50.8% .118 165.612)"><path d="M12 2l1.5 6.5L20 10l-6.5 1.5L12 18l-1.5-6.5L4 10l6.5-1.5z"/></svg></span><div class="card-title">Long Weekend Fuel: Protein for Every Adventure</div></div><span class="card-tag"><span>Seasonal</span></span></div><div class="card-footer"><span class="card-footer-text"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="oklch(50.8% .118 165.612)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span><span>Brief ready</span></span></div></div></div></div></div></div>
+        <div class="day-cell"><button type="button" class="add-btn" aria-label="Add"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg></button><div class="day-number-row"><span class="day-number foreground">24</span></div><div class="day-content"></div></div>
+        <div class="day-cell"><button type="button" class="add-btn" aria-label="Add"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg></button><div class="day-number-row"><span class="day-number foreground">25</span></div><div class="day-content"></div></div>
+        <div class="day-cell"><button type="button" class="add-btn" aria-label="Add"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg></button><div class="day-number-row"><span class="day-number foreground">26</span></div><div class="day-content"><div class="campaign-card"><div class="card-inner"><div class="card-content"><div class="card-title-block"><div class="card-title-row"><span class="card-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="oklch(50.8% .118 165.612)"><path d="M12 2l1.5 6.5L20 10l-6.5 1.5L12 18l-1.5-6.5L4 10l6.5-1.5z"/></svg></span><div class="card-title">Macros Made Easy: A Simple Guide</div></div><span class="card-tag"><span>Industry Education</span></span></div><div class="card-footer"><span class="card-footer-text"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="oklch(50.8% .118 165.612)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span><span>Brief ready</span></span></div></div></div></div></div></div>
+        <div class="day-cell"><button type="button" class="add-btn" aria-label="Add"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg></button><div class="day-number-row"><span class="day-number foreground">27</span></div><div class="day-content"></div></div>
+        <div class="day-cell"><button type="button" class="add-btn" aria-label="Add"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg></button><div class="day-number-row"><span class="day-number foreground">28</span></div><div class="day-content"><div class="campaign-card"><div class="card-inner"><div class="card-content"><div class="card-title-block"><div class="card-title-row"><span class="card-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="oklch(50.8% .118 165.612)"><path d="M12 2l1.5 6.5L20 10l-6.5 1.5L12 18l-1.5-6.5L4 10l6.5-1.5z"/></svg></span><div class="card-title">Customer Stories: How Protein Changed Their Routine</div></div><span class="card-tag"><span>Social Proof</span></span></div><div class="card-footer"><span class="card-footer-text"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="oklch(50.8% .118 165.612)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span><span>Brief ready</span></span></div></div></div></div></div></div>
+        <div class="day-cell"><button type="button" class="add-btn" aria-label="Add"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg></button><div class="day-number-row"><span class="day-number foreground">29</span></div><div class="day-content"></div></div>
+        <div class="day-cell"><button type="button" class="add-btn" aria-label="Add"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg></button><div class="day-number-row"><span class="day-number foreground">30</span></div><div class="day-content"><div class="campaign-card"><div class="card-inner"><div class="card-content"><div class="card-title-block"><div class="card-title-row"><span class="card-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="oklch(50.8% .118 165.612)"><path d="M12 2l1.5 6.5L20 10l-6.5 1.5L12 18l-1.5-6.5L4 10l6.5-1.5z"/></svg></span><div class="card-title">June Preview: What's Coming Next Month</div></div><span class="card-tag"><span>Brand Moment</span></span></div><div class="card-footer"><span class="card-footer-text"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="oklch(50.8% .118 165.612)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span><span>Brief ready</span></span></div></div></div></div></div></div>
+        <div class="day-cell"><button type="button" class="add-btn" aria-label="Add"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg></button><div class="day-number-row"><span class="day-number foreground">31</span></div><div class="day-content"></div></div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const section = document.querySelector('.calendar-section');
+  const cards = Array.from(document.querySelectorAll('.campaign-card'));
+
+  const observer = new IntersectionObserver((entries) => {
+    if (entries[0].isIntersecting) {
+      cards.forEach((card, i) => {
+        setTimeout(() => card.classList.add('revealed'), i * 180);
+      });
+      observer.disconnect();
+    }
+  }, { threshold: 0.6 });
+
+  observer.observe(section);
+</script>
+
+</body>
+</html>

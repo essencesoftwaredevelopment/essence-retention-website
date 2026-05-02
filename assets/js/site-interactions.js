@@ -1236,3 +1236,24 @@ const faqData = [
     });
   });
 })();
+
+// ── Sequential shimmer on stat cards ─────────────────────────────────────────
+(function () {
+  const SHIMMER_DURATION = 900;  // ms — matches CSS animation duration
+  const STAGGER = 300;           // ms between card 1 and card 2
+  const INITIAL_DELAY = 1000;   // ms after page load
+
+  function shimmerCard(card) {
+    card.classList.remove('shimmer-active');
+    // Force reflow so removing + re-adding the class restarts the animation
+    void card.offsetWidth;
+    card.classList.add('shimmer-active');
+  }
+
+  setTimeout(function () {
+    const cards = document.querySelectorAll('.stat-card');
+    if (!cards.length) return;
+    shimmerCard(cards[0]);
+    if (cards[1]) setTimeout(function () { shimmerCard(cards[1]); }, STAGGER);
+  }, INITIAL_DELAY);
+})();

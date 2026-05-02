@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Brand URL Animation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #ffffff;
+    --ink: #0a0a0a;
+    --line: #ebebeb;
+    --muted: #6b6b6b;
+    --shadow: 0 4px 12px -2px rgba(169, 169, 169, 0.26);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    height: 100%;
+    background: var(--bg);
+    font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+  }
+
+  .stage {
+    position: relative;
+    width: 100%;
+    max-width: 720px;
+    height: 460px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.6s ease;
+  }
+
+  .stage.fading-out { opacity: 0; }
+
+  /* Brand URL input on the left */
+  .url-card {
+    position: absolute;
+    left: 40px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 258px;
+    z-index: 3;
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .url-card.hidden {
+    opacity: 0;
+    transform: translateY(-50%) scale(0.96);
+    pointer-events: none;
+  }
+
+  .url-label {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 6px;
+    letter-spacing: 0.01em;
+  }
+
+  .url-input-wrap {
+    position: relative;
+    width: 100%;
+    height: 38px;
+    background: rgba(255, 255, 255, 0.6);
+    border: 1px solid var(--line);
+    border-radius: 9px;
+    box-shadow: var(--shadow);
+    display: flex;
+    align-items: center;
+    padding: 0 6px 0 12px;
+    backdrop-filter: blur(8px);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .url-input-wrap:focus-within {
+    border-color: #c9c9c9;
+    box-shadow: 0 6px 18px -2px rgba(0, 0, 0, 0.08);
+  }
+
+  .url-input {
+    flex: 1;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-family: inherit;
+    font-size: 12px;
+    color: var(--ink);
+    height: 100%;
+  }
+
+  .url-input::placeholder { color: #b8b8b8; }
+
+  .submit-btn {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: var(--ink);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    transition: transform 0.2s ease, background 0.2s ease;
+    flex-shrink: 0;
+  }
+
+  .submit-btn:hover { transform: scale(1.06); }
+  .submit-btn:active { transform: scale(0.96); }
+  .submit-btn.loading { background: #444; }
+  .submit-btn svg { transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); }
+  .submit-btn.sent svg { transform: translateX(20px); opacity: 0; }
+
+  /* SVG canvas for the connector lines */
+  .lines-svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .lines-svg path {
+    fill: none;
+    stroke: var(--ink);
+    stroke-width: 1;
+    stroke-linecap: round;
+    stroke-dasharray: var(--len);
+    stroke-dashoffset: var(--len);
+  }
+
+  .stage.animating .lines-svg path {
+    animation: draw 1.8s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+  }
+
+  .stage.animating .lines-svg path:nth-child(1) { animation-delay: 0.1s; }
+  .stage.animating .lines-svg path:nth-child(2) { animation-delay: 0.3s; }
+  .stage.animating .lines-svg path:nth-child(3) { animation-delay: 0.5s; }
+  .stage.animating .lines-svg path:nth-child(4) { animation-delay: 0.7s; }
+  .stage.animating .lines-svg path:nth-child(5) { animation-delay: 0.9s; }
+
+  @keyframes draw {
+    to { stroke-dashoffset: 0; }
+  }
+
+  /* Feature labels on the right */
+  .features {
+    position: absolute;
+    right: 40px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 38px;
+    z-index: 2;
+  }
+
+  .feature {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    opacity: 0;
+    transform: translateX(-8px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .stage.animating .feature {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  /* Each label fades in just as its line finishes drawing
+     (line delay + line duration ~= label delay) */
+  .stage.animating .feature:nth-child(1) { transition-delay: 1.7s; }
+  .stage.animating .feature:nth-child(2) { transition-delay: 1.9s; }
+  .stage.animating .feature:nth-child(3) { transition-delay: 2.1s; }
+  .stage.animating .feature:nth-child(4) { transition-delay: 2.3s; }
+  .stage.animating .feature:nth-child(5) { transition-delay: 2.5s; }
+
+  .feature-icon {
+    width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--ink);
+    flex-shrink: 0;
+  }
+
+  .feature-icon svg { width: 100%; height: 100%; }
+
+  .material-symbols-outlined {
+    font-size: 20px;
+    font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 20;
+    line-height: 1;
+    user-select: none;
+  }
+
+  .feature-text {
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--ink);
+    white-space: nowrap;
+  }
+
+  /* Loading dot inside button when submitting */
+  .submit-btn .spinner {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    border: 1.5px solid rgba(255, 255, 255, 0.25);
+    border-top-color: white;
+    border-radius: 50%;
+    opacity: 0;
+    animation: spin 0.8s linear infinite;
+  }
+
+  .submit-btn.loading .spinner { opacity: 1; }
+  .submit-btn.loading .arrow-icon { opacity: 0; }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  /* Responsive */
+  @media (max-width: 640px) {
+    .stage { height: 520px; }
+    .url-card { left: 16px; width: 200px; }
+    .features { right: 16px; gap: 30px; }
+    .feature-text { font-size: 11px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="stage" id="stage">
+  <!-- URL input -->
+  <div class="url-card">
+    <div class="url-label">Brand Url</div>
+    <div class="url-input-wrap">
+      <input type="text" class="url-input" id="urlInput" value="" placeholder="your-brand.com" />
+      <button class="submit-btn" id="submitBtn" aria-label="Submit URL">
+        <svg class="arrow-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="12" y1="19" x2="12" y2="5"></line>
+          <polyline points="5 12 12 5 19 12"></polyline>
+        </svg>
+        <div class="spinner"></div>
+      </button>
+    </div>
+  </div>
+
+  <!-- Connector lines (drawn from URL button to each feature) -->
+  <svg class="lines-svg" id="linesSvg" preserveAspectRatio="none">
+    <!-- Paths set via JS so they always connect to the right anchor points -->
+  </svg>
+
+  <!-- Feature labels -->
+  <div class="features" id="features">
+    <div class="feature">
+      <div class="feature-icon">
+        <span class="material-symbols-outlined">local_florist</span>
+      </div>
+      <div class="feature-text">Visual Profile</div>
+    </div>
+    <div class="feature">
+      <div class="feature-icon">
+        <span class="material-symbols-outlined">ar_on_you</span>
+      </div>
+      <div class="feature-text">Copy and Voice</div>
+    </div>
+    <div class="feature">
+      <div class="feature-icon">
+        <span class="material-symbols-outlined">folder_eye</span>
+      </div>
+      <div class="feature-text">Grounded Research</div>
+    </div>
+    <div class="feature">
+      <div class="feature-icon">
+        <span class="material-symbols-outlined">auto_stories</span>
+      </div>
+      <div class="feature-text">Brand Story &amp; Values</div>
+    </div>
+    <div class="feature">
+      <div class="feature-icon">
+        <span class="material-symbols-outlined">monitor_heart</span>
+      </div>
+      <div class="feature-text">Realtime Feedback Syncing</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  const stage = document.getElementById('stage');
+  const urlCard = document.querySelector('.url-card');
+  const submitBtn = document.getElementById('submitBtn');
+  const urlInput = document.getElementById('urlInput');
+  const linesSvg = document.getElementById('linesSvg');
+  const featureEls = document.querySelectorAll('.feature .feature-icon');
+
+  // Cached origin point (set before the URL card hides so lines keep their anchor)
+  let cachedOrigin = null;
+
+  // Measure real DOM positions and draw paths from the submit button to each icon.
+  // This way the lines always match exactly, no matter the viewport size.
+  function buildPaths() {
+    const stageRect = stage.getBoundingClientRect();
+    const w = stageRect.width;
+    const h = stageRect.height;
+
+    // Set the SVG to use the same coordinate system as the stage
+    linesSvg.setAttribute('viewBox', `0 0 ${w} ${h}`);
+
+    let ox, oy;
+    if (cachedOrigin && urlCard.classList.contains('hidden')) {
+      // Card is hidden — keep using the position we captured earlier
+      ox = cachedOrigin.x;
+      oy = cachedOrigin.y;
+    } else {
+      const btnRect = submitBtn.getBoundingClientRect();
+      ox = btnRect.right - stageRect.left;
+      oy = btnRect.top + btnRect.height / 2 - stageRect.top;
+      cachedOrigin = { x: ox, y: oy };
+    }
+
+    // Clear existing paths
+    linesSvg.innerHTML = '';
+
+    featureEls.forEach((icon) => {
+      const r = icon.getBoundingClientRect();
+      // Target: left edge of icon, vertically centered, with a tiny gap
+      const tx = r.left - stageRect.left - 6;
+      const ty = r.top + r.height / 2 - stageRect.top;
+
+      const dx = tx - ox;
+      // S-curve control points: horizontal tangent at start, horizontal at end
+      const c1x = ox + dx * 0.55;
+      const c1y = oy;
+      const c2x = ox + dx * 0.45;
+      const c2y = ty;
+
+      const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      path.setAttribute('d', `M ${ox} ${oy} C ${c1x} ${c1y}, ${c2x} ${c2y}, ${tx} ${ty}`);
+      linesSvg.appendChild(path);
+
+      const len = path.getTotalLength();
+      path.style.setProperty('--len', len);
+      // Reset dash state in case we're rebuilding mid-animation
+      path.style.strokeDasharray = len;
+      path.style.strokeDashoffset = stage.classList.contains('animating') ? 0 : len;
+    });
+  }
+
+  // Build after fonts/layout settle so measurements are accurate
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(buildPaths);
+  } else {
+    buildPaths();
+  }
+  // Also rebuild on next frame to catch any late layout shifts
+  requestAnimationFrame(buildPaths);
+
+  function play() {
+    if (stage.classList.contains('animating')) return;
+
+    submitBtn.classList.add('loading');
+
+    // Step 1: Loading spinner runs briefly
+    setTimeout(() => {
+      // Capture the button's position
+      const stageRect = stage.getBoundingClientRect();
+      const btnRect = submitBtn.getBoundingClientRect();
+      cachedOrigin = {
+        x: btnRect.right - stageRect.left,
+        y: btnRect.top + btnRect.height / 2 - stageRect.top
+      };
+
+      // Step 2: Lines start drawing, labels fade in
+      submitBtn.classList.remove('loading');
+      stage.classList.add('animating');
+
+      // Step 3: Last label finishes at ~3.2s. Wait 2s more, then fade out and loop.
+      setTimeout(() => {
+        stage.classList.add('fading-out');
+
+        // After fade-out transition (0.6s), reset and retype
+        setTimeout(() => {
+          stage.classList.remove('animating', 'fading-out');
+          submitBtn.classList.remove('sent', 'loading');
+          cachedOrigin = null;
+          urlInput.value = '';
+          requestAnimationFrame(() => requestAnimationFrame(() => {
+            buildPaths();
+            typeText('your-brand.com', () => setTimeout(play, 200));
+          }));
+        }, 600);
+      }, 3200 + 3000);
+    }, 300);
+  }
+
+  submitBtn.addEventListener('click', play);
+
+  urlInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') play();
+  });
+
+  // Typewriter effect — types text into the URL input one character at a time
+  function typeText(text, onDone) {
+    urlInput.value = '';
+    urlInput.focus({ preventScroll: true });
+    let i = 0;
+    function next() {
+      if (i < text.length) {
+        urlInput.value += text[i++];
+        setTimeout(next, 55 + Math.random() * 65);
+      } else {
+        urlInput.blur();
+        onDone && onDone();
+      }
+    }
+    setTimeout(next, 150);
+  }
+
+  // Play when the card scrolls into view
+  const observer = new IntersectionObserver((entries) => {
+    if (entries[0].isIntersecting) {
+      setTimeout(() => {
+        typeText('your-brand.com', () => setTimeout(play, 500));
+      }, 400);
+      observer.disconnect();
+    }
+  }, { threshold: 0.3 });
+  observer.observe(stage);
+
+  // Rebuild paths on resize so lines always anchor correctly
+  let resizeTimer;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(buildPaths, 100);
+  });
+</script>
+
+</body>
+</html>
