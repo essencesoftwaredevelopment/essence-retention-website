@@ -1,5 +1,6 @@
 {
   "scripts": {
+    "check": "node scripts/check-static-site.mjs",
     "prepare:runtime-config": "node scripts/generate-runtime-config.mjs",
     "predev": "npm run prepare:runtime-config",
     "dev": "node server.mjs",
