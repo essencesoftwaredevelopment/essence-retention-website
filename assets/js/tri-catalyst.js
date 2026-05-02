@@ -3,10 +3,11 @@
   const canvas = document.getElementById('line-canvas');
   if (!container || !canvas) return;
 
-  const MAIN_THEME_COLOR = '#FFFFFF';
+  const MAIN_THEME_COLOR = '#000000';
   const ctx = canvas.getContext('2d');
   const boxes = Array.from(container.querySelectorAll('.component-box'));
   if (!boxes.length) return;
+  const boxesRail = container.querySelector('.flow-visual__boxes');
 
   const stageDetails = [
     {
@@ -14,12 +15,12 @@
       title: 'Capture Demand',
       subtitle: 'Stage 01 · Capture',
       body: 'Landing pages, quizzes, and unique popup systems convert cold traffic visitors into contactable information.',
-      cover: 'linear-gradient(135deg, #04261c, #12f39c)',
+      cover: 'linear-gradient(135deg, #ffffff, #ecfff8)',
     },
     {
       id: 'box-2',
       title: 'Convert with AI',
-      subtitle: 'Stage 02 · Catalyst AI',
+      subtitle: 'Stage 02 · ESSENCE AI',
       body: 'Our AI system pulls live Shopify and Klaviyo data to activate campaigns, personalized flows, and channels in real time.',
       cover: 'linear-gradient(135deg, #110f2b, #6d5bff)',
     },
@@ -55,12 +56,12 @@
 
   const config = {
     trailLength: 500,
-    lineWidth: 2,
+    lineWidth: 1,
     colors: {
-      line: '#FFFFFF',
-      glow: MAIN_THEME_COLOR,
+      line: MAIN_THEME_COLOR,
+      // glow: MAIN_THEME_COLOR,
     },
-    boxBorderRadius: 20,
+    boxBorderRadius: 13,
     easing: 0.15,
   };
 
@@ -104,7 +105,52 @@
     sectionHeight = Math.max(rect.height, 1);
   }
 
+  function resetStageCardAlignment() {
+    container.style.minHeight = '';
+    if (boxesRail) boxesRail.classList.remove('is-aligned-to-details');
+    boxes.forEach((box) => {
+      box.style.top = '';
+    });
+  }
+
+  function alignStageCardsToDetails() {
+    if (
+      !boxesRail ||
+      !detailList ||
+      !window.matchMedia('(min-width: 901px)').matches
+    ) {
+      resetStageCardAlignment();
+      return;
+    }
+
+    const detailCards = stageDetails.map((item) => detailCardEls.get(item.id));
+    if (detailCards.some((card) => !card)) {
+      resetStageCardAlignment();
+      return;
+    }
+
+    container.style.minHeight = '';
+    boxesRail.classList.add('is-aligned-to-details');
+
+    const detailHeight = detailList.offsetHeight;
+    if (!detailHeight) {
+      resetStageCardAlignment();
+      return;
+    }
+
+    container.style.minHeight = `${Math.ceil(detailHeight)}px`;
+
+    const containerRect = container.getBoundingClientRect();
+    detailCards.forEach((card, index) => {
+      const cardRect = card.getBoundingClientRect();
+      const boxHeight = boxes[index].offsetHeight;
+      const cardCenterY = cardRect.top - containerRect.top + cardRect.height / 2;
+      boxes[index].style.top = `${Math.round(cardCenterY - boxHeight / 2)}px`;
+    });
+  }
+
   function resize() {
+    alignStageCardsToDetails();
     width = container.offsetWidth;
     height = container.offsetHeight;
     canvas.width = width;
@@ -187,6 +233,7 @@
   }
 
   renderDetailCards();
+  resize();
 
   function setDetailContent(id) {
     const detail = stageDetails.find((item) => item.id === id);
@@ -230,16 +277,16 @@
   function drawStreams(startY, endY) {
     if (endY <= startY || !pathSegments.length) return;
     const gradient = ctx.createLinearGradient(0, startY, 0, endY);
-    gradient.addColorStop(0, 'rgba(255,255,255,0)');
-    gradient.addColorStop(0.2, 'rgba(255,255,255,0.1)');
+    gradient.addColorStop(0, 'rgba(0,0,0,0)');
+    gradient.addColorStop(0.2, 'rgba(0,0,0,0.14)');
     gradient.addColorStop(0.8, config.colors.line);
-    gradient.addColorStop(1, '#FFFFFF');
+    gradient.addColorStop(1, MAIN_THEME_COLOR);
 
     ctx.strokeStyle = gradient;
     ctx.lineWidth = config.lineWidth;
     ctx.lineCap = 'round';
     ctx.lineJoin = 'round';
-    ctx.shadowBlur = 10;
+    ctx.shadowBlur = 6;
     ctx.shadowColor = config.colors.glow;
 
     ctx.save();

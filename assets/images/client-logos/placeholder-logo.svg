@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="220" height="64" viewBox="0 0 220 64" role="img" aria-labelledby="title">
+  <title id="title">Client logo placeholder</title>
+  <rect width="220" height="64" rx="12" fill="#f5f5f5"/>
+  <path d="M51 33h118" stroke="#d4d4d4" stroke-width="2" stroke-linecap="round"/>
+  <path d="M70 25h80" stroke="#e5e5e5" stroke-width="2" stroke-linecap="round"/>
+  <path d="M82 41h56" stroke="#e5e5e5" stroke-width="2" stroke-linecap="round"/>
+</svg>

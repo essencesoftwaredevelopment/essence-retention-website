@@ -73,6 +73,48 @@ const faqData = [
   }
 ];
 
+(function initHeaderCollapse() {
+  const header = document.querySelector('.site-header');
+  const logo = header?.querySelector('.site-header__logo');
+  const nav = header?.querySelector('.site-header__nav');
+  if (!header || !logo || !nav) return;
+
+  const collapseAfter = 100;
+  const collapsedGap = 100;
+  let ticking = false;
+
+  function setCollapsedWidth() {
+    const headerStyles = window.getComputedStyle(header);
+    const paddingX =
+      parseFloat(headerStyles.paddingLeft || '0') +
+      parseFloat(headerStyles.paddingRight || '0');
+    const width = Math.ceil(logo.offsetWidth + nav.offsetWidth + collapsedGap + paddingX);
+    header.style.setProperty('--site-header-collapsed-width', `${width}px`);
+  }
+
+  function updateHeaderState() {
+    ticking = false;
+    header.classList.toggle('is-collapsed', window.scrollY > collapseAfter);
+  }
+
+  function requestHeaderUpdate() {
+    if (ticking) return;
+    ticking = true;
+    window.requestAnimationFrame(updateHeaderState);
+  }
+
+  setCollapsedWidth();
+  updateHeaderState();
+  if (!logo.complete) {
+    logo.addEventListener('load', setCollapsedWidth, { once: true });
+  }
+  window.addEventListener('scroll', requestHeaderUpdate, { passive: true });
+  window.addEventListener('resize', () => {
+    setCollapsedWidth();
+    requestHeaderUpdate();
+  });
+})();
+
 (function initCalendlyAndLeadModal() {
   const calendlyUrl = 'https://calendly.com/essencesoftwaredevelopment/discovery-call';
 
