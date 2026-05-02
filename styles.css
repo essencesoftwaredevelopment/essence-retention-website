@@ -1300,6 +1300,16 @@ main {
   100% { border-color: var(--border); box-shadow: none; }
 }
 
+@media (max-width: 768px) {
+  .stats-row {
+    display: none;
+  }
+
+  .essence-ai {
+    display: none;
+  }
+}
+
 .stat-card__statline {
   width: max-content;
   justify-self: start;
