@@ -144,6 +144,9 @@ main {
 
 .site-header__cta {
   font-size: 0.95rem;
+  width: fit-content;
+  flex: 0 0 auto;
+  white-space: nowrap;
 }
 
 /* ========== Hero ========== */
@@ -2528,7 +2531,7 @@ body.modal-open {
   }
 
   .site-header__cta {
-    width: 100%;
+    width: fit-content;
   }
 
   .site-footer {
