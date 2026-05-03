@@ -1,39 +1,29 @@
 (function initEssenceAIScroll() {
   const stages = [
     {
-      step: '01 / 05',
       icon: 'neurology',
-      heading: 'Learns your brand 24/7, updates from trusted sources',
-      sub: 'Voice, products, design defaults, all in one place.',
-      body: 'During onboarding, we build a living profile of your brand inside ESSENCE AI, turning products, offers, voice, and design rules into reusable campaign context.',
+      heading: 'Dynamically learns your brand 24/7',
+      sub: 'Visual identity, voice, products, & real-time feedback all in one place.',
     },
     {
-      step: '02 / 05',
       icon: 'calendar_check',
-      heading: 'Better ideas, faster, grounded in your context',
-      sub: 'Calendar moments, products, and brand context turned into a campaign plan.',
-      body: 'ESSENCE AI maps product pushes, seasonal moments, list segments, and revenue goals into a campaign calendar your team can review before production starts.',
+      heading: 'On Brand Campaigns',
+      sub: 'Campaigns built around your customer segments, product drops, and front end marketing.',
     },
     {
-      step: '03 / 05',
       icon: 'auto_awesome_motion',
-      heading: 'Hero images and email sections, produced at 5x agency pace',
-      sub: 'AI creative, refined by designers and copywriters before it ever reaches you.',
-      body: 'The system drafts campaign angles, modules, subject lines, and visual directions quickly, then our creative team edits for taste, accuracy, and brand fit.',
+      heading: 'AI Email Generations, Refined by Human Designers',
+      sub: 'AI-generated email designs and copy, refined by our team to ensure brand consistency and high performance.',
     },
     {
-      step: '04 / 05',
       icon: 'inbox',
-      heading: 'From draft to scheduled without the headaches',
-      sub: 'Review, comment, approve, and publish to Klaviyo in one flow.',
-      body: 'Campaigns move from draft to approval with fewer handoffs, keeping feedback, revisions, and publishing status visible in the same operating system.',
+      heading: 'From idea to scheduled without the headaches',
+      sub: 'Review, comment, and approve, our system handles the rest.',
     },
     {
-      step: '05 / 05',
       icon: 'bar_chart_4_bars',
-      heading: "See what's shipping and what's working",
-      sub: 'Live revenue cards, campaign history, and flow performance in one view.',
-      body: 'Reporting connects shipped work to revenue outcomes, so you can see campaign history, flow performance, and the next opportunities without waiting for a manual recap.',
+      heading: "See performance in real-time",
+      sub: 'Live revenue, metrics, campaign history, and flow performance in one view.',
     },
   ];
 
@@ -43,10 +33,17 @@
   let initialized = false;
 
   function setCardContent(card, stage) {
-    card.querySelector('[data-icon]').innerHTML = `<span class="material-symbols-rounded">${stage.icon}</span>`;
-    card.querySelector('[data-heading]').textContent = stage.heading;
-    card.querySelector('[data-sub]').textContent = stage.sub;
-    card.querySelector('[data-body]').textContent = stage.body;
+    const icon = card.querySelector('[data-icon]');
+    const step = card.querySelector('[data-step]');
+    const heading = card.querySelector('[data-heading]');
+    const sub = card.querySelector('[data-sub]');
+    const body = card.querySelector('[data-body]');
+
+    if (icon) icon.innerHTML = `<span class="material-symbols-rounded">${stage.icon}</span>`;
+    if (step) step.textContent = stage.step;
+    if (heading) heading.textContent = stage.heading;
+    if (sub) sub.textContent = stage.sub;
+    if (body) body.textContent = stage.body;
   }
 
   function updatePinnedCard(index) {
@@ -55,7 +52,7 @@
     const card = document.querySelector('[data-pinned-card]');
     const detailCards = Array.from(document.querySelectorAll('.detail-card'));
     const stage = stages[index];
-    const fields = card.querySelectorAll('[data-icon], [data-heading], [data-sub], [data-body]');
+    const fields = card.querySelectorAll('[data-icon], [data-step], [data-heading], [data-sub], [data-body]');
 
     targetIndex = index;
     detailCards.forEach((detailCard, detailIndex) => {

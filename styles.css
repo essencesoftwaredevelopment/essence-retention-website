@@ -308,6 +308,11 @@ main {
   line-height: 1.02;
 }
 
+.essence-ai__headline span {
+  display: block;
+  white-space: nowrap;
+}
+
 .essence-ai__intro p {
   margin: 0;
   color: var(--muted-foreground, #adb0c6);
@@ -349,6 +354,7 @@ main {
 }
 
 .pinned-card__step {
+  margin: 0;
   color: var(--muted-foreground, #adb0c6);
   font-size: 0.75rem;
   font-weight: 700;
@@ -2468,6 +2474,10 @@ body.modal-open {
     text-align: left;
   }
 
+  .essence-ai__intro h2 {
+    font-size: clamp(1.45rem, 7.2vw, 2rem);
+  }
+
   .pinned-card__inner,
   .detail-card {
     border-radius: var(--radius-lg);
@@ -2662,7 +2672,7 @@ body.modal-open {
 .pricing-card {
   background: #121212;
   border-radius: 16px;
-  padding: 40px 30px;
+  padding: 28px 30px 0px;
   position: relative;
   transition: all 0.3s ease;
   border: 1px solid rgba(255, 255, 255, 0.2);
@@ -2719,7 +2729,17 @@ body.modal-open {
   font-size: 23px;
   font-weight: 700;
   margin-bottom: 8px;
+  margin-top: 8px;
   color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.plan-title__icon {
+  font-size: 28px;
+  color: #000000;
+  font-variation-settings: 'FILL' 1, 'wght' 300, 'GRAD' 0, 'opsz' 28;
 }
 
 .plan-subtitle {
@@ -3154,12 +3174,12 @@ body.has-custom-cursor * {
   font-style: normal;
   font-weight: 600;
   font-size: inherit;
-  margin-bottom: 0.08em;
+  margin-bottom: 0.1em;
   white-space: nowrap;
 }
 
 .hero__title-accent {
-  background: linear-gradient(90deg, #000000 0%, #134f00 100%);
+  background: linear-gradient(90deg, #0d3a2b 0%, #0d3c29 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
