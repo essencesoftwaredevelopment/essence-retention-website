@@ -3347,6 +3347,10 @@ button * {
   filter: grayscale(1) contrast(1.25) brightness(0.42);
 }
 
+.client-logos__image.client-logos__image--linear {
+  filter: grayscale(1) contrast(1.1) brightness(0.65);
+}
+
 .testimonials__title,
 .service-tiers__title,
 .team-title,

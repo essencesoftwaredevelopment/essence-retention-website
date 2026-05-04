@@ -7,12 +7,12 @@
     },
     {
       icon: 'calendar_check',
-      heading: 'On Brand Campaigns',
+      heading: 'On-brand campaigns',
       sub: 'Campaigns built around your customer segments, product drops, and front end marketing.',
     },
     {
       icon: 'auto_awesome_motion',
-      heading: 'AI Email Generations, Refined by Human Designers',
+      heading: 'AI email generations, refined by human designers',
       sub: 'AI-generated email designs and copy, refined by our team to ensure brand consistency and high performance.',
     },
     {
