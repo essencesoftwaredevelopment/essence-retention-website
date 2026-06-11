@@ -186,7 +186,7 @@ Meet the Team:
 
 - Jacques Schaeken: Founder & COO
 - Iman Ismail: Head of Client Success
-- Oleksandra Ihnat: Head of Graphic Design
+- Ramon Marquezine: Head of Graphic Design
 
 ## CTA Section
 
