@@ -1,0 +1,385 @@
+- generic [ref=e2]:
+  - banner [ref=e3]:
+    - img "ESSENCE Retention logo" [ref=e4]
+  - main [ref=e5]:
+    - generic [ref=e7]:
+      - heading "Revenue Retention Systems for 7-Figure Shopify Brands" [level=1] [ref=e8]:
+        - generic [ref=e9]: Revenue Retention Systems
+        - text: for 7-Figure Shopify Brands
+      - generic [ref=e10]:
+        - generic [ref=e11]:
+          - generic [ref=e12]:
+            - generic [ref=e13]: ★
+            - generic [ref=e14]: ★
+            - generic [ref=e15]: ★
+            - generic [ref=e16]: ★
+            - generic [ref=e17]: ★
+          - paragraph [ref=e18]: "\"The next generation of ecommerce retention systems.\""
+        - generic [ref=e19]:
+          - generic [ref=e20]:
+            - img "Klaviyo Platinum Partner badge" [ref=e21]
+            - img "Shopify Plus Partner badge" [ref=e22]
+          - generic [ref=e23]: 11.2X AVG. ROI
+      - generic [ref=e24]:
+        - link "Explore service tiers" [ref=e25] [cursor=pointer]:
+          - /url: "#service-tiers"
+        - link "Book a Free Demo" [ref=e26] [cursor=pointer]:
+          - /url: https://calendly.com/essencesoftwaredevelopment/essence-ai-demo
+    - generic "Client logos" [ref=e27]:
+      - paragraph [ref=e28]: We're selective about who we work with. We only take on brands who are serious about building long-term customer value. Trusted by 20+ e-commerce brands in the US.
+      - generic [ref=e30]:
+        - img "CPL" [ref=e31]
+        - img "LFS" [ref=e32]
+        - img "Aer" [ref=e33]
+        - img "Drip" [ref=e34]
+        - img "Flutter" [ref=e35]
+        - img "GDN" [ref=e36]
+        - img "HBM" [ref=e37]
+        - img "Lash Star" [ref=e38]
+        - img "OEM" [ref=e39]
+        - img "PMEV" [ref=e40]
+        - img "Spicy Wear" [ref=e41]
+        - img "AG" [ref=e42]
+        - img "DAL" [ref=e43]
+        - img "Linear" [ref=e44]
+        - img "CPL" [ref=e45]
+        - img "LFS" [ref=e46]
+        - img "Aer" [ref=e47]
+        - img "Drip" [ref=e48]
+        - img "Flutter" [ref=e49]
+        - img "GDN" [ref=e50]
+        - img "HBM" [ref=e51]
+        - img "Lash Star" [ref=e52]
+        - img "OEM" [ref=e53]
+        - img "PMEV" [ref=e54]
+        - img "Spicy Wear" [ref=e55]
+        - img "AG" [ref=e56]
+        - img "DAL" [ref=e57]
+        - img "Linear" [ref=e58]
+    - generic [ref=e60]:
+      - generic [ref=e61]:
+        - paragraph [ref=e62]: Client Success Stories
+        - heading "Hear From Our Partners" [level=2] [ref=e63]
+      - generic [ref=e64]:
+        - generic [ref=e65]:
+          - generic [ref=e66]:
+            - generic [ref=e67]:
+              - heading "Paige DeAngelo" [level=3] [ref=e68]
+              - paragraph [ref=e69]:
+                - text: Founder of
+                - strong [ref=e70]: Aer Cosmetics
+            - generic [ref=e71]: ★ ★ ★ ★ ★
+          - blockquote [ref=e72]: We Have 11 X'd Our Sales
+          - iframe [ref=e74]:
+            - generic [active] [ref=f4e1]:
+              - generic "YouTube Video Player" [ref=f4e3]
+              - generic [ref=f4e5]:
+                - generic:
+                  - generic:
+                    - button "Play video" [ref=f4e10] [cursor=pointer]:
+                      - generic [ref=f4e13]:
+                        - img
+                    - button "Hide player controls" [ref=f4e14] [cursor=pointer]
+                    - generic [ref=f4e21]:
+                      - generic [ref=f4e22]:
+                        - link "Aer Cosmetics Testimonial" [ref=f4e23] [cursor=pointer]:
+                          - /url: https://www.youtube.com/shorts/sCkWw0e447Y
+                        - link "Jacques Schaeken - ESSENCE Retention" [ref=f4e24] [cursor=pointer]:
+                          - /url: /channel/UCV95cmSgqdwK0NU7ewHlC1Q
+                          - generic [ref=f4e25]: Jacques Schaeken - ESSENCE Retention
+                      - generic [ref=f4e26]:
+                        - button [ref=f4e27] [cursor=pointer]
+                        - generic [ref=f4e29]:
+                          - generic: Jacques Schaeken - ESSENCE Retention
+                          - generic: 8 subscribers
+        - generic [ref=e75]:
+          - generic [ref=e76]:
+            - generic [ref=e77]:
+              - heading "John King" [level=3] [ref=e78]
+              - paragraph [ref=e79]:
+                - text: Founder of
+                - strong [ref=e80]: Spicy Wear
+            - generic [ref=e81]: ★ ★ ★ ★ ★
+          - blockquote [ref=e82]: They genuinely want to see you succeed
+          - iframe [ref=e84]:
+            - generic [active] [ref=f5e1]:
+              - generic "YouTube Video Player" [ref=f5e3]
+              - generic [ref=f5e5]:
+                - generic:
+                  - generic:
+                    - button "Play video" [ref=f5e10] [cursor=pointer]:
+                      - generic [ref=f5e13]:
+                        - img
+                    - button "Hide player controls" [ref=f5e14] [cursor=pointer]
+                    - generic [ref=f5e21]:
+                      - generic [ref=f5e22]:
+                        - link "Spicy Wear Testimonial" [ref=f5e23] [cursor=pointer]:
+                          - /url: https://www.youtube.com/shorts/aikdwBMh9Io
+                        - link "Jacques Schaeken - ESSENCE Retention" [ref=f5e24] [cursor=pointer]:
+                          - /url: /channel/UCV95cmSgqdwK0NU7ewHlC1Q
+                          - generic [ref=f5e25]: Jacques Schaeken - ESSENCE Retention
+                      - generic [ref=f5e26]:
+                        - button [ref=f5e27] [cursor=pointer]
+                        - generic [ref=f5e29]:
+                          - generic: Jacques Schaeken - ESSENCE Retention
+                          - generic: 8 subscribers
+        - generic [ref=e85]:
+          - generic [ref=e86]:
+            - generic [ref=e87]:
+              - heading "Gavin Kennelly" [level=3] [ref=e88]
+              - paragraph [ref=e89]:
+                - text: Founder of
+                - strong [ref=e90]: Young Irish Entrepreneurs
+            - generic [ref=e91]: ★ ★ ★ ★ ★
+          - blockquote [ref=e92]: Their experience made it very seamless for us
+          - iframe [ref=e94]:
+            - generic [active] [ref=f6e1]:
+              - generic "YouTube Video Player" [ref=f6e3]
+              - generic [ref=f6e5]:
+                - generic:
+                  - generic:
+                    - button "Play video" [ref=f6e10] [cursor=pointer]:
+                      - generic [ref=f6e13]:
+                        - img
+                    - button "Hide player controls" [ref=f6e14] [cursor=pointer]
+                    - generic [ref=f6e21]:
+                      - generic [ref=f6e22]:
+                        - link "Strive Fitness Company Testimonial" [ref=f6e23] [cursor=pointer]:
+                          - /url: https://www.youtube.com/shorts/axN1Eil39NU
+                        - link "Jacques Schaeken - ESSENCE Retention" [ref=f6e24] [cursor=pointer]:
+                          - /url: /channel/UCV95cmSgqdwK0NU7ewHlC1Q
+                          - generic [ref=f6e25]: Jacques Schaeken - ESSENCE Retention
+                      - generic [ref=f6e26]:
+                        - button [ref=f6e27] [cursor=pointer]
+                        - generic [ref=f6e29]:
+                          - generic: Jacques Schaeken - ESSENCE Retention
+                          - generic: 8 subscribers
+    - generic [ref=e96]:
+      - generic [ref=e97]:
+        - paragraph [ref=e98]: Service Options
+        - heading "Choose Your Growth Path" [level=2] [ref=e99]
+      - generic [ref=e100]:
+        - generic [ref=e101]:
+          - heading "bolt ESSENCE Core" [level=3] [ref=e102]:
+            - generic [ref=e103]: bolt
+            - text: ESSENCE Core
+          - paragraph [ref=e104]: For brands building their first real retention engine.
+          - link "Book a Call" [ref=e105] [cursor=pointer]:
+            - /url: https://calendly.com/essencesoftwaredevelopment/discovery-call?utm_source=website&utm_content=over20k
+        - generic [ref=e106]:
+          - heading "trending_up ESSENCE Scale" [level=3] [ref=e107]:
+            - generic [ref=e108]: trending_up
+            - text: ESSENCE Scale
+          - paragraph [ref=e109]: For brands ready to make retention a primary revenue channel.
+          - link "Book a Call" [ref=e110] [cursor=pointer]:
+            - /url: https://calendly.com/essencesoftwaredevelopment/discovery-call?utm_source=website&utm_content=over100k
+        - generic [ref=e111]:
+          - heading "workspace_premium ESSENCE Elite" [level=3] [ref=e112]:
+            - generic [ref=e113]: workspace_premium
+            - text: ESSENCE Elite
+          - paragraph [ref=e114]: For 8-figure brands who treat retention as infrastructure.
+          - link "Book a Call" [ref=e115] [cursor=pointer]:
+            - /url: https://calendly.com/essencesoftwaredevelopment/discovery-call?utm_source=website&utm_content=over200k
+    - heading "Impeccable Designs" [level=2] [ref=e118]
+    - generic [ref=e121]:
+      - heading "Meet the Team:" [level=2] [ref=e122]
+      - generic [ref=e123]:
+        - generic [ref=e124]:
+          - img "Jacques Schaeken" [ref=e127]
+          - generic [ref=e128]:
+            - generic [ref=e129]:
+              - heading "Jacques Schaeken" [level=3] [ref=e130]
+              - paragraph [ref=e131]: Founder & COO
+            - link "View LinkedIn →" [ref=e132] [cursor=pointer]:
+              - /url: https://www.linkedin.com/in/1jacques/
+        - generic [ref=e133]:
+          - img "Iman Ismail" [ref=e136]
+          - generic [ref=e137]:
+            - generic [ref=e138]:
+              - heading "Iman Ismail" [level=3] [ref=e139]
+              - paragraph [ref=e140]: Head of Client Success
+            - link "View LinkedIn →" [ref=e141] [cursor=pointer]:
+              - /url: https://www.linkedin.com/in/iman-i/
+        - generic [ref=e142]:
+          - img "Ramon Marquezine" [ref=e145]
+          - generic [ref=e146]:
+            - generic [ref=e147]:
+              - heading "Ramon Marquezine" [level=3] [ref=e148]
+              - paragraph [ref=e149]: Head of Graphic Design
+            - link "View LinkedIn →" [ref=e150] [cursor=pointer]:
+              - /url: https://www.linkedin.com/in/ramonmarquezine/
+    - generic [ref=e152]:
+      - heading "Ready to Scale Your Retention?" [level=2] [ref=e153]
+      - paragraph [ref=e154]: Join 20+ e-commerce brands achieving an average 11.2X ROI with our hyper-performant retention system.
+      - generic [ref=e155]:
+        - link "Get a FREE Retention Audit" [ref=e156] [cursor=pointer]:
+          - /url: https://calendly.com/essencesoftwaredevelopment/discovery-call
+        - link "View Service Tiers" [ref=e157] [cursor=pointer]:
+          - /url: "#service-tiers"
+    - generic [ref=e159]:
+      - heading "Frequently Asked Questions" [level=2] [ref=e160]
+      - generic [ref=e161]:
+        - generic [ref=e162]:
+          - button "What ROI do you typically generate for brands at our level?" [ref=e163]:
+            - generic [ref=e164]: What ROI do you typically generate for brands at our level?
+            - img [ref=e165]
+          - paragraph [ref=e167]: Most brands see a meaningful lift within the first 30 to 60 days. Typical outcomes range from +15% to +40% increase in email/SMS attributed revenue, depending on current setup quality, traffic volume, and inventory depth. If you're already sending, we focus on improving profitability and consistency, not just volume.
+        - generic [ref=e168]:
+          - button "How do you improve what we've already built without starting over?" [ref=e169]:
+            - generic [ref=e170]: How do you improve what we've already built without starting over?
+            - img [ref=e171]
+          - paragraph [ref=e173]: We don't nuke accounts. We audit what exists, keep what's working, and rebuild only what's limiting results (messaging, segmentation, structure, timing, deliverability). You keep your existing data, list, flows, learnings, and brand voice, we simply make the system perform at a higher level.
+        - generic [ref=e174]:
+          - button "We already have flows, what else can you add or optimize?" [ref=e175]:
+            - generic [ref=e176]: We already have flows, what else can you add or optimize?
+            - img [ref=e177]
+          - paragraph [ref=e179]:
+            - text: "If flows exist, we upgrade them into a real retention engine:"
+            - text: • Better segmentation and conditional logic
+            - text: • Higher-converting copy and creative
+            - text: • Offer positioning without constant discounting
+            - text: • Improved timing, split paths, and exclusions
+            - text: • Advanced flows most brands don't have (replenishment, VIP, churn prevention, cross-sell, etc.)
+        - generic [ref=e180]:
+          - button "Do you work with brands doing 7+ figures and above?" [ref=e181]:
+            - generic [ref=e182]: Do you work with brands doing 7+ figures and above?
+            - img [ref=e183]
+          - paragraph [ref=e185]: Yes. We typically work with Shopify brands doing $50k to $1M/month, and also support brands well above 7 figures if there's enough complexity to justify a premium retention partner.
+        - generic [ref=e186]:
+          - button "How do you segment advanced audiences for better performance?" [ref=e187]:
+            - generic [ref=e188]: How do you segment advanced audiences for better performance?
+            - img [ref=e189]
+          - paragraph [ref=e191]:
+            - text: "We build segmentation around:"
+            - text: • Purchase behavior (frequency, recency, AOV, product)
+            - text: • Engagement levels (opens/clicks, site activity)
+            - text: • Lifecycle stages (new, active, at-risk, lapsed, VIP)
+            - text: • Offer sensitivity (discount buyer vs. full price buyer)
+            - text: This increases revenue while reducing fatigue.
+        - generic [ref=e192]:
+          - button "Will this actually increase LTV, or just send more emails?" [ref=e193]:
+            - generic [ref=e194]: Will this actually increase LTV, or just send more emails?
+            - img [ref=e195]
+          - paragraph [ref=e197]: We're not here to "send more." We're here to increase repeat purchase rate, retention, and lifetime value. More volume without strategy kills deliverability. We prioritize quality, relevance, and customer lifecycle.
+        - generic [ref=e198]:
+          - button "How do you avoid list fatigue and unsubscribes?" [ref=e199]:
+            - generic [ref=e200]: How do you avoid list fatigue and unsubscribes?
+            - img [ref=e201]
+          - paragraph [ref=e203]:
+            - text: "We protect your list aggressively:"
+            - text: • Engagement-based sending (throttling unengaged users)
+            - text: • Smart frequency caps
+            - text: • Strong "value-first" campaign mix
+            - text: • Deliverability monitoring
+            - text: • Segmentation that prevents over-mailing
+        - generic [ref=e204]:
+          - button "Can you match our brand voice and tone consistently?" [ref=e205]:
+            - generic [ref=e206]: Can you match our brand voice and tone consistently?
+            - img [ref=e207]
+          - paragraph [ref=e209]: "Yes. We run a structured tone-matching process: we analyze your site, ads, socials, customer reviews, and existing emails, then build a consistent messaging style guide. Every email follows that voice so the brand stays coherent."
+        - generic [ref=e210]:
+          - button "How do you use data to decide what campaigns to send?" [ref=e211]:
+            - generic [ref=e212]: How do you use data to decide what campaigns to send?
+            - img [ref=e213]
+          - paragraph [ref=e215]:
+            - text: "We don't guess. Campaign planning is based on:"
+            - text: • Shopify product performance + margin
+            - text: • Cohort behavior (repeat timing + product rebuys)
+            - text: • Flow gaps and customer lifecycle needs
+            - text: • Klaviyo reporting (what actually drives conversions)
+            - text: • Seasonality, launches, and inventory priorities
+        - generic [ref=e216]:
+          - button "Can you audit our current setup before making recommendations?" [ref=e217]:
+            - generic [ref=e218]: Can you audit our current setup before making recommendations?
+            - img [ref=e219]
+          - paragraph [ref=e221]:
+            - text: "Yes. Every partnership starts with a full audit:"
+            - text: • Flows and campaigns
+            - text: • Tracking + event setup
+            - text: • Popups / list growth
+            - text: • Segmentation
+            - text: • Deliverability
+            - text: • Creative and conversion structure
+            - text: You'll get a clear roadmap before execution starts.
+        - generic [ref=e222]:
+          - button "What does your reporting look like, can we track performance clearly?" [ref=e223]:
+            - generic [ref=e224]: What does your reporting look like, can we track performance clearly?
+            - img [ref=e225]
+          - paragraph [ref=e227]:
+            - text: "Yes. We provide clear reporting that ties actions to results:"
+            - text: • Email + SMS revenue (accounting for attribution nuance)
+            - text: • Campaign vs. flow split
+            - text: • Revenue per recipient
+            - text: • Deliverability and list health
+            - text: • Weekly/monthly highlights + next actions
+        - generic [ref=e228]:
+          - button "How do you ensure deliverability stays high at our list size?" [ref=e229]:
+            - generic [ref=e230]: How do you ensure deliverability stays high at our list size?
+            - img [ref=e231]
+          - paragraph [ref=e233]:
+            - text: "Deliverability is part of the system:"
+            - text: • Proper DNS setup (SPF/DKIM/DMARC + dedicated sending domain)
+            - text: • Engagement filtering
+            - text: • Smart warmup and ramping strategy
+            - text: • Bounce/complaint monitoring
+            - text: • Routine list cleaning and suppression management
+        - generic [ref=e234]:
+          - button "What's your onboarding process, how fast can we launch?" [ref=e235]:
+            - generic [ref=e236]: What's your onboarding process, how fast can we launch?
+            - img [ref=e237]
+          - paragraph [ref=e239]:
+            - text: "Fast. Most brands are live in 7 to 14 days. Onboarding includes:"
+            - text: • Account access + baseline capture
+            - text: • Audit + roadmap
+            - text: • Flow fixes + quick wins first
+            - text: • Campaign engine setup (calendar + approvals)
+        - generic [ref=e240]:
+          - button "Do you handle everything or just consult and guide?" [ref=e241]:
+            - generic [ref=e242]: Do you handle everything or just consult and guide?
+            - img [ref=e243]
+          - paragraph [ref=e245]:
+            - text: "We do both, but most clients choose done-for-you. We can:"
+            - text: • fully manage retention (strategy + copy + design + build)
+            - text: • or consult and direct your internal team
+        - generic [ref=e246]:
+          - button "How do you tie email strategy into product launches and promos?" [ref=e247]:
+            - generic [ref=e248]: How do you tie email strategy into product launches and promos?
+            - img [ref=e249]
+          - paragraph [ref=e251]:
+            - text: "We build launch sequences that maximize conversion without exhausting the list:"
+            - text: • Warmup/education
+            - text: • Waitlist and early access
+            - text: • Drop day sequencing
+            - text: • Segmented urgency (VIP first, engaged next)
+            - text: • Post-launch follow-up to capture missed buyers
+        - generic [ref=e252]:
+          - button "How do you work with our in-house team or other contractors?" [ref=e253]:
+            - generic [ref=e254]: How do you work with our in-house team or other contractors?
+            - img [ref=e255]
+          - paragraph [ref=e257]: Clean collaboration, no stepping on toes. We can plug into your existing ecosystem (designer, media buyer, brand team) and handle retention end-to-end while coordinating on creative priorities and promo schedule.
+        - generic [ref=e258]:
+          - button "Can you help increase repeat purchase rate and retention?" [ref=e259]:
+            - generic [ref=e260]: Can you help increase repeat purchase rate and retention?
+            - img [ref=e261]
+          - paragraph [ref=e263]:
+            - text: "Yes, that's the main focus. We target:"
+            - text: • higher repeat purchase rate
+            - text: • higher LTV
+            - text: • better second purchase conversion
+            - text: • more predictable monthly revenue from returning customers
+        - generic [ref=e264]:
+          - button "Do you handle both campaigns and automations?" [ref=e265]:
+            - generic [ref=e266]: Do you handle both campaigns and automations?
+            - img [ref=e267]
+          - paragraph [ref=e269]:
+            - text: "Yes. We handle:"
+            - text: • flows/automations (retention backbone)
+            - text: • campaigns (weekly revenue engine)
+            - text: • list growth (so the system scales)
+  - contentinfo [ref=e270]:
+    - paragraph [ref=e271]: © 2026 Essence Retention. All rights reserved.
+    - generic [ref=e272]:
+      - link "Privacy Policy" [ref=e273] [cursor=pointer]:
+        - /url: /privacy-policy
+      - link "jacques@essenceretention.com" [ref=e274] [cursor=pointer]:
+        - /url: mailto:jacques@essenceretention.com

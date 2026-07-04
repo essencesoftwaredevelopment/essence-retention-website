@@ -8,18 +8,6 @@ const faqData = [
     answer: 'We don\'t nuke accounts. We audit what exists, keep what\'s working, and rebuild only what\'s limiting results (messaging, segmentation, structure, timing, deliverability). You keep your existing data, list, flows, learnings, and brand voice, we simply make the system perform at a higher level.'
   },
   {
-    question: 'We already have flows, what else can you add or optimize?',
-    answer: 'If flows exist, we upgrade them into a real retention engine:<br><br>• Better segmentation and conditional logic<br>• Higher-converting copy and creative<br>• Offer positioning without constant discounting<br>• Improved timing, split paths, and exclusions<br>• Advanced flows most brands don\'t have (replenishment, VIP, churn prevention, cross-sell, etc.)'
-  },
-  {
-    question: 'Do you work with brands doing 7+ figures and above?',
-    answer: 'Yes. We typically work with Shopify brands doing $50k to $1M/month, and also support brands well above 7 figures if there\'s enough complexity to justify a premium retention partner.'
-  },
-  {
-    question: 'How do you segment advanced audiences for better performance?',
-    answer: 'We build segmentation around:<br><br>• Purchase behavior (frequency, recency, AOV, product)<br>• Engagement levels (opens/clicks, site activity)<br>• Lifecycle stages (new, active, at-risk, lapsed, VIP)<br>• Offer sensitivity (discount buyer vs. full price buyer)<br><br>This increases revenue while reducing fatigue.'
-  },
-  {
     question: 'Will this actually increase LTV, or just send more emails?',
     answer: 'We\'re not here to "send more." We\'re here to increase repeat purchase rate, retention, and lifetime value. More volume without strategy kills deliverability. We prioritize quality, relevance, and customer lifecycle.'
   },
@@ -30,10 +18,6 @@ const faqData = [
   {
     question: 'Can you match our brand voice and tone consistently?',
     answer: 'Yes. We run a structured tone-matching process: we analyze your site, ads, socials, customer reviews, and existing emails, then build a consistent messaging style guide. Every email follows that voice so the brand stays coherent.'
-  },
-  {
-    question: 'How do you use data to decide what campaigns to send?',
-    answer: 'We don\'t guess. Campaign planning is based on:<br><br>• Shopify product performance + margin<br>• Cohort behavior (repeat timing + product rebuys)<br>• Flow gaps and customer lifecycle needs<br>• Klaviyo reporting (what actually drives conversions)<br>• Seasonality, launches, and inventory priorities'
   },
   {
     question: 'Can you audit our current setup before making recommendations?',
@@ -54,22 +38,6 @@ const faqData = [
   {
     question: 'Do you handle everything or just consult and guide?',
     answer: 'We do both, but most clients choose done-for-you. We can:<br><br>• fully manage retention (strategy + copy + design + build)<br>• or consult and direct your internal team'
-  },
-  {
-    question: 'How do you tie email strategy into product launches and promos?',
-    answer: 'We build launch sequences that maximize conversion without exhausting the list:<br><br>• Warmup/education<br>• Waitlist and early access<br>• Drop day sequencing<br>• Segmented urgency (VIP first, engaged next)<br>• Post-launch follow-up to capture missed buyers'
-  },
-  {
-    question: 'How do you work with our in-house team or other contractors?',
-    answer: 'Clean collaboration, no stepping on toes. We can plug into your existing ecosystem (designer, media buyer, brand team) and handle retention end-to-end while coordinating on creative priorities and promo schedule.'
-  },
-  {
-    question: 'Can you help increase repeat purchase rate and retention?',
-    answer: 'Yes, that\'s the main focus. We target:<br><br>• higher repeat purchase rate<br>• higher LTV<br>• better second purchase conversion<br>• more predictable monthly revenue from returning customers'
-  },
-  {
-    question: 'Do you handle both campaigns and automations?',
-    answer: 'Yes. We handle:<br><br>• flows/automations (retention backbone)<br>• campaigns (weekly revenue engine)<br>• list growth (so the system scales)'
   }
 ];
 
@@ -1256,4 +1224,51 @@ const faqData = [
     shimmerCard(cards[0]);
     if (cards[1]) setTimeout(function () { shimmerCard(cards[1]); }, STAGGER);
   }, INITIAL_DELAY);
+})();
+
+// ── Scroll-reveal: fade-up sections and cards as they enter the viewport ─────
+(function initScrollReveal() {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (!('IntersectionObserver' in window)) return;
+
+  const targets = document.querySelectorAll(
+    [
+      '.stats-row .stat-card',
+      '.client-logos__subhead',
+      '.testimonials__header',
+      '.quote-card',
+      '.testimonial-card',
+      '.service-tiers__header',
+      '.pricing-card',
+      '.email-marquee__title',
+      '.team-title',
+      '.person-card',
+      '.cta-section__inner',
+      '.faq-title',
+      '.faq-item'
+    ].join(', ')
+  );
+  if (!targets.length) return;
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.1, rootMargin: '0px 0px -36px 0px' }
+  );
+
+  const siblingCount = new Map();
+  targets.forEach((el) => {
+    const parent = el.parentElement;
+    const index = siblingCount.get(parent) || 0;
+    siblingCount.set(parent, index + 1);
+    el.style.setProperty('--reveal-delay', Math.min(index * 70, 280) + 'ms');
+    el.classList.add('reveal');
+    observer.observe(el);
+  });
 })();

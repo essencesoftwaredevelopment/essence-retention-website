@@ -1,0 +1,709 @@
+- generic [ref=e2]:
+  - banner [ref=e3]:
+    - img "ESSENCE Retention logo" [ref=e4]
+    - navigation [ref=e5]:
+      - link "Service Tiers" [ref=e6] [cursor=pointer]:
+        - /url: "#service-tiers"
+      - link "ESSENCE AI" [ref=e7] [cursor=pointer]:
+        - /url: "#essence-ai"
+      - link "Book a Free Demo" [ref=e8] [cursor=pointer]:
+        - /url: https://calendly.com/essencesoftwaredevelopment/essence-ai-demo
+  - main [ref=e9]:
+    - generic [ref=e10]:
+      - iframe [ref=e11]:
+        
+      - generic [ref=e12]:
+        - heading "Revenue Retention Systems for 7-Figure Shopify Brands" [level=1] [ref=e13]:
+          - generic [ref=e14]: Revenue Retention Systems
+          - text: for 7-Figure Shopify Brands
+        - generic [ref=e15]:
+          - generic [ref=e16]:
+            - generic [ref=e17]:
+              - generic [ref=e18]: ★
+              - generic [ref=e19]: ★
+              - generic [ref=e20]: ★
+              - generic [ref=e21]: ★
+              - generic [ref=e22]: ★
+            - paragraph [ref=e23]: "\"The next generation of ecommerce retention systems.\""
+          - generic [ref=e24]:
+            - generic [ref=e25]:
+              - img "Klaviyo Platinum Partner badge" [ref=e26]
+              - img "Shopify Plus Partner badge" [ref=e27]
+            - generic [ref=e28]: 11.2X AVG. ROI
+        - generic [ref=e29]:
+          - link "Explore service tiers" [ref=e30] [cursor=pointer]:
+            - /url: "#service-tiers"
+          - link "Book a Free Demo" [ref=e31] [cursor=pointer]:
+            - /url: https://calendly.com/essencesoftwaredevelopment/essence-ai-demo
+    - generic "Client logos" [ref=e32]:
+      - paragraph [ref=e33]: We're selective about who we work with. We only take on brands who are serious about building long-term customer value. Trusted by 20+ e-commerce brands in the US.
+      - generic [ref=e35]:
+        - img "CPL" [ref=e36]
+        - img "LFS" [ref=e37]
+        - img "Aer" [ref=e38]
+        - img "Drip" [ref=e39]
+        - img "Flutter" [ref=e40]
+        - img "GDN" [ref=e41]
+        - img "HBM" [ref=e42]
+        - img "Lash Star" [ref=e43]
+        - img "OEM" [ref=e44]
+        - img "PMEV" [ref=e45]
+        - img "Spicy Wear" [ref=e46]
+        - img "AG" [ref=e47]
+        - img "DAL" [ref=e48]
+        - img "Linear" [ref=e49]
+        - img "CPL" [ref=e50]
+        - img "LFS" [ref=e51]
+        - img "Aer" [ref=e52]
+        - img "Drip" [ref=e53]
+        - img "Flutter" [ref=e54]
+        - img "GDN" [ref=e55]
+        - img "HBM" [ref=e56]
+        - img "Lash Star" [ref=e57]
+        - img "OEM" [ref=e58]
+        - img "PMEV" [ref=e59]
+        - img "Spicy Wear" [ref=e60]
+        - img "AG" [ref=e61]
+        - img "DAL" [ref=e62]
+        - img "Linear" [ref=e63]
+    - generic [ref=e65]:
+      - generic [ref=e66]:
+        - generic [ref=e68]: $3.7M
+        - paragraph [ref=e71]: Generated for our partners through Klaviyo
+      - generic [ref=e72]:
+        - generic [ref=e73]:
+          - generic [ref=e74]: 34.4%
+          - paragraph [ref=e75]: Avg Revenue Share
+        - paragraph [ref=e78]: of revenue driven from Klaviyo across our partners
+    - generic [ref=e79]:
+      - generic [ref=e80]:
+        - heading "The operating system for your retention channel" [level=2] [ref=e81]:
+          - generic [ref=e82]: The operating system for
+          - generic [ref=e83]: your retention channel
+        - paragraph [ref=e84]: ESSENCE AI is our proprietary OS for retention marketing. AI handles the speed and volume, our team handles the taste.
+      - generic [ref=e85]:
+        - generic [ref=e88]:
+          - generic [ref=e90]: neurology
+          - heading "Dynamically learns your brand 24/7" [level=3] [ref=e91]
+          - paragraph [ref=e92]: Visual identity, voice, products, & real-time feedback all in one place.
+        - generic [ref=e93]:
+          - article [ref=e94]:
+            - iframe [ref=e96]:
+              - generic [ref=f2e2]:
+                - generic [ref=f2e3]:
+                  - generic [ref=f2e4]: Brand Url
+                  - generic [ref=f2e5]:
+                    - textbox "your-brand.com" [ref=f2e6]
+                    - button "Submit URL" [ref=f2e7] [cursor=pointer]:
+                      - img [ref=f2e8]
+                - img
+                - generic [ref=f2e11]:
+                  - generic [ref=f2e12]:
+                    - generic [ref=f2e14]: local_florist
+                    - generic [ref=f2e15]: Visual Profile
+                  - generic [ref=f2e16]:
+                    - generic [ref=f2e18]: ar_on_you
+                    - generic [ref=f2e19]: Copy and Voice
+                  - generic [ref=f2e20]:
+                    - generic [ref=f2e22]: folder_eye
+                    - generic [ref=f2e23]: Grounded Research
+                  - generic [ref=f2e24]:
+                    - generic [ref=f2e26]: auto_stories
+                    - generic [ref=f2e27]: Brand Story & Values
+                  - generic [ref=f2e28]:
+                    - generic [ref=f2e30]: monitor_heart
+                    - generic [ref=f2e31]: Realtime Feedback Syncing
+          - article [ref=e97]:
+            - iframe [ref=e99]:
+              - generic [ref=f3e2]:
+                - generic [ref=f3e3]:
+                  - generic [ref=f3e4]:
+                    - generic [ref=f3e5]:
+                      - img [ref=f3e6]
+                      - heading "Campaign Calendar" [level=2] [ref=f3e8]
+                    - paragraph [ref=f3e9]: Notion campaigns with newly generated calendar suggestions.
+                  - generic [ref=f3e10]:
+                    - generic [ref=f3e11]: 5 campaigns in view
+                    - generic [ref=f3e12]:
+                      - button "Previous month" [ref=f3e13] [cursor=pointer]:
+                        - img [ref=f3e14]
+                      - button "Apr 20 - May 31, 2026" [ref=f3e16] [cursor=pointer]
+                      - button "Next month" [ref=f3e17] [cursor=pointer]:
+                        - img [ref=f3e18]
+                      - button "Campaign Ideation" [ref=f3e20] [cursor=pointer]:
+                        - img [ref=f3e21]
+                        - text: Campaign Ideation
+                - generic [ref=f3e24]:
+                  - generic [ref=f3e25]:
+                    - generic [ref=f3e26]: Mon
+                    - generic [ref=f3e27]: Tue
+                    - generic [ref=f3e28]: Wed
+                    - generic [ref=f3e29]: Thu
+                    - generic [ref=f3e30]: Fri
+                    - generic [ref=f3e31]: Sat
+                    - generic [ref=f3e32]: Sun
+                  - generic [ref=f3e34]:
+                    - generic [ref=f3e35]:
+                      - button "Add campaign idea for April 20, 2026" [ref=f3e36] [cursor=pointer]:
+                        - img [ref=f3e37]
+                      - generic [ref=f3e39]: "20"
+                    - generic [ref=f3e40]:
+                      - button "Add campaign idea for April 21, 2026" [ref=f3e41] [cursor=pointer]:
+                        - img [ref=f3e42]
+                      - generic [ref=f3e44]: "21"
+                      - generic [ref=f3e48]:
+                        - generic [ref=f3e49]:
+                          - generic [ref=f3e50]:
+                            - img [ref=f3e52]
+                            - generic [ref=f3e54]: "Indulgence Meets Nutrition: The Caramel Bar Experience"
+                          - generic [ref=f3e56]: Benefit Focus
+                        - generic [ref=f3e58]:
+                          - img [ref=f3e60]
+                          - generic [ref=f3e62]: Brief ready
+                    - generic [ref=f3e63]:
+                      - button "Add campaign idea for April 22, 2026" [ref=f3e64] [cursor=pointer]:
+                        - img [ref=f3e65]
+                      - generic [ref=f3e67]: "22"
+                    - generic [ref=f3e68]:
+                      - button "Add campaign idea for April 23, 2026" [ref=f3e69] [cursor=pointer]:
+                        - img [ref=f3e70]
+                      - generic [ref=f3e72]: "23"
+                      - generic [ref=f3e76]:
+                        - generic [ref=f3e77]:
+                          - generic [ref=f3e78]:
+                            - img [ref=f3e80]
+                            - generic [ref=f3e82]: "Your Morning Fuel: Start the Day the Right Way"
+                          - generic [ref=f3e84]: Lifestyle
+                        - generic [ref=f3e86]:
+                          - img [ref=f3e88]
+                          - generic [ref=f3e90]: Brief ready
+                    - generic [ref=f3e91]:
+                      - button "Add campaign idea for April 24, 2026" [ref=f3e92] [cursor=pointer]:
+                        - img [ref=f3e93]
+                      - generic [ref=f3e95]: "24"
+                    - generic [ref=f3e96]:
+                      - button "Add campaign idea for April 25, 2026" [ref=f3e97] [cursor=pointer]:
+                        - img [ref=f3e98]
+                      - generic [ref=f3e100]: "25"
+                      - generic [ref=f3e104]:
+                        - generic [ref=f3e105]:
+                          - generic [ref=f3e106]:
+                            - img [ref=f3e108]
+                            - generic [ref=f3e110]: "Clean Protein for Clean Energy: Why Ingredients Matter"
+                          - generic [ref=f3e112]: Industry Education
+                        - generic [ref=f3e114]:
+                          - img [ref=f3e116]
+                          - generic [ref=f3e118]: Brief ready
+                    - generic [ref=f3e119]:
+                      - button "Add campaign idea for April 26, 2026" [ref=f3e120] [cursor=pointer]:
+                        - img [ref=f3e121]
+                      - generic [ref=f3e123]: "26"
+                    - generic [ref=f3e124]:
+                      - button "Add campaign idea for April 27, 2026" [ref=f3e125] [cursor=pointer]:
+                        - img [ref=f3e126]
+                      - generic [ref=f3e128]: "27"
+                    - generic [ref=f3e129]:
+                      - button "Add campaign idea for April 28, 2026" [ref=f3e130] [cursor=pointer]:
+                        - img [ref=f3e131]
+                      - generic [ref=f3e133]: "28"
+                      - generic [ref=f3e137]:
+                        - generic [ref=f3e138]:
+                          - generic [ref=f3e139]:
+                            - img [ref=f3e141]
+                            - generic [ref=f3e143]: "The Protein Gap: Are You Getting Enough?"
+                          - generic [ref=f3e145]: Industry Education
+                        - generic [ref=f3e147]:
+                          - img [ref=f3e149]
+                          - generic [ref=f3e151]: Brief ready
+                    - generic [ref=f3e152]:
+                      - button "Add campaign idea for April 29, 2026" [ref=f3e153] [cursor=pointer]:
+                        - img [ref=f3e154]
+                      - generic [ref=f3e156]: "29"
+                    - generic [ref=f3e157]:
+                      - button "Add campaign idea for April 30, 2026" [ref=f3e158] [cursor=pointer]:
+                        - img [ref=f3e159]
+                      - generic [ref=f3e161]: "30"
+                      - generic [ref=f3e165]:
+                        - generic [ref=f3e166]:
+                          - generic [ref=f3e167]:
+                            - img [ref=f3e169]
+                            - generic [ref=f3e171]: "Beyond Candy: Protein Bars That Truly Satisfy"
+                          - generic [ref=f3e173]: Comparison Us Vs Them
+                        - generic [ref=f3e175]:
+                          - img [ref=f3e177]
+                          - generic [ref=f3e179]: Brief ready
+                    - generic [ref=f3e180]:
+                      - button "Add campaign idea for May 1, 2026" [ref=f3e181] [cursor=pointer]:
+                        - img [ref=f3e182]
+                      - generic [ref=f3e184]: May 1
+                    - generic [ref=f3e185]:
+                      - button "Add campaign idea for May 2, 2026" [ref=f3e186] [cursor=pointer]:
+                        - img [ref=f3e187]
+                      - generic [ref=f3e189]: "2"
+                      - generic [ref=f3e193]:
+                        - generic [ref=f3e194]:
+                          - generic [ref=f3e195]:
+                            - img [ref=f3e197]
+                            - generic [ref=f3e199]: "Not Just Numbers: The Real Power of Protein"
+                          - generic [ref=f3e201]: Industry Education
+                        - generic [ref=f3e203]:
+                          - img [ref=f3e205]
+                          - generic [ref=f3e207]: Brief ready
+                    - generic [ref=f3e208]:
+                      - button "Add campaign idea for May 3, 2026" [ref=f3e209] [cursor=pointer]:
+                        - img [ref=f3e210]
+                      - generic [ref=f3e212]: "3"
+                    - generic [ref=f3e213]:
+                      - button "Add campaign idea for May 4, 2026" [ref=f3e214] [cursor=pointer]:
+                        - img [ref=f3e215]
+                      - generic [ref=f3e217]: "4"
+                    - generic [ref=f3e218]:
+                      - button "Add campaign idea for May 5, 2026" [ref=f3e219] [cursor=pointer]:
+                        - img [ref=f3e220]
+                      - generic [ref=f3e222]: "5"
+                      - generic [ref=f3e226]:
+                        - generic [ref=f3e227]:
+                          - generic [ref=f3e228]:
+                            - img [ref=f3e230]
+                            - generic [ref=f3e232]: "Summer-Ready: Snacks That Don't Compromise"
+                          - generic [ref=f3e234]: Seasonal
+                        - generic [ref=f3e236]:
+                          - img [ref=f3e238]
+                          - generic [ref=f3e240]: Brief ready
+                    - generic [ref=f3e241]:
+                      - button "Add campaign idea for May 6, 2026" [ref=f3e242] [cursor=pointer]:
+                        - img [ref=f3e243]
+                      - generic [ref=f3e245]: "6"
+                    - generic [ref=f3e246]:
+                      - button "Add campaign idea for May 7, 2026" [ref=f3e247] [cursor=pointer]:
+                        - img [ref=f3e248]
+                      - generic [ref=f3e250]: "7"
+                      - generic [ref=f3e254]:
+                        - generic [ref=f3e255]:
+                          - generic [ref=f3e256]:
+                            - img [ref=f3e258]
+                            - generic [ref=f3e260]: "From Ingredients to Action: Fueling Your Best Day"
+                          - generic [ref=f3e262]: Feature Deep Dive
+                        - generic [ref=f3e264]:
+                          - img [ref=f3e266]
+                          - generic [ref=f3e268]: Brief ready
+                    - generic [ref=f3e269]:
+                      - button "Add" [ref=f3e270] [cursor=pointer]:
+                        - img [ref=f3e271]
+                      - generic [ref=f3e273]: "8"
+                      - generic [ref=f3e277]:
+                        - generic [ref=f3e278]:
+                          - generic [ref=f3e279]:
+                            - img [ref=f3e281]
+                            - generic [ref=f3e283]: "Fuel Without the Guilt: Redefining the Snack Break"
+                          - generic [ref=f3e285]: Benefit Focus
+                        - generic [ref=f3e287]:
+                          - img [ref=f3e289]
+                          - generic [ref=f3e291]: Brief ready
+                    - generic [ref=f3e292]:
+                      - button "Add" [ref=f3e293] [cursor=pointer]:
+                        - img [ref=f3e294]
+                      - generic [ref=f3e296]: "9"
+                    - generic [ref=f3e297]:
+                      - button "Add" [ref=f3e298] [cursor=pointer]:
+                        - img [ref=f3e299]
+                      - generic [ref=f3e301]: "10"
+                    - generic [ref=f3e302]:
+                      - button "Add" [ref=f3e303] [cursor=pointer]:
+                        - img [ref=f3e304]
+                      - generic [ref=f3e306]: "11"
+                    - generic [ref=f3e307]:
+                      - button "Add" [ref=f3e308] [cursor=pointer]:
+                        - img [ref=f3e309]
+                      - generic [ref=f3e311]: "12"
+                      - generic [ref=f3e315]:
+                        - generic [ref=f3e316]:
+                          - generic [ref=f3e317]:
+                            - img [ref=f3e319]
+                            - generic [ref=f3e321]: Real Ingredients, Real Results
+                          - generic [ref=f3e323]: Feature Deep Dive
+                        - generic [ref=f3e325]:
+                          - img [ref=f3e327]
+                          - generic [ref=f3e329]: Brief ready
+                    - generic [ref=f3e330]:
+                      - button "Add" [ref=f3e331] [cursor=pointer]:
+                        - img [ref=f3e332]
+                      - generic [ref=f3e334]: "13"
+                    - generic [ref=f3e335]:
+                      - button "Add" [ref=f3e336] [cursor=pointer]:
+                        - img [ref=f3e337]
+                      - generic [ref=f3e339]: "14"
+                      - generic [ref=f3e343]:
+                        - generic [ref=f3e344]:
+                          - generic [ref=f3e345]:
+                            - img [ref=f3e347]
+                            - generic [ref=f3e349]: Why Athletes Are Switching to Clean Protein
+                          - generic [ref=f3e351]: Social Proof
+                        - generic [ref=f3e353]:
+                          - img [ref=f3e355]
+                          - generic [ref=f3e357]: Brief ready
+                    - generic [ref=f3e358]:
+                      - button "Add" [ref=f3e359] [cursor=pointer]:
+                        - img [ref=f3e360]
+                      - generic [ref=f3e362]: "15"
+                    - generic [ref=f3e363]:
+                      - button "Add" [ref=f3e364] [cursor=pointer]:
+                        - img [ref=f3e365]
+                      - generic [ref=f3e367]: "16"
+                      - generic [ref=f3e371]:
+                        - generic [ref=f3e372]:
+                          - generic [ref=f3e373]:
+                            - img [ref=f3e375]
+                            - generic [ref=f3e377]: Beat the Afternoon Slump Naturally
+                          - generic [ref=f3e379]: Lifestyle
+                        - generic [ref=f3e381]:
+                          - img [ref=f3e383]
+                          - generic [ref=f3e385]: Brief ready
+                    - generic [ref=f3e386]:
+                      - button "Add" [ref=f3e387] [cursor=pointer]:
+                        - img [ref=f3e388]
+                      - generic [ref=f3e390]: "17"
+                    - generic [ref=f3e391]:
+                      - button "Add" [ref=f3e392] [cursor=pointer]:
+                        - img [ref=f3e393]
+                      - generic [ref=f3e395]: "18"
+                    - generic [ref=f3e396]:
+                      - button "Add" [ref=f3e397] [cursor=pointer]:
+                        - img [ref=f3e398]
+                      - generic [ref=f3e400]: "19"
+                      - generic [ref=f3e404]:
+                        - generic [ref=f3e405]:
+                          - generic [ref=f3e406]:
+                            - img [ref=f3e408]
+                            - generic [ref=f3e410]: Our Best-Selling Bar, Now in Three New Flavours
+                          - generic [ref=f3e412]: Product Launch
+                        - generic [ref=f3e414]:
+                          - img [ref=f3e416]
+                          - generic [ref=f3e418]: Brief ready
+                    - generic [ref=f3e419]:
+                      - button "Add" [ref=f3e420] [cursor=pointer]:
+                        - img [ref=f3e421]
+                      - generic [ref=f3e423]: "20"
+                    - generic [ref=f3e424]:
+                      - button "Add" [ref=f3e425] [cursor=pointer]:
+                        - img [ref=f3e426]
+                      - generic [ref=f3e428]: "21"
+                      - generic [ref=f3e432]:
+                        - generic [ref=f3e433]:
+                          - generic [ref=f3e434]:
+                            - img [ref=f3e436]
+                            - generic [ref=f3e438]: The Science Behind Satiety
+                          - generic [ref=f3e440]: Industry Education
+                        - generic [ref=f3e442]:
+                          - img [ref=f3e444]
+                          - generic [ref=f3e446]: Brief ready
+                    - generic [ref=f3e447]:
+                      - button "Add" [ref=f3e448] [cursor=pointer]:
+                        - img [ref=f3e449]
+                      - generic [ref=f3e451]: "22"
+                    - generic [ref=f3e452]:
+                      - button "Add" [ref=f3e453] [cursor=pointer]:
+                        - img [ref=f3e454]
+                      - generic [ref=f3e456]: "23"
+                      - generic [ref=f3e460]:
+                        - generic [ref=f3e461]:
+                          - generic [ref=f3e462]:
+                            - img [ref=f3e464]
+                            - generic [ref=f3e466]: "Long Weekend Fuel: Protein for Every Adventure"
+                          - generic [ref=f3e468]: Seasonal
+                        - generic [ref=f3e470]:
+                          - img [ref=f3e472]
+                          - generic [ref=f3e474]: Brief ready
+                    - generic [ref=f3e475]:
+                      - button "Add" [ref=f3e476] [cursor=pointer]:
+                        - img [ref=f3e477]
+                      - generic [ref=f3e479]: "24"
+                    - generic [ref=f3e480]:
+                      - button "Add" [ref=f3e481] [cursor=pointer]:
+                        - img [ref=f3e482]
+                      - generic [ref=f3e484]: "25"
+                    - generic [ref=f3e485]:
+                      - button "Add" [ref=f3e486] [cursor=pointer]:
+                        - img [ref=f3e487]
+                      - generic [ref=f3e489]: "26"
+                      - generic [ref=f3e493]:
+                        - generic [ref=f3e494]:
+                          - generic [ref=f3e495]:
+                            - img [ref=f3e497]
+                            - generic [ref=f3e499]: "Macros Made Easy: A Simple Guide"
+                          - generic [ref=f3e501]: Industry Education
+                        - generic [ref=f3e503]:
+                          - img [ref=f3e505]
+                          - generic [ref=f3e507]: Brief ready
+                    - generic [ref=f3e508]:
+                      - button "Add" [ref=f3e509] [cursor=pointer]:
+                        - img [ref=f3e510]
+                      - generic [ref=f3e512]: "27"
+                    - generic [ref=f3e513]:
+                      - button "Add" [ref=f3e514] [cursor=pointer]:
+                        - img [ref=f3e515]
+                      - generic [ref=f3e517]: "28"
+                      - generic [ref=f3e521]:
+                        - generic [ref=f3e522]:
+                          - generic [ref=f3e523]:
+                            - img [ref=f3e525]
+                            - generic [ref=f3e527]: "Customer Stories: How Protein Changed Their Routine"
+                          - generic [ref=f3e529]: Social Proof
+                        - generic [ref=f3e531]:
+                          - img [ref=f3e533]
+                          - generic [ref=f3e535]: Brief ready
+                    - generic [ref=f3e536]:
+                      - button "Add" [ref=f3e537] [cursor=pointer]:
+                        - img [ref=f3e538]
+                      - generic [ref=f3e540]: "29"
+                    - generic [ref=f3e541]:
+                      - button "Add" [ref=f3e542] [cursor=pointer]:
+                        - img [ref=f3e543]
+                      - generic [ref=f3e545]: "30"
+                      - generic [ref=f3e549]:
+                        - generic [ref=f3e550]:
+                          - generic [ref=f3e551]:
+                            - img [ref=f3e553]
+                            - generic [ref=f3e555]: "June Preview: What's Coming Next Month"
+                          - generic [ref=f3e557]: Brand Moment
+                        - generic [ref=f3e559]:
+                          - img [ref=f3e561]
+                          - generic [ref=f3e563]: Brief ready
+                    - generic [ref=f3e564]:
+                      - button "Add" [ref=f3e565] [cursor=pointer]:
+                        - img [ref=f3e566]
+                      - generic [ref=f3e568]: "31"
+          - article [ref=e100]
+          - article [ref=e103]:
+            - img [ref=e105]
+          - article [ref=e106]:
+            - img [ref=e108]
+    - generic [ref=e110]:
+      - generic [ref=e111]:
+        - paragraph [ref=e112]: Client Success Stories
+        - heading "Hear From Our Partners" [level=2] [ref=e113]
+      - generic [ref=e114]:
+        - figure "Linear Bar" [ref=e115]:
+          - text: “
+          - blockquote [ref=e116]: Everyone on the team has been a pleasure to work with.
+          - paragraph [ref=e117]:
+            - text: Linear Bar came to Essence with a patchwork Klaviyo setup and a highly engaged list they weren't using. Within the first month, flows were live and email was driving
+            - strong [ref=e118]: 20% of attributed revenue
+            - text: — climbing to
+            - strong [ref=e119]: 33% the following week
+            - text: .
+          - img "Linear Bar" [ref=e121]
+        - figure "Spicy Wear" [ref=e122]:
+          - text: “
+          - blockquote [ref=e123]: They genuinely want to see you succeed.
+          - paragraph [ref=e124]:
+            - text: For John at Spicy Wear, Essence was never just an email vendor. Jacques contributed across the business — and the results followed, with the brand growing over
+            - strong [ref=e125]: 110%
+            - text: since they started working together.
+          - img "Spicy Wear" [ref=e127]
+        - figure "Aer Cosmetics" [ref=e128]:
+          - text: “
+          - blockquote [ref=e129]: The best investment I've made in my business.
+          - paragraph [ref=e130]:
+            - text: Aer Cosmetics grew
+            - strong [ref=e131]: 11x from 2024 to 2025
+            - text: ", and founder Paige credits Essence's strategic marketing. Now every email that goes out reflects her brand exactly as she intended."
+          - img "Aer Cosmetics" [ref=e133]
+      - generic [ref=e134]:
+        - generic [ref=e135]:
+          - generic [ref=e136]:
+            - generic [ref=e137]:
+              - heading "Paige DeAngelo" [level=3] [ref=e138]
+              - paragraph [ref=e139]:
+                - text: Founder of
+                - strong [ref=e140]: Aer Cosmetics
+            - generic [ref=e141]: ★ ★ ★ ★ ★
+          - blockquote [ref=e142]: We Have 11 X'd Our Sales
+          - iframe [ref=e144]:
+            
+        - generic [ref=e145]:
+          - generic [ref=e146]:
+            - generic [ref=e147]:
+              - heading "John King" [level=3] [ref=e148]
+              - paragraph [ref=e149]:
+                - text: Founder of
+                - strong [ref=e150]: Spicy Wear
+            - generic [ref=e151]: ★ ★ ★ ★ ★
+          - blockquote [ref=e152]: They genuinely want to see you succeed
+          - iframe [ref=e154]:
+            
+        - generic [ref=e155]:
+          - generic [ref=e156]:
+            - generic [ref=e157]:
+              - heading "Gavin Kennelly" [level=3] [ref=e158]
+              - paragraph [ref=e159]:
+                - text: Founder of
+                - strong [ref=e160]: Young Irish Entrepreneurs
+            - generic [ref=e161]: ★ ★ ★ ★ ★
+          - blockquote [ref=e162]: Their experience made it very seamless for us
+          - iframe [ref=e164]:
+            
+    - generic [ref=e166]:
+      - generic [ref=e167]:
+        - paragraph [ref=e168]: Service Options
+        - heading "Choose Your Growth Path" [level=2] [ref=e169]
+      - generic [ref=e170]:
+        - generic [ref=e171]:
+          - heading "bolt ESSENCE Core" [level=3] [ref=e172]:
+            - generic [ref=e173]: bolt
+            - text: ESSENCE Core
+          - paragraph [ref=e174]: For brands building their first real retention engine.
+          - link "Book a Call" [ref=e175] [cursor=pointer]:
+            - /url: https://calendly.com/essencesoftwaredevelopment/discovery-call?utm_source=website&utm_content=over20k
+        - generic [ref=e176]:
+          - heading "trending_up ESSENCE Scale" [level=3] [ref=e177]:
+            - generic [ref=e178]: trending_up
+            - text: ESSENCE Scale
+          - paragraph [ref=e179]: For brands ready to make retention a primary revenue channel.
+          - link "Book a Call" [ref=e180] [cursor=pointer]:
+            - /url: https://calendly.com/essencesoftwaredevelopment/discovery-call?utm_source=website&utm_content=over100k
+        - generic [ref=e181]:
+          - heading "workspace_premium ESSENCE Elite" [level=3] [ref=e182]:
+            - generic [ref=e183]: workspace_premium
+            - text: ESSENCE Elite
+          - paragraph [ref=e184]: For 8-figure brands who treat retention as infrastructure.
+          - link "Book a Call" [ref=e185] [cursor=pointer]:
+            - /url: https://calendly.com/essencesoftwaredevelopment/discovery-call?utm_source=website&utm_content=over200k
+    - heading "Impeccable Designs" [level=2] [ref=e188]
+    - generic [ref=e191]:
+      - heading "Meet the Team:" [level=2] [ref=e192]
+      - generic [ref=e193]:
+        - generic [ref=e194]:
+          - img "Jacques Schaeken" [ref=e197]
+          - generic [ref=e198]:
+            - generic [ref=e199]:
+              - heading "Jacques Schaeken" [level=3] [ref=e200]
+              - paragraph [ref=e201]: Founder & COO
+            - link "View LinkedIn →" [ref=e202] [cursor=pointer]:
+              - /url: https://www.linkedin.com/in/1jacques/
+        - generic [ref=e203]:
+          - img "Iman Ismail" [ref=e206]
+          - generic [ref=e207]:
+            - generic [ref=e208]:
+              - heading "Iman Ismail" [level=3] [ref=e209]
+              - paragraph [ref=e210]: Head of Client Success
+            - link "View LinkedIn →" [ref=e211] [cursor=pointer]:
+              - /url: https://www.linkedin.com/in/iman-i/
+        - generic [ref=e212]:
+          - img "Ana Luísa" [ref=e215]
+          - generic [ref=e216]:
+            - generic [ref=e217]:
+              - heading "Ana Luísa" [level=3] [ref=e218]
+              - paragraph [ref=e219]: Head of Strategy
+            - link "View Instagram →" [ref=e220] [cursor=pointer]:
+              - /url: https://www.instagram.com/analuisamarinsc/
+        - generic [ref=e221]:
+          - img "Ramon Marquezine" [ref=e224]
+          - generic [ref=e225]:
+            - generic [ref=e226]:
+              - heading "Ramon Marquezine" [level=3] [ref=e227]
+              - paragraph [ref=e228]: Head of Graphic Design
+            - link "View Instagram →" [ref=e229] [cursor=pointer]:
+              - /url: https://www.instagram.com/ramonmarquezine/
+    - generic [ref=e231]:
+      - heading "Ready to Scale Your Retention?" [level=2] [ref=e232]
+      - paragraph [ref=e233]: Join 20+ e-commerce brands achieving an average 11.2X ROI with our hyper-performant retention system.
+      - generic [ref=e234]:
+        - link "Get a FREE Retention Audit" [ref=e235] [cursor=pointer]:
+          - /url: https://calendly.com/essencesoftwaredevelopment/discovery-call
+        - link "View Service Tiers" [ref=e236] [cursor=pointer]:
+          - /url: "#service-tiers"
+    - generic [ref=e238]:
+      - heading "Frequently Asked Questions" [level=2] [ref=e239]
+      - generic [ref=e240]:
+        - generic [ref=e241]:
+          - button "What ROI do you typically generate for brands at our level?" [ref=e242]:
+            - generic [ref=e243]: What ROI do you typically generate for brands at our level?
+            - img [ref=e244]
+          - paragraph [ref=e246]: Most brands see a meaningful lift within the first 30 to 60 days. Typical outcomes range from +15% to +40% increase in email/SMS attributed revenue, depending on current setup quality, traffic volume, and inventory depth. If you're already sending, we focus on improving profitability and consistency, not just volume.
+        - generic [ref=e247]:
+          - button "How do you improve what we've already built without starting over?" [ref=e248]:
+            - generic [ref=e249]: How do you improve what we've already built without starting over?
+            - img [ref=e250]
+          - paragraph [ref=e252]: We don't nuke accounts. We audit what exists, keep what's working, and rebuild only what's limiting results (messaging, segmentation, structure, timing, deliverability). You keep your existing data, list, flows, learnings, and brand voice, we simply make the system perform at a higher level.
+        - generic [ref=e253]:
+          - button "Will this actually increase LTV, or just send more emails?" [ref=e254]:
+            - generic [ref=e255]: Will this actually increase LTV, or just send more emails?
+            - img [ref=e256]
+          - paragraph [ref=e258]: We're not here to "send more." We're here to increase repeat purchase rate, retention, and lifetime value. More volume without strategy kills deliverability. We prioritize quality, relevance, and customer lifecycle.
+        - generic [ref=e259]:
+          - button "How do you avoid list fatigue and unsubscribes?" [ref=e260]:
+            - generic [ref=e261]: How do you avoid list fatigue and unsubscribes?
+            - img [ref=e262]
+          - paragraph [ref=e264]:
+            - text: "We protect your list aggressively:"
+            - text: • Engagement-based sending (throttling unengaged users)
+            - text: • Smart frequency caps
+            - text: • Strong "value-first" campaign mix
+            - text: • Deliverability monitoring
+            - text: • Segmentation that prevents over-mailing
+        - generic [ref=e265]:
+          - button "Can you match our brand voice and tone consistently?" [ref=e266]:
+            - generic [ref=e267]: Can you match our brand voice and tone consistently?
+            - img [ref=e268]
+          - paragraph [ref=e270]: "Yes. We run a structured tone-matching process: we analyze your site, ads, socials, customer reviews, and existing emails, then build a consistent messaging style guide. Every email follows that voice so the brand stays coherent."
+        - generic [ref=e271]:
+          - button "Can you audit our current setup before making recommendations?" [ref=e272]:
+            - generic [ref=e273]: Can you audit our current setup before making recommendations?
+            - img [ref=e274]
+          - paragraph [ref=e276]:
+            - text: "Yes. Every partnership starts with a full audit:"
+            - text: • Flows and campaigns
+            - text: • Tracking + event setup
+            - text: • Popups / list growth
+            - text: • Segmentation
+            - text: • Deliverability
+            - text: • Creative and conversion structure
+            - text: You'll get a clear roadmap before execution starts.
+        - generic [ref=e277]:
+          - button "What does your reporting look like, can we track performance clearly?" [ref=e278]:
+            - generic [ref=e279]: What does your reporting look like, can we track performance clearly?
+            - img [ref=e280]
+          - paragraph [ref=e282]:
+            - text: "Yes. We provide clear reporting that ties actions to results:"
+            - text: • Email + SMS revenue (accounting for attribution nuance)
+            - text: • Campaign vs. flow split
+            - text: • Revenue per recipient
+            - text: • Deliverability and list health
+            - text: • Weekly/monthly highlights + next actions
+        - generic [ref=e283]:
+          - button "How do you ensure deliverability stays high at our list size?" [ref=e284]:
+            - generic [ref=e285]: How do you ensure deliverability stays high at our list size?
+            - img [ref=e286]
+          - paragraph [ref=e288]:
+            - text: "Deliverability is part of the system:"
+            - text: • Proper DNS setup (SPF/DKIM/DMARC + dedicated sending domain)
+            - text: • Engagement filtering
+            - text: • Smart warmup and ramping strategy
+            - text: • Bounce/complaint monitoring
+            - text: • Routine list cleaning and suppression management
+        - generic [ref=e289]:
+          - button "What's your onboarding process, how fast can we launch?" [ref=e290]:
+            - generic [ref=e291]: What's your onboarding process, how fast can we launch?
+            - img [ref=e292]
+          - paragraph [ref=e294]:
+            - text: "Fast. Most brands are live in 7 to 14 days. Onboarding includes:"
+            - text: • Account access + baseline capture
+            - text: • Audit + roadmap
+            - text: • Flow fixes + quick wins first
+            - text: • Campaign engine setup (calendar + approvals)
+        - generic [ref=e295]:
+          - button "Do you handle everything or just consult and guide?" [ref=e296]:
+            - generic [ref=e297]: Do you handle everything or just consult and guide?
+            - img [ref=e298]
+          - paragraph [ref=e300]:
+            - text: "We do both, but most clients choose done-for-you. We can:"
+            - text: • fully manage retention (strategy + copy + design + build)
+            - text: • or consult and direct your internal team
+  - contentinfo [ref=e301]:
+    - paragraph [ref=e302]: © 2026 Essence Retention. All rights reserved.
+    - generic [ref=e303]:
+      - link "Privacy Policy" [ref=e304] [cursor=pointer]:
+        - /url: /privacy-policy
+      - link "jacques@essenceretention.com" [ref=e305] [cursor=pointer]:
+        - /url: mailto:jacques@essenceretention.com
