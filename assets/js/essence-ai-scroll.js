@@ -2,28 +2,28 @@
   const stages = [
     {
       icon: 'neurology',
-      heading: 'Dynamically learns your brand 24/7',
-      sub: 'Visual identity, voice, products, & real-time feedback all in one place.',
+      heading: 'It learns your brand before it writes a word',
+      sub: 'Visual identity, voice, products, and real-time customer feedback — absorbed into one brand brain, 24/7.',
     },
     {
       icon: 'calendar_check',
-      heading: 'On-brand campaigns',
-      sub: 'Campaigns built around your customer segments, product drops, and front end marketing.',
+      heading: 'Your calendar, planned weeks ahead',
+      sub: 'Campaigns mapped to your segments, drops, and promos — so retention runs on strategy, never scramble.',
     },
     {
       icon: 'auto_awesome_motion',
-      heading: 'AI email generations, refined by human designers',
-      sub: 'AI-generated email designs and copy, refined by our team to ensure brand consistency and high performance.',
+      heading: 'AI drafts in minutes, designers perfect every pixel',
+      sub: 'Machine speed gets each email to 90% instantly. Our senior team takes it the last mile to on-brand and high-converting.',
     },
     {
       icon: 'inbox',
-      heading: 'From idea to scheduled without the headaches',
-      sub: 'Review, comment, and approve, our system handles the rest.',
+      heading: 'You approve. We handle the rest.',
+      sub: 'Review, comment, and sign off in one place — strategy, design, QA, and scheduling are all on us.',
     },
     {
       icon: 'bar_chart_4_bars',
-      heading: "See performance in real-time",
-      sub: 'Live revenue, metrics, campaign history, and flow performance in one view.',
+      heading: 'Real-time proof it\'s working',
+      sub: 'Live revenue, campaign history, and flow performance — see exactly what your retention channel is earning.',
     },
   ];
 
@@ -98,6 +98,23 @@
     if (!pinnedCard || detailCards.length !== stages.length) return;
 
     setCardContent(pinnedCard, stages[0]);
+
+    detailCards.forEach((card, index) => {
+      const stage = stages[index];
+      if (!stage || card.querySelector('.detail-card__caption')) return;
+      const caption = document.createElement('div');
+      caption.className = 'detail-card__caption';
+      const icon = document.createElement('div');
+      icon.innerHTML = `<span class="material-symbols-rounded">${stage.icon}</span>`;
+      const heading = document.createElement('h3');
+      heading.className = 'detail-card__caption-heading';
+      heading.textContent = stage.heading;
+      const sub = document.createElement('p');
+      sub.className = 'detail-card__caption-sub';
+      sub.textContent = stage.sub;
+      caption.append(icon, heading, sub);
+      card.appendChild(caption);
+    });
 
     if (
       initialized ||

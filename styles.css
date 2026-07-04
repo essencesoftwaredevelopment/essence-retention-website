@@ -361,6 +361,12 @@ main {
   line-height: 1.65;
 }
 
+.essence-ai__intro .eyebrow {
+  margin: 0 0 20px;
+  font-size: 0.75rem;
+  line-height: 1.2;
+}
+
 .essence-ai__stage {
   width: min(1180px, 100%);
   margin: 0 auto;
@@ -487,6 +493,33 @@ main {
 .detail-card__media iframe {
   border: 0;
   background: transparent;
+}
+
+.detail-card__caption {
+  display: none;
+  flex-direction: column;
+  gap: 8px;
+  padding: 18px 20px 22px;
+  border-top: 1px solid var(--border, rgba(255, 255, 255, 0.12));
+}
+
+.detail-card__caption .material-symbols-rounded {
+  font-size: 2rem;
+}
+
+.detail-card__caption-heading {
+  margin: 0;
+  color: var(--foreground, #f3f5ff);
+  font-size: 1.3rem;
+  font-weight: 700;
+  line-height: 1.15;
+}
+
+.detail-card__caption-sub {
+  margin: 0;
+  color: var(--muted-foreground, #adb0c6);
+  font-size: 0.95rem;
+  line-height: 1.5;
 }
 
 /* ========== Client Logo Marquee ========== */
@@ -1349,10 +1382,6 @@ main {
 
 @media (max-width: 768px) {
   .stats-row {
-    display: none;
-  }
-
-  .essence-ai {
     display: none;
   }
 
@@ -2309,13 +2338,34 @@ body.modal-open {
     grid-template-columns: 1fr;
   }
 
-  .pinned-card__inner {
-    min-height: auto;
+  .pinned-card {
+    display: none;
   }
 
   .detail-card {
-    height: clamp(420px, 70vh, 620px);
-    min-height: 420px;
+    height: auto;
+    min-height: 0;
+    opacity: 1;
+    transform: none;
+  }
+
+  .detail-card__media {
+    flex: none;
+    height: clamp(280px, 48vh, 400px);
+  }
+
+  /* Render animation iframes at a wider virtual viewport, scaled down to fit,
+     so their desktop/tablet layouts survive narrow cards. */
+  .detail-card__media--html-animation iframe {
+    --iframe-scale: 0.62;
+    width: calc(100% / var(--iframe-scale));
+    height: calc(100% / var(--iframe-scale));
+    transform: scale(var(--iframe-scale));
+    transform-origin: top left;
+  }
+
+  .detail-card__caption {
+    display: flex;
   }
 }
 
