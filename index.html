@@ -39,6 +39,7 @@
     }
   </script>
   <script type="module" src="assets/js/posthog-init.mjs"></script>
+  <script type="module" src="assets/js/posthog-cta-tracking.mjs"></script>
   <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.css" /> -->
 </head>
 
@@ -49,9 +50,9 @@
     <header class="site-header" data-scroll-section>
       <img class="site-header__logo" src="assets/images/ESSENCE-Retention.png" alt="ESSENCE Retention logo" />
       <nav class="site-header__nav">
-        <a class="site-header__link" href="#service-tiers">Service Tiers</a>
-        <a class="site-header__link" href="#essence-ai">ESSENCE AI</a>
-        <a class="button button--primary site-header__cta"
+        <a class="site-header__link" href="#service-tiers" data-ph-cta="nav_service_tiers" data-ph-cta-location="header">Service Tiers</a>
+        <a class="site-header__link" href="#essence-ai" data-ph-cta="nav_essence_ai" data-ph-cta-location="header">ESSENCE AI</a>
+        <a class="button button--primary site-header__cta" data-ph-cta="book_demo" data-ph-cta-location="header"
           href="https://calendly.com/essencesoftwaredevelopment/essence-ai-demo">Book a Free Demo</a>
       </nav>
     </header>
@@ -89,8 +90,8 @@
             </div>
           </div>
           <div class="hero__actions">
-            <a class="button button--ghost" href="#service-tiers">Explore service tiers</a>
-            <a class="button button--primary"
+            <a class="button button--ghost" href="#service-tiers" data-ph-cta="explore_service_tiers" data-ph-cta-location="hero">Explore service tiers</a>
+            <a class="button button--primary" data-ph-cta="book_demo" data-ph-cta-location="hero"
               href="https://calendly.com/essencesoftwaredevelopment/essence-ai-demo">Book a Free Demo</a>
           </div>
         </div>
@@ -403,7 +404,7 @@
               </ul> -->
 
               <!-- <p class="feature-list">Foundational flows, weekly campaigns, and a clear segmentation setup, all run through ESSENCE AI. The fastest way to turn email into a real revenue channel without hiring a team.</p> -->
-              <a href="https://calendly.com/essencesoftwaredevelopment/discovery-call?utm_source=website&utm_content=over20k"
+              <a data-ph-cta="tier_book_call" data-ph-cta-location="service_tier_over20k" href="https://calendly.com/essencesoftwaredevelopment/discovery-call?utm_source=website&utm_content=over20k"
                 class="cta-button">Book a Call</a>
             </div>
 
@@ -458,7 +459,7 @@
                 </li>
               </ul> -->
 
-              <a href="https://calendly.com/essencesoftwaredevelopment/discovery-call?utm_source=website&utm_content=over100k"
+              <a data-ph-cta="tier_book_call" data-ph-cta-location="service_tier_over100k" href="https://calendly.com/essencesoftwaredevelopment/discovery-call?utm_source=website&utm_content=over100k"
                 class="cta-button">Book a Call</a>
             </div>
 
@@ -513,7 +514,7 @@
                 </li>
               </ul> -->
 
-              <a href="https://calendly.com/essencesoftwaredevelopment/discovery-call?utm_source=website&utm_content=over200k"
+              <a data-ph-cta="tier_book_call" data-ph-cta-location="service_tier_over200k" href="https://calendly.com/essencesoftwaredevelopment/discovery-call?utm_source=website&utm_content=over200k"
                 class="cta-button secondary">Book a Call</a>
             </div>
           </div>
@@ -652,9 +653,9 @@
             Join 20+ e-commerce brands achieving an average 11.2X ROI with our hyper-performant retention system.
           </p>
           <div class="cta-section__actions">
-            <a class="button button--primary" href="https://calendly.com/essencesoftwaredevelopment/discovery-call">Get
+            <a class="button button--primary" data-ph-cta="free_retention_audit" data-ph-cta-location="footer_cta" href="https://calendly.com/essencesoftwaredevelopment/discovery-call">Get
               a FREE Retention Audit</a>
-            <a class="button button--ghost" href="#service-tiers">View Service Tiers</a>
+            <a class="button button--ghost" href="#service-tiers" data-ph-cta="view_service_tiers" data-ph-cta-location="footer_cta">View Service Tiers</a>
           </div>
         </div>
       </section>
@@ -680,7 +681,7 @@
   </div>
 
   <!--
-  <button class="lead-modal-teaser" id="lead-modal-teaser" type="button">3 Free On-Brand Emails</button>
+  <button class="lead-modal-teaser" id="lead-modal-teaser" type="button" data-ph-cta="lead_modal_teaser" data-ph-cta-location="floating">3 Free On-Brand Emails</button>
 
   <div class="lead-modal" id="lead-modal" aria-hidden="true">
     <div class="lead-modal__backdrop"></div>
@@ -693,7 +694,7 @@
             <section class="lead-modal__step lead-modal__step--intro" aria-label="Free emails intro">
               <h2 class="lead-modal__headline" id="lead-modal-title">Want 3 Free <br>On-Brand Emails?</h2>
               <div class="lead-modal__actions">
-                <button class="button button--primary lead-modal__primary" id="lead-modal-next" type="button">YES</button>
+                <button class="button button--primary lead-modal__primary" id="lead-modal-next" type="button" data-ph-cta="lead_modal_yes" data-ph-cta-location="lead_modal">YES</button>
                 <button class="lead-modal__secondary" type="button" data-lead-modal-close>No thanks</button>
               </div>
             </section>
@@ -747,7 +748,7 @@
 
               <div class="lead-modal__actions lead-modal__actions--results">
                 <button class="lead-modal__secondary" id="lead-modal-restart" type="button">Go back</button>
-                <button class="button button--primary lead-modal__primary" id="lead-modal-book" type="button">Test these emails today →</button>
+                <button class="button button--primary lead-modal__primary" id="lead-modal-book" type="button" data-ph-cta="lead_modal_book" data-ph-cta-location="lead_modal">Test these emails today →</button>
               </div>
             </section>
           </div>
