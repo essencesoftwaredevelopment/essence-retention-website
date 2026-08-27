@@ -8,6 +8,10 @@ html {
   scroll-behavior: smooth;
 }
 
+section[id] {
+  scroll-margin-top: 88px;
+}
+
 body {
   margin: 0;
   position: relative;

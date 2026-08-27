@@ -1272,3 +1272,36 @@ const faqData = [
     observer.observe(el);
   });
 })();
+
+(function initInitialHashScroll() {
+  if (!window.location.hash) return;
+
+  if ('scrollRestoration' in history) {
+    history.scrollRestoration = 'manual';
+  }
+
+  function scrollToHash() {
+    const id = decodeURIComponent(window.location.hash.slice(1));
+    if (!id) return;
+    const target = document.getElementById(id);
+    if (!target) return;
+
+    const headerOffset = 88;
+    const top = Math.max(0, window.scrollY + target.getBoundingClientRect().top - headerOffset);
+    const html = document.documentElement;
+    const previousBehavior = html.style.scrollBehavior;
+    html.style.scrollBehavior = 'auto';
+    window.scrollTo(0, top);
+    html.style.scrollBehavior = previousBehavior;
+  }
+
+  document.addEventListener('DOMContentLoaded', scrollToHash);
+  window.addEventListener('load', () => {
+    requestAnimationFrame(scrollToHash);
+    window.setTimeout(scrollToHash, 200);
+  });
+
+  if (document.readyState === 'complete') {
+    requestAnimationFrame(scrollToHash);
+  }
+})();
