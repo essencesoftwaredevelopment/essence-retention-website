@@ -13,15 +13,24 @@ const STORAGE_KEY = 'essence-booking';
 const FORM_STEPS = ['contact', 'phone', 'listSize', 'revenue', 'emailPct'];
 const ALL_STEPS = [...FORM_STEPS, 'calendar'];
 const WEEKDAYS = ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'];
-const TIME_SLOTS = [
-  '9:00 AM', '9:30 AM', '10:00 AM', '10:30 AM', '11:00 AM', '11:30 AM',
-  '1:00 PM', '1:30 PM', '2:00 PM', '2:30 PM', '3:00 PM', '3:30 PM', '4:00 PM', '4:30 PM',
-];
+const AVAILABILITY_URL = 'https://api.shieldsoutboundserver.org/api/clients/essence-retention/calendly/available-times';
+const BOOK_URL = 'https://api.shieldsoutboundserver.org/api/clients/essence-retention/calendly/book';
+const CALENDLY_EVENT_TYPE = '30336f6d-1955-4c5f-ad3c-49f319bd61e3';
+const CALENDLY_QUESTIONS = {
+  phone: 'Phone',
+  website: 'Website',
+  listSize: 'How big is the email list within your Klaviyo/Email Sending Provider',
+  revenue: 'Current D2C Revenue Per Month (USD, Approximate)',
+  emailPct: 'What percentage of revenue is coming from Klaviyo/Email Sending Provider?',
+};
+const AVAILABILITY_CHUNK_DAYS = 7;
+const AVAILABILITY_MAX_DAYS = 56;
 
 const QUERY_ALIASES = {
   firstName: ['firstname', 'first_name', 'fname', 'first'],
   lastName: ['lastname', 'last_name', 'lname', 'last'],
   email: ['email', 'mail'],
+  website: ['website', 'url', 'site', 'domain'],
   phone: ['phone', 'tel', 'telephone', 'mobile'],
   country: ['country', 'country_code', 'iso'],
   listSize: ['listsize', 'list_size', 'email_list', 'list', 'klaviyo_list'],
@@ -56,31 +65,170 @@ const bookedPanel = document.getElementById('booking-booked');
 const bookedLottieHost = document.getElementById('booking-booked-lottie');
 const bookedTitle = document.getElementById('booking-booked-title');
 const bookedCopy = document.getElementById('booking-booked-copy');
+const bookedStories = document.getElementById('booking-stories');
 const BOOKED_LOTTIE_SRC = new URL('../animations/booking-success.json', import.meta.url).href;
+const BOOKED_SOUND_SRC = new URL('../sounds/boop-send.mp3', import.meta.url).href;
+const BOOKED_STORIES_DELAY = 900;
 let bookedLottie = null;
+let bookedLottieReady = null;
+let bookedSound = null;
+let bookedStoriesTimer = 0;
+let bookedLottieSafety = 0;
+let bookedStoriesShown = false;
+let bookedLottieBound = false;
+
+function loadBookedStoryVideos() {
+  bookedStories?.querySelectorAll('iframe[data-src]').forEach((iframe) => {
+    if (!iframe.getAttribute('src')) {
+      iframe.src = iframe.dataset.src;
+    }
+  });
+}
+
+function hideBookedStories() {
+  bookedStoriesShown = false;
+  window.clearTimeout(bookedStoriesTimer);
+  window.clearTimeout(bookedLottieSafety);
+  bookedStoriesTimer = 0;
+  bookedLottieSafety = 0;
+  const step = bookedPanel?.closest('.booking-step');
+  const inner = step?.querySelector('.booking-step__inner');
+  booking.classList.remove('is-showing-stories');
+  bookedStories?.classList.remove('is-visible');
+  bookedStories?.setAttribute('aria-hidden', 'true');
+  bookedStories?.setAttribute('inert', '');
+  if (gsap) {
+    const cards = bookedStories?.querySelectorAll('.booking-story') || [];
+    gsap.killTweensOf([inner, ...cards]);
+    gsap.set([inner, ...cards], { clearProps: 'transform,opacity' });
+  }
+}
+
+function revealBookedStories() {
+  if (bookedStoriesShown || !state.booked || !bookedStories) return;
+  bookedStoriesShown = true;
+  loadBookedStoryVideos();
+
+  const step = bookedPanel?.closest('.booking-step');
+  const inner = step?.querySelector('.booking-step__inner');
+  const startTop = inner?.getBoundingClientRect().top ?? 0;
+
+  booking.classList.add('is-showing-stories');
+  bookedStories.classList.add('is-visible');
+  bookedStories.removeAttribute('aria-hidden');
+  bookedStories.removeAttribute('inert');
+  step?.scrollTo({ top: 0, behavior: 'auto' });
+
+  const cards = bookedStories.querySelectorAll('.booking-story');
+  if (!gsap || prefersReducedMotion()) return;
+
+  if (inner) {
+    const endTop = inner.getBoundingClientRect().top;
+    gsap.fromTo(inner, {
+      y: startTop - endTop,
+    }, {
+      y: 0,
+      duration: 0.7,
+      ease: 'power3.out',
+      clearProps: 'transform',
+    });
+  }
+
+  if (cards.length) {
+    gsap.fromTo(cards, {
+      y: 28,
+      opacity: 0,
+    }, {
+      y: 0,
+      opacity: 1,
+      duration: 0.62,
+      stagger: 0.12,
+      ease: 'power3.out',
+      clearProps: 'transform',
+    });
+  }
+}
+
+function scheduleBookedStories() {
+  window.clearTimeout(bookedLottieSafety);
+  window.clearTimeout(bookedStoriesTimer);
+  bookedStoriesTimer = window.setTimeout(revealBookedStories, BOOKED_STORIES_DELAY);
+}
+
+function bindBookedLottieEvents() {
+  if (!bookedLottie || bookedLottieBound) return;
+  bookedLottieBound = true;
+  bookedLottie.addEventListener('complete', scheduleBookedStories);
+  bookedLottie.addEventListener('data_failed', scheduleBookedStories);
+}
+
+function preloadBookedSound() {
+  if (bookedSound) return bookedSound;
+  bookedSound = new Audio(BOOKED_SOUND_SRC);
+  bookedSound.preload = 'auto';
+  bookedSound.load();
+  return bookedSound;
+}
+
+function playBookedSound() {
+  const sound = preloadBookedSound();
+  sound.currentTime = 0;
+  sound.play().catch(() => {});
+}
+
+function preloadBookedLottie() {
+  if (bookedLottieReady) return bookedLottieReady;
+  if (!bookedLottieHost || prefersReducedMotion()) return Promise.resolve(null);
+
+  bookedLottieReady = Promise.all([
+    import('../vendor/lottie-web/lottie.min.esm.js'),
+    fetch(BOOKED_LOTTIE_SRC, { cache: 'force-cache' }).then((response) => {
+      if (!response.ok) throw new Error('lottie');
+      return response.json();
+    }),
+  ]).then(([{ default: lottie }, animationData]) => {
+    if (!bookedLottie) {
+      bookedLottie = lottie.loadAnimation({
+        container: bookedLottieHost,
+        renderer: 'svg',
+        loop: false,
+        autoplay: false,
+        animationData,
+      });
+      bindBookedLottieEvents();
+    }
+    return bookedLottie;
+  }).catch(() => {
+    bookedLottieReady = null;
+    return null;
+  });
+
+  return bookedLottieReady;
+}
 
 async function playBookedLottie() {
-  if (!bookedLottieHost || prefersReducedMotion()) return;
+  window.clearTimeout(bookedLottieSafety);
+  if (!bookedLottieHost || prefersReducedMotion()) {
+    scheduleBookedStories();
+    return;
+  }
+  bookedLottieSafety = window.setTimeout(scheduleBookedStories, 4000);
   try {
-    if (bookedLottie) {
-      bookedLottie.goToAndPlay(0, true);
+    await preloadBookedLottie();
+    if (!bookedLottie) {
+      scheduleBookedStories();
       return;
     }
-    const { default: lottie } = await import('../vendor/lottie-web/lottie.min.esm.js');
-    bookedLottie = lottie.loadAnimation({
-      container: bookedLottieHost,
-      renderer: 'svg',
-      loop: false,
-      autoplay: true,
-      path: BOOKED_LOTTIE_SRC,
-    });
+    bookedLottie.resize();
+    bookedLottie.goToAndPlay(0, true);
   } catch {
-    // Keep the confirmation copy if the animation file is missing.
+    scheduleBookedStories();
   }
 }
 
 function stopBookedLottie() {
   bookedLottie?.stop();
+  hideBookedStories();
 }
 
 const countryButton = document.getElementById('booking-country');
@@ -213,13 +361,160 @@ function formatTimezoneLabel(timeZone) {
   return city || offset || timeZone;
 }
 
-function isWeekend(date) {
-  const day = date.getDay();
-  return day === 0 || day === 6;
+function toUtcIso(date) {
+  return date.toISOString().replace(/\.\d{3}Z$/, 'Z');
+}
+
+function dateKeyInZone(date, timeZone = state.timezone) {
+  try {
+    return date.toLocaleDateString('en-CA', { timeZone: timeZone || undefined });
+  } catch {
+    return toIsoDate(date);
+  }
+}
+
+function formatSlotTime(date, timeZone = state.timezone) {
+  return date.toLocaleTimeString('en-US', {
+    timeZone: timeZone || undefined,
+    hour: 'numeric',
+    minute: '2-digit',
+  });
+}
+
+function availabilityRangeWindows(fromDate, untilDate) {
+  const soonest = new Date(Date.now() + 2 * 60 * 1000);
+  const from = new Date(Math.max(fromDate.getTime(), soonest.getTime()));
+
+  const until = new Date(untilDate);
+  const maxUntil = new Date(soonest);
+  maxUntil.setUTCDate(maxUntil.getUTCDate() + AVAILABILITY_MAX_DAYS);
+  if (until > maxUntil) until.setTime(maxUntil.getTime());
+  if (until <= from) return [];
+
+  const windows = [];
+  let cursor = new Date(from);
+  while (cursor < until) {
+    const end = new Date(cursor);
+    end.setUTCDate(end.getUTCDate() + AVAILABILITY_CHUNK_DAYS);
+    windows.push({
+      startIso: toUtcIso(cursor),
+      endIso: toUtcIso(end),
+    });
+    cursor = end;
+  }
+  return windows;
+}
+
+function ingestAvailability(times) {
+  const now = Date.now();
+  const seen = new Set(state.availability.slots.map((slot) => slot.iso));
+
+  times.forEach((item) => {
+    if (!item || (item.status && item.status !== 'available')) return;
+    if (Number(item.inviteesRemaining) === 0) return;
+    const start = new Date(item.startTime);
+    if (Number.isNaN(start.getTime()) || start.getTime() < now) return;
+    if (seen.has(item.startTime)) return;
+    seen.add(item.startTime);
+    state.availability.slots.push({
+      start,
+      iso: item.startTime,
+      schedulingUrl: item.schedulingUrl || '',
+    });
+  });
+
+  state.availability.slots.sort((a, b) => a.start - b.start);
+}
+
+function slotsForDate(dateKey) {
+  if (!dateKey) return [];
+  return state.availability.slots.filter((slot) => dateKeyInZone(slot.start) === dateKey);
+}
+
+function hasAvailability(date) {
+  return slotsForDate(dateKeyInZone(date)).length > 0;
 }
 
 function isDisabledDay(date) {
-  return startOfDay(date) < startOfDay(new Date()) || isWeekend(date);
+  if (startOfDay(date) < startOfDay(new Date())) return true;
+  if (state.availability.status !== 'ready') return true;
+  return !hasAvailability(date);
+}
+
+function syncSelectedAvailability() {
+  if (!state.answers.meetingDate || state.availability.status !== 'ready') return;
+  const slots = slotsForDate(state.answers.meetingDate);
+  if (!slots.length) {
+    state.answers.meetingDate = '';
+    state.answers.meetingTime = '';
+    state.answers.meetingStart = '';
+    persistAnswers();
+    return;
+  }
+  if (state.answers.meetingStart && !slots.some((slot) => slot.iso === state.answers.meetingStart)) {
+    state.answers.meetingTime = '';
+    state.answers.meetingStart = '';
+    persistAnswers();
+  }
+}
+
+async function fetchAvailabilityWindow(startIso, endIso) {
+  const key = `${startIso}|${endIso}`;
+  const cached = availabilityWindows.get(key);
+  if (cached) return cached;
+
+  const url = new URL(AVAILABILITY_URL);
+  url.searchParams.set('startTime', startIso);
+  url.searchParams.set('endTime', endIso);
+  url.searchParams.set('eventType', CALENDLY_EVENT_TYPE);
+
+  const request = fetch(url, {
+    headers: { Accept: 'application/json' },
+    signal: AbortSignal.timeout(8000),
+  }).then(async (response) => {
+    if (!response.ok) throw new Error('availability');
+    const data = await response.json();
+    return Array.isArray(data?.times) ? data.times : [];
+  }).catch((error) => {
+    availabilityWindows.delete(key);
+    throw error;
+  });
+
+  availabilityWindows.set(key, request);
+  return request;
+}
+
+async function ensureAvailability(fromDate, untilDate) {
+  const windows = availabilityRangeWindows(fromDate, untilDate);
+  if (!windows.length) {
+    state.availability.status = 'ready';
+    return;
+  }
+
+  const missing = windows.some((range) => (
+    !availabilityWindows.has(`${range.startIso}|${range.endIso}`)
+  ));
+  if (missing) state.availability.status = 'loading';
+
+  const results = await Promise.allSettled(windows.map((range) => (
+    fetchAvailabilityWindow(range.startIso, range.endIso)
+  )));
+  let failed = false;
+  results.forEach((result) => {
+    if (result.status === 'fulfilled') {
+      ingestAvailability(result.value);
+      return;
+    }
+    failed = true;
+  });
+  state.availability.status = state.availability.slots.length || !failed ? 'ready' : 'error';
+  if (state.availability.status === 'ready') syncSelectedAvailability();
+}
+
+async function ensureAvailabilityForMonth(monthDate) {
+  const start = startOfMonth(monthDate);
+  const until = new Date(start.getFullYear(), start.getMonth(), start.getDate() + 42);
+  await ensureAvailability(start < new Date() ? new Date() : start, until);
 }
 
 const state = {
@@ -229,10 +524,16 @@ const state = {
   calendarCollapsed: false,
   timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || '',
   booked: false,
+  submitting: false,
+  availability: {
+    status: 'idle',
+    slots: [],
+  },
   answers: {
     firstName: '',
     lastName: '',
     email: '',
+    website: '',
     phone: '',
     country: DEFAULT_COUNTRY,
     listSize: '',
@@ -240,8 +541,11 @@ const state = {
     emailPct: '',
     meetingDate: '',
     meetingTime: '',
+    meetingStart: '',
   },
 };
+
+const availabilityWindows = new Map();
 
 let countryLocked = false;
 
@@ -327,10 +631,24 @@ function composedPhone() {
   return `${selectedCountry().dial}${raw.replace(/\D/g, '')}`;
 }
 
+function normalizeWebsite(value) {
+  const raw = String(value || '').trim();
+  if (!raw) return '';
+  const href = /^https?:\/\//i.test(raw) ? raw : `https://${raw}`;
+  try {
+    const url = new URL(href);
+    if (!url.hostname.includes('.')) return '';
+    return url.href;
+  } catch {
+    return '';
+  }
+}
+
 function collectAnswersFromDom() {
   state.answers.firstName = form.firstName.value.trim();
   state.answers.lastName = form.lastName.value.trim();
   state.answers.email = form.email.value.trim();
+  state.answers.website = normalizeWebsite(form.website?.value || '');
   state.answers.country = selectedCountry().iso;
   state.answers.phone = composedPhone();
   state.answers.listSize = form.listSize.value;
@@ -348,6 +666,7 @@ function applyAnswersToDom() {
   form.firstName.value = state.answers.firstName;
   form.lastName.value = state.answers.lastName;
   form.email.value = state.answers.email;
+  if (form.website) form.website.value = state.answers.website;
 
   const inferredCountry = countryFromPhone(state.answers.phone);
   const explicitCountry = findCountry(state.answers.country);
@@ -358,7 +677,9 @@ function applyAnswersToDom() {
   form.phone.value = stripDialCode(state.answers.phone, country);
   formatPhoneInput({ restoreCaret: false });
 
-  [form.firstName, form.lastName, form.email, form.phone].forEach(syncFilledState);
+  [form.firstName, form.lastName, form.email, form.website, form.phone].forEach((input) => {
+    if (input) syncFilledState(input);
+  });
 
   ['listSize', 'revenue', 'emailPct'].forEach((name) => {
     const value = state.answers[name];
@@ -471,6 +792,13 @@ function validateContact() {
     fieldError('email', '');
   }
 
+  if (!normalizeWebsite(form.website?.value || '')) {
+    fieldError('website', 'Enter your store website.');
+    ok = false;
+  } else {
+    fieldError('website', '');
+  }
+
   return ok;
 }
 
@@ -557,9 +885,13 @@ function updateChrome() {
   booking.dataset.step = id;
   booking.classList.toggle('is-calendar', id === 'calendar');
   booking.classList.toggle('is-booked', state.booked);
+  booking.classList.toggle('is-booking', state.submitting);
   backButton.hidden = state.index === 0;
-  nextButton.disabled = id === 'calendar' && (!state.answers.meetingDate || !state.answers.meetingTime);
-  if (nextLabel) nextLabel.textContent = id === 'calendar' ? 'Book' : 'Next';
+  backButton.disabled = state.submitting;
+  nextButton.disabled = state.submitting || (id === 'calendar' && (!state.answers.meetingDate || !state.answers.meetingTime));
+  if (nextLabel) {
+    nextLabel.textContent = state.submitting ? 'Booking' : id === 'calendar' ? 'Book' : 'Next';
+  }
   stepCount.textContent = `${Math.min(state.index + 1, FORM_STEPS.length)} / ${FORM_STEPS.length}`;
   progress.setAttribute('aria-valuenow', String(Math.round(percent)));
 
@@ -618,6 +950,7 @@ function goTo(index, direction = 1) {
   state.animating = true;
   state.index = index;
   clearStepErrors(ALL_STEPS[index]);
+  if (ALL_STEPS[index] === 'calendar') mountCalendar();
   updateChrome();
 
   if (!prefersReducedMotion()) {
@@ -776,17 +1109,38 @@ function setCalendarCollapsed(collapsed, { animate = true } = {}) {
 
 function renderTimes() {
   if (!timesGrid || !timesLabel) return;
-  timesLabel.textContent = state.answers.meetingDate ? 'Available times' : 'Select a date';
+  const selectedDate = state.answers.meetingDate;
+  const slots = slotsForDate(selectedDate);
+  if (state.availability.status === 'loading') {
+    timesLabel.textContent = 'Checking the calendar';
+  } else if (state.availability.status === 'error') {
+    timesLabel.textContent = 'Times unavailable';
+  } else if (selectedDate) {
+    timesLabel.textContent = slots.length ? 'Available times' : 'No times this day';
+  } else {
+    timesLabel.textContent = 'Select a date';
+  }
   if (timesTz) {
     const zone = formatTimezoneLabel(state.timezone);
     timesTz.textContent = zone;
     timesTz.hidden = !zone;
   }
-  timesGrid.innerHTML = TIME_SLOTS.map((slot) => {
-    const selected = slot === state.answers.meetingTime ? ' is-selected' : '';
-    const disabled = state.answers.meetingDate ? '' : ' disabled';
-    return `<button type="button" class="booking-time${selected}" data-time="${slot}"${disabled}>${slot}</button>`;
-  }).join('');
+
+  if (state.availability.status === 'loading') {
+    timesGrid.innerHTML = '<p class="booking-times__empty">Finding open times.</p>';
+  } else if (state.availability.status === 'error') {
+    timesGrid.innerHTML = '<button class="booking-times__retry" type="button" data-availability-retry>Try again</button>';
+  } else if (!selectedDate) {
+    timesGrid.innerHTML = '';
+  } else if (!slots.length) {
+    timesGrid.innerHTML = '<p class="booking-times__empty">Nothing open on this date. Pick another day.</p>';
+  } else {
+    timesGrid.innerHTML = slots.map((slot) => {
+      const label = formatSlotTime(slot.start);
+      const selected = slot.iso === state.answers.meetingStart ? ' is-selected' : '';
+      return `<button type="button" class="booking-time${selected}" data-time="${label}" data-start="${slot.iso}">${label}</button>`;
+    }).join('');
+  }
   requestAnimationFrame(syncTimesHeight);
 }
 
@@ -797,7 +1151,7 @@ function renderCalendar() {
   const startOffset = (firstDay.getDay() + 6) % 7;
   const gridStart = new Date(firstDay);
   gridStart.setDate(1 - startOffset);
-  const todayIso = toIsoDate(new Date());
+  const todayIso = dateKeyInZone(new Date());
   const selectedIso = state.answers.meetingDate;
   const minMonth = startOfMonth(new Date());
   const canGoPrev = month > minMonth;
@@ -824,7 +1178,7 @@ function renderCalendar() {
     </div>
     <div class="shad-calendar__grid">
       ${days.map((date) => {
-        const iso = toIsoDate(date);
+        const iso = dateKeyInZone(date);
         const disabled = isDisabledDay(date);
         const classes = [
           'shad-calendar__day',
@@ -839,7 +1193,7 @@ function renderCalendar() {
   requestAnimationFrame(syncTimesHeight);
 }
 
-function mountCalendar() {
+async function mountCalendar() {
   if (state.answers.meetingDate) {
     const selected = parseIsoDate(state.answers.meetingDate);
     if (selected) state.calendarMonth = startOfMonth(selected);
@@ -849,28 +1203,115 @@ function mountCalendar() {
   setCalendarCollapsed(Boolean(state.answers.meetingDate) && !isWideCalendar(), { animate: false });
   if (calendarTab) attachHapticOverlay(calendarTab);
   requestAnimationFrame(syncTimesHeight);
+  await ensureAvailabilityForMonth(state.calendarMonth);
+  renderCalendar();
+  renderTimes();
+  updateChrome();
 }
 
-function confirmBooking() {
+function bookPayload() {
+  return {
+    startTime: state.answers.meetingStart,
+    firstName: state.answers.firstName,
+    lastName: state.answers.lastName,
+    email: state.answers.email,
+    timezone: state.timezone || 'America/New_York',
+    eventType: CALENDLY_EVENT_TYPE,
+    questionsAndAnswers: [
+      { question: CALENDLY_QUESTIONS.phone, answer: state.answers.phone },
+      { question: CALENDLY_QUESTIONS.website, answer: state.answers.website },
+      { question: CALENDLY_QUESTIONS.listSize, answer: selectedLabel('listSize') },
+      { question: CALENDLY_QUESTIONS.revenue, answer: selectedLabel('revenue') },
+      { question: CALENDLY_QUESTIONS.emailPct, answer: selectedLabel('emailPct') },
+    ],
+  };
+}
+
+function bookErrorMessage(error) {
+  const raw = String(error?.data?.error || error?.data?.message || '');
+  if (error?.status === 400 && /available|slot/i.test(raw)) {
+    return 'That time was just taken. Pick another.';
+  }
+  if (error?.status >= 500) {
+    return 'We could not reach the calendar. Try again.';
+  }
+  return raw || 'We could not book that time. Try again.';
+}
+
+function showBookedSuccess() {
+  const when = `${formatMeetingDate(state.answers.meetingDate)} at ${state.answers.meetingTime}`;
   state.booked = true;
   persistAnswers();
-  const when = `${formatMeetingDate(state.answers.meetingDate)} at ${state.answers.meetingTime}`;
   if (bookedTitle) {
     bookedTitle.textContent = `${state.answers.firstName}, you are on the calendar.`;
   }
   if (bookedCopy) {
     bookedCopy.textContent = `Talk soon on ${when}. We will send a confirmation to ${state.answers.email}.`;
   }
+  fieldError('calendar', '');
   bookedPanel?.removeAttribute('hidden');
   booking.classList.add('is-booked');
+  hideBookedStories();
+  playBookedSound();
   playBookedLottie();
   updateChrome();
   announce(`Booked for ${when}`);
   posthog.capture('booking_time_selected', {
     meeting_date: state.answers.meetingDate,
     meeting_time: state.answers.meetingTime,
+    meeting_start: state.answers.meetingStart,
     email: state.answers.email,
   }, { transport: 'sendBeacon' });
+}
+
+async function confirmBooking() {
+  if (state.submitting || state.booked) return;
+  if (!state.answers.meetingStart) {
+    fieldError('calendar', 'Pick a date and time.');
+    announce('Pick a date and time.');
+    return;
+  }
+
+  state.submitting = true;
+  fieldError('calendar', '');
+  updateChrome();
+
+  try {
+    const response = await fetch(BOOK_URL, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(bookPayload()),
+    });
+    const data = await response.json().catch(() => ({}));
+    if (!response.ok) {
+      throw Object.assign(new Error(data.error || data.message || 'book'), {
+        status: response.status,
+        data,
+      });
+    }
+    showBookedSuccess();
+  } catch (error) {
+    const message = bookErrorMessage(error);
+    fieldError('calendar', message);
+    announce(message);
+    shake(steps[state.index]?.querySelector('.booking-step__inner'));
+    if (error?.status === 400) {
+      availabilityWindows.clear();
+      state.availability.slots = [];
+      state.answers.meetingTime = '';
+      state.answers.meetingStart = '';
+      persistAnswers();
+      await ensureAvailabilityForMonth(state.calendarMonth);
+      renderCalendar();
+      renderTimes();
+    }
+  } finally {
+    state.submitting = false;
+    updateChrome();
+  }
 }
 
 function completeForm() {
@@ -881,6 +1322,7 @@ function completeForm() {
     first_name: state.answers.firstName,
     last_name: state.answers.lastName,
     email: state.answers.email,
+    website: state.answers.website,
     phone: state.answers.phone,
     country: state.answers.country,
     list_size: state.answers.listSize,
@@ -891,6 +1333,7 @@ function completeForm() {
     email_pct_label: selectedLabel('emailPct'),
     meeting_date: state.answers.meetingDate,
     meeting_time: state.answers.meetingTime,
+    meeting_start: state.answers.meetingStart,
   };
 
   posthog.identify(state.answers.email, {
@@ -901,12 +1344,11 @@ function completeForm() {
   });
   posthog.capture('booking_form_completed', payload, { transport: 'sendBeacon' });
 
-  mountCalendar();
   goTo(ALL_STEPS.indexOf('calendar'), 1);
 }
 
 function advance() {
-  if (state.booked) return;
+  if (state.booked || state.submitting) return;
   const currentId = ALL_STEPS[state.index];
   triggerWebHaptic();
 
@@ -933,7 +1375,7 @@ function advance() {
 }
 
 function goBack() {
-  if (state.index === 0) return;
+  if (state.index === 0 || state.submitting) return;
   triggerWebHaptic();
   if (ALL_STEPS[state.index] === 'calendar') {
     state.booked = false;
@@ -1105,6 +1547,8 @@ function applyVisitorTimezone(timeZone) {
     return;
   }
   state.timezone = timeZone;
+  syncSelectedAvailability();
+  if (calendarRoot) renderCalendar();
   if (timesLabel) renderTimes();
 }
 
@@ -1187,6 +1631,9 @@ function onGlobalKeydown(event) {
 function init() {
   hydrate();
   detectVisitorCountry();
+  preloadBookedLottie();
+  preloadBookedSound();
+  ensureAvailabilityForMonth(state.calendarMonth);
   gsap?.set(progressBar, { scaleX: 0, transformOrigin: 'left center' });
   steps.forEach((step, index) => {
     step.classList.toggle('is-active', index === state.index);
@@ -1227,20 +1674,21 @@ function init() {
     const target = event.target instanceof Element ? event.target.closest('button') : null;
     if (!target) return;
     const nav = target.getAttribute('data-cal-nav');
-    if (nav === 'prev') {
-      state.calendarMonth = startOfMonth(new Date(state.calendarMonth.getFullYear(), state.calendarMonth.getMonth() - 1, 1));
+    if (nav === 'prev' || nav === 'next') {
+      const offset = nav === 'next' ? 1 : -1;
+      state.calendarMonth = startOfMonth(new Date(state.calendarMonth.getFullYear(), state.calendarMonth.getMonth() + offset, 1));
       renderCalendar();
-      return;
-    }
-    if (nav === 'next') {
-      state.calendarMonth = startOfMonth(new Date(state.calendarMonth.getFullYear(), state.calendarMonth.getMonth() + 1, 1));
-      renderCalendar();
+      ensureAvailabilityForMonth(state.calendarMonth).then(() => {
+        renderCalendar();
+        renderTimes();
+      });
       return;
     }
     const iso = target.getAttribute('data-date');
     if (!iso || target.disabled) return;
     state.answers.meetingDate = iso;
     state.answers.meetingTime = '';
+    state.answers.meetingStart = '';
     persistAnswers();
     renderCalendar();
     renderTimes();
@@ -1254,9 +1702,18 @@ function init() {
   });
 
   timesGrid?.addEventListener('click', (event) => {
+    const retry = event.target instanceof Element ? event.target.closest('[data-availability-retry]') : null;
+    if (retry) {
+      availabilityWindows.clear();
+      state.availability.slots = [];
+      state.availability.status = 'idle';
+      mountCalendar();
+      return;
+    }
     const target = event.target instanceof Element ? event.target.closest('[data-time]') : null;
     if (!target || target.disabled || !state.answers.meetingDate) return;
     state.answers.meetingTime = target.getAttribute('data-time') || '';
+    state.answers.meetingStart = target.getAttribute('data-start') || '';
     persistAnswers();
     renderTimes();
     updateChrome();

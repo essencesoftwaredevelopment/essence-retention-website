@@ -24,6 +24,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="../styles.css" />
   <link rel="stylesheet" href="../assets/css/booking.css" />
+  <link rel="preload" href="../assets/animations/booking-success.json" as="fetch" crossorigin />
+  <link rel="preload" href="../assets/sounds/boop-send.mp3" as="audio" />
+  <link rel="modulepreload" href="../assets/vendor/lottie-web/lottie.min.esm.js" />
   <script type="importmap">
     {
       "imports": {
@@ -83,6 +86,13 @@
                     <label class="booking-field__label" for="booking-email">Email</label>
                   </div>
                   <p class="booking-error" data-error-for="email"></p>
+                </div>
+                <div class="booking-field" data-field="website">
+                  <div class="booking-field__control">
+                    <input class="booking-input" id="booking-website" name="website" type="text" inputmode="url" autocomplete="url" autocapitalize="none" spellcheck="false" placeholder=" " required />
+                    <label class="booking-field__label" for="booking-website">Website</label>
+                  </div>
+                  <p class="booking-error" data-error-for="website"></p>
                 </div>
               </div>
             </div>
@@ -319,11 +329,75 @@
                   <div class="booking-times__grid" id="booking-times-grid"></div>
                 </div>
               </div>
+              <p class="booking-error" data-error-for="calendar"></p>
               <div class="booking-booked" id="booking-booked" hidden>
                 <div class="booking-booked__lottie" id="booking-booked-lottie" aria-hidden="true"></div>
                 <p class="booking-booked__kicker">Booked</p>
                 <h3 class="booking-booked__title" id="booking-booked-title">You are on the calendar.</h3>
                 <p class="booking-booked__copy" id="booking-booked-copy"></p>
+                <div class="booking-stories" id="booking-stories" aria-hidden="true" inert>
+                  <p class="booking-stories__kicker">While you wait</p>
+                  <h4 class="booking-stories__title">Hear from founders who already took this call.</h4>
+                  <div class="booking-stories__grid">
+                    <article class="booking-story">
+                      <div class="booking-story__header">
+                        <div class="booking-story__info">
+                          <h5 class="booking-story__name">Paige DeAngelo</h5>
+                          <p class="booking-story__role">Founder of <strong>Aer Cosmetics</strong></p>
+                        </div>
+                        <p class="booking-story__stars" aria-label="5 out of 5 stars">
+                          <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M6 1.2l1.35 2.74 3.02.44-2.18 2.13.52 3.01L6 8.1l-2.71 1.42.52-3.01L1.63 4.38l3.02-.44z" fill="currentColor"/></svg>
+                          <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M6 1.2l1.35 2.74 3.02.44-2.18 2.13.52 3.01L6 8.1l-2.71 1.42.52-3.01L1.63 4.38l3.02-.44z" fill="currentColor"/></svg>
+                          <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M6 1.2l1.35 2.74 3.02.44-2.18 2.13.52 3.01L6 8.1l-2.71 1.42.52-3.01L1.63 4.38l3.02-.44z" fill="currentColor"/></svg>
+                          <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M6 1.2l1.35 2.74 3.02.44-2.18 2.13.52 3.01L6 8.1l-2.71 1.42.52-3.01L1.63 4.38l3.02-.44z" fill="currentColor"/></svg>
+                          <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M6 1.2l1.35 2.74 3.02.44-2.18 2.13.52 3.01L6 8.1l-2.71 1.42.52-3.01L1.63 4.38l3.02-.44z" fill="currentColor"/></svg>
+                        </p>
+                      </div>
+                      <blockquote class="booking-story__quote">We Have 11 X'd Our Sales</blockquote>
+                      <div class="booking-story__video">
+                        <iframe data-src="https://www.youtube.com/embed/sCkWw0e447Y" title="Paige DeAngelo testimonial" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+                      </div>
+                    </article>
+                    <article class="booking-story">
+                      <div class="booking-story__header">
+                        <div class="booking-story__info">
+                          <h5 class="booking-story__name">John King</h5>
+                          <p class="booking-story__role">Founder of <strong>Spicy Wear</strong></p>
+                        </div>
+                        <p class="booking-story__stars" aria-label="5 out of 5 stars">
+                          <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M6 1.2l1.35 2.74 3.02.44-2.18 2.13.52 3.01L6 8.1l-2.71 1.42.52-3.01L1.63 4.38l3.02-.44z" fill="currentColor"/></svg>
+                          <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M6 1.2l1.35 2.74 3.02.44-2.18 2.13.52 3.01L6 8.1l-2.71 1.42.52-3.01L1.63 4.38l3.02-.44z" fill="currentColor"/></svg>
+                          <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M6 1.2l1.35 2.74 3.02.44-2.18 2.13.52 3.01L6 8.1l-2.71 1.42.52-3.01L1.63 4.38l3.02-.44z" fill="currentColor"/></svg>
+                          <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M6 1.2l1.35 2.74 3.02.44-2.18 2.13.52 3.01L6 8.1l-2.71 1.42.52-3.01L1.63 4.38l3.02-.44z" fill="currentColor"/></svg>
+                          <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M6 1.2l1.35 2.74 3.02.44-2.18 2.13.52 3.01L6 8.1l-2.71 1.42.52-3.01L1.63 4.38l3.02-.44z" fill="currentColor"/></svg>
+                        </p>
+                      </div>
+                      <blockquote class="booking-story__quote">They genuinely want to see you succeed</blockquote>
+                      <div class="booking-story__video">
+                        <iframe data-src="https://www.youtube.com/embed/aikdwBMh9Io" title="John King testimonial" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+                      </div>
+                    </article>
+                    <article class="booking-story">
+                      <div class="booking-story__header">
+                        <div class="booking-story__info">
+                          <h5 class="booking-story__name">Gavin Kennelly</h5>
+                          <p class="booking-story__role">Founder of <strong>Young Irish Entrepreneurs</strong></p>
+                        </div>
+                        <p class="booking-story__stars" aria-label="5 out of 5 stars">
+                          <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M6 1.2l1.35 2.74 3.02.44-2.18 2.13.52 3.01L6 8.1l-2.71 1.42.52-3.01L1.63 4.38l3.02-.44z" fill="currentColor"/></svg>
+                          <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M6 1.2l1.35 2.74 3.02.44-2.18 2.13.52 3.01L6 8.1l-2.71 1.42.52-3.01L1.63 4.38l3.02-.44z" fill="currentColor"/></svg>
+                          <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M6 1.2l1.35 2.74 3.02.44-2.18 2.13.52 3.01L6 8.1l-2.71 1.42.52-3.01L1.63 4.38l3.02-.44z" fill="currentColor"/></svg>
+                          <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M6 1.2l1.35 2.74 3.02.44-2.18 2.13.52 3.01L6 8.1l-2.71 1.42.52-3.01L1.63 4.38l3.02-.44z" fill="currentColor"/></svg>
+                          <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M6 1.2l1.35 2.74 3.02.44-2.18 2.13.52 3.01L6 8.1l-2.71 1.42.52-3.01L1.63 4.38l3.02-.44z" fill="currentColor"/></svg>
+                        </p>
+                      </div>
+                      <blockquote class="booking-story__quote">Their experience made it very seamless for us</blockquote>
+                      <div class="booking-story__video">
+                        <iframe data-src="https://www.youtube.com/embed/axN1Eil39NU" title="Gavin Kennelly testimonial" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+                      </div>
+                    </article>
+                  </div>
+                </div>
               </div>
             </div>
           </section>
