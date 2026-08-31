@@ -4496,14 +4496,44 @@ textarea {
 /* ========== Testimonial Quote Cards ========== */
 
 .testimonials__quotes {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  display: flex;
+  flex-wrap: nowrap;
   gap: 16px;
+  width: 100vw;
+  max-width: 100vw;
+  margin-left: calc(50% - 50vw);
+  box-sizing: border-box;
+  padding: 4px 40px 12px;
+  overflow-x: auto;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: 40px;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+  scrollbar-color: color-mix(in oklch, var(--foreground) 22%, transparent) transparent;
+  scrollbar-width: thin;
+}
+
+.testimonials__quotes:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 4px;
+}
+
+.testimonials__quotes::-webkit-scrollbar {
+  height: 6px;
+}
+
+.testimonials__quotes::-webkit-scrollbar-thumb {
+  background: color-mix(in oklch, var(--foreground) 22%, transparent);
+  border-radius: 999px;
 }
 
 .quote-card {
   display: flex;
   flex-direction: column;
+  flex: 0 0 360px;
   gap: 10px;
   margin: 0;
   padding: 24px;
@@ -4511,6 +4541,7 @@ textarea {
   border-radius: var(--radius-xl);
   background: var(--card);
   box-shadow: var(--shadow);
+  scroll-snap-align: start;
 }
 
 .quote-card::before {
@@ -4577,11 +4608,20 @@ textarea {
 
 @media (max-width: 900px) {
   .testimonials__quotes {
+    display: grid;
     grid-template-columns: 1fr;
+    width: auto;
+    max-width: none;
+    margin-left: 0;
+    padding: 0;
+    overflow-x: visible;
+    scroll-snap-type: none;
     gap: 12px;
   }
 
   .quote-card {
+    flex: none;
     padding: 20px;
+    scroll-snap-align: none;
   }
 }
