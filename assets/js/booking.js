@@ -42,6 +42,66 @@ const QUERY_ALIASES = {
 };
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const CONSUMER_EMAIL_DOMAINS = new Set([
+  'gmail.com',
+  'googlemail.com',
+  'icloud.com',
+  'me.com',
+  'mac.com',
+  'yahoo.com',
+  'ymail.com',
+  'rocketmail.com',
+  'outlook.com',
+  'hotmail.com',
+  'live.com',
+  'msn.com',
+  'aol.com',
+  'aim.com',
+  'protonmail.com',
+  'proton.me',
+  'pm.me',
+  'zoho.com',
+  'zohomail.com',
+  'gmx.com',
+  'gmx.net',
+  'mail.com',
+  'email.com',
+  'yandex.com',
+  'yandex.ru',
+  'fastmail.com',
+  'fastmail.fm',
+  'tutanota.com',
+  'tuta.io',
+  'hey.com',
+  'mail.ru',
+  'qq.com',
+  '163.com',
+  '126.com',
+  'icloud.com.tw',
+  'comcast.net',
+  'verizon.net',
+  'att.net',
+  'sbcglobal.net',
+  'btinternet.com',
+  'sky.com',
+  'virginmedia.com',
+  'duck.com',
+  'rediffmail.com',
+]);
+const CONSUMER_EMAIL_ROOTS = new Set([
+  'gmail',
+  'googlemail',
+  'yahoo',
+  'ymail',
+  'outlook',
+  'hotmail',
+  'live',
+  'msn',
+  'aol',
+  'icloud',
+  'protonmail',
+  'proton',
+]);
 
 const booking = document.getElementById('booking');
 const form = document.getElementById('booking-form');
@@ -548,6 +608,8 @@ const state = {
 const availabilityWindows = new Map();
 
 let countryLocked = false;
+let websiteTouched = false;
+let websiteAutofill = '';
 
 function prefersReducedMotion() {
   return reduceMotion.matches || !gsap;
@@ -648,6 +710,64 @@ function normalizeWebsite(value) {
   }
 }
 
+function websiteHost(value) {
+  const normalized = normalizeWebsite(value);
+  if (!normalized) return '';
+  try {
+    return new URL(normalized).hostname.replace(/^www\./, '').toLowerCase();
+  } catch {
+    return '';
+  }
+}
+
+function isConsumerEmailDomain(host) {
+  const domain = String(host || '').toLowerCase().replace(/^www\./, '');
+  if (!domain) return true;
+  if (CONSUMER_EMAIL_DOMAINS.has(domain)) return true;
+  return CONSUMER_EMAIL_ROOTS.has(domain.split('.')[0]);
+}
+
+function websiteFromEmail(email) {
+  const match = String(email || '').trim().toLowerCase().match(/^[^\s@]+@([^\s@]+\.[^\s@]+)$/);
+  if (!match) return '';
+  let host = match[1].replace(/\.+$/, '');
+  host = host.replace(/^(mail|email|smtp|imap|webmail)\./, '');
+  if (!host.includes('.') || isConsumerEmailDomain(host)) return '';
+  return host;
+}
+
+function maybeAutofillWebsite() {
+  if (!(form.website instanceof HTMLInputElement)) return;
+
+  const current = form.website.value.trim();
+  const currentHost = websiteHost(current);
+  const autofillHost = websiteHost(websiteAutofill);
+  const inferred = websiteFromEmail(form.email.value);
+
+  if (websiteTouched && current && currentHost !== autofillHost) return;
+
+  if (!inferred) {
+    if (current && currentHost === autofillHost) {
+      form.website.value = '';
+      websiteAutofill = '';
+      syncFilledState(form.website);
+      fieldError('website', '');
+    }
+    return;
+  }
+
+  if (currentHost === inferred) {
+    websiteAutofill = current || inferred;
+    return;
+  }
+
+  form.website.value = inferred;
+  websiteAutofill = inferred;
+  websiteTouched = false;
+  syncFilledState(form.website);
+  fieldError('website', '');
+}
+
 function collectAnswersFromDom() {
   state.answers.firstName = form.firstName.value.trim();
   state.answers.lastName = form.lastName.value.trim();
@@ -744,6 +864,13 @@ function hydrate() {
   if (String(state.answers.phone).trim().startsWith('+')) {
     countryLocked = true;
   }
+  const inferredWebsite = websiteFromEmail(state.answers.email);
+  const storedWebsiteHost = websiteHost(state.answers.website);
+  websiteTouched = Boolean(storedWebsiteHost && storedWebsiteHost !== inferredWebsite);
+  websiteAutofill = inferredWebsite && storedWebsiteHost === inferredWebsite
+    ? (form.website?.value.trim() || inferredWebsite)
+    : '';
+  maybeAutofillWebsite();
   if (freshLanding) {
     sessionStorage.removeItem(STORAGE_KEY);
   }
@@ -1675,6 +1802,12 @@ function init() {
     if (target.name === 'phone') {
       formatPhoneInput();
     }
+    if (target.name === 'website') {
+      websiteTouched = true;
+    }
+    if (target.name === 'email') {
+      maybeAutofillWebsite();
+    }
     syncFilledState(target);
     fieldError(target.name, '');
     collectAnswersFromDom();
@@ -1754,6 +1887,11 @@ function init() {
     const target = event.target;
     if (target instanceof HTMLInputElement && event.animationName.includes('onAutoFillStart')) {
       syncFilledState(target);
+      if (target.name === 'email') {
+        maybeAutofillWebsite();
+        collectAnswersFromDom();
+        persistAnswers();
+      }
     }
   });
 
@@ -1761,6 +1899,11 @@ function init() {
     const target = event.target;
     if (target instanceof HTMLInputElement && target.type === 'radio') {
       handleChoiceSelection(target);
+    }
+    if (target instanceof HTMLInputElement && target.name === 'email') {
+      maybeAutofillWebsite();
+      collectAnswersFromDom();
+      persistAnswers();
     }
   });
 

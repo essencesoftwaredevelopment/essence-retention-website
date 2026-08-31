@@ -252,56 +252,57 @@
 
 
       <section class="testimonials" id="testimonials">
-        <div class="testimonials__inner">
+        <div class="testimonials__pin">
           <div class="testimonials__header">
             <p class="testimonials__eyebrow">Client Success Stories</p>
             <h2 class="testimonials__title">Hear From Our Partners</h2>
           </div>
-          <div class="testimonials__quotes" role="region" aria-label="Client case studies" tabindex="0">
-            <figure class="quote-card">
-              <blockquote class="quote-card__headline">Everyone on the team has been a pleasure to work with.
-              </blockquote>
-              <p class="quote-card__body">Linear Bar came to Essence with a patchwork Klaviyo setup and a highly
-                engaged list they weren't using. Within the first month, flows were live and email was driving
-                <strong>20% of attributed revenue</strong> — climbing to <strong>33% the following week</strong>.</p>
-              <figcaption class="quote-card__brand">
-                <img class="quote-card__logo" src="assets/images/client-logos/linear.png"
-                  alt="Linear Bar" loading="lazy" />
-              </figcaption>
-            </figure>
-            <figure class="quote-card">
-              <blockquote class="quote-card__headline">They genuinely want to see you succeed.</blockquote>
-              <p class="quote-card__body">For John at Spicy Wear, Essence was never just an email vendor. Jacques
-                contributed across the business — and the results followed, with the brand growing over
-                <strong>110%</strong> since they started working together.</p>
-              <figcaption class="quote-card__brand">
-                <img class="quote-card__logo" src="assets/images/client-logos/spicywear.png" alt="Spicy Wear"
-                  loading="lazy" />
-              </figcaption>
-            </figure>
-            <figure class="quote-card">
-              <blockquote class="quote-card__headline">The best investment I've made in my business.</blockquote>
-              <p class="quote-card__body">Aer Cosmetics grew <strong>11x from 2024 to 2025</strong>, and founder Paige
-                credits Essence's strategic marketing. Now every email that goes out reflects her brand exactly as she
-                intended.</p>
-              <figcaption class="quote-card__brand">
-                <img class="quote-card__logo quote-card__logo--invert" src="assets/images/client-logos/aer.png"
-                  alt="Aer Cosmetics" loading="lazy" />
-              </figcaption>
-            </figure>
-            <figure class="quote-card">
-              <p class="quote-card__headline">From 0% to nearly 30% of store revenue.</p>
-              <p class="quote-card__body">When ESSENCE Retention took over Custom Puddle Lights in September 2025, the
-                brand had no email program — 0 flows, 0 campaigns, and 0% of store revenue from email. Within 12 months
-                we built the channel from scratch to <strong>29.4% of total store revenue</strong>,
-                <strong>9 automated flows</strong>, <strong>~17 campaigns a month</strong>, and
-                <strong>$640k+ in attributed email revenue</strong>.</p>
-              <figcaption class="quote-card__brand">
-                <img class="quote-card__logo quote-card__logo--invert"
-                  src="assets/images/client-logos/CPL.png" alt="Custom Puddle Lights" loading="lazy" />
-              </figcaption>
-            </figure>
-          </div>
+          <div class="testimonials__quotes" role="region" aria-label="Client case studies">
+            <div class="testimonials__quotes-track">
+                <figure class="quote-card">
+                  <blockquote class="quote-card__headline">Everyone on the team has been a pleasure to work with.
+                  </blockquote>
+                  <p class="quote-card__body">Linear Bar came to Essence with a patchwork Klaviyo setup and a highly
+                    engaged list they weren't using. Within the first month, flows were live and email was driving
+                    <strong>20% of attributed revenue</strong> — climbing to <strong>33% the following week</strong>.</p>
+                  <figcaption class="quote-card__brand">
+                    <img class="quote-card__logo" src="assets/images/client-logos/linear.png"
+                      alt="Linear Bar" loading="lazy" />
+                  </figcaption>
+                </figure>
+                <figure class="quote-card">
+                  <blockquote class="quote-card__headline">They genuinely want to see you succeed.</blockquote>
+                  <p class="quote-card__body">For John at Spicy Wear, Essence was never just an email vendor. Jacques
+                    contributed across the business — and the results followed, with the brand growing over
+                    <strong>110%</strong> since they started working together.</p>
+                  <figcaption class="quote-card__brand">
+                    <img class="quote-card__logo" src="assets/images/client-logos/spicywear.png" alt="Spicy Wear"
+                      loading="lazy" />
+                  </figcaption>
+                </figure>
+                <figure class="quote-card">
+                  <blockquote class="quote-card__headline">The best investment I've made in my business.</blockquote>
+                  <p class="quote-card__body">Aer Cosmetics grew <strong>11x from 2024 to 2025</strong>, and founder Paige
+                    credits Essence's strategic marketing. Now every email that goes out reflects her brand exactly as she
+                    intended.</p>
+                  <figcaption class="quote-card__brand">
+                    <img class="quote-card__logo quote-card__logo--invert" src="assets/images/client-logos/aer.png"
+                      alt="Aer Cosmetics" loading="lazy" />
+                  </figcaption>
+                </figure>
+                <figure class="quote-card">
+                  <p class="quote-card__headline">From 0% to 33% of store revenue.</p>
+                  <p class="quote-card__body">When ESSENCE Retention took over Custom Puddle Lights in September 2025, the
+                    brand had no email program. 0 flows, 0 campaigns, and 0% of store revenue from email. Within 12 months
+                    we built the channel from scratch to <strong>33.4% of total store revenue.</strong></p>
+                  <figcaption class="quote-card__brand">
+                    <img class="quote-card__logo quote-card__logo--invert"
+                      src="assets/images/client-logos/CPL.png" alt="Custom Puddle Lights" loading="lazy" />
+                  </figcaption>
+                </figure>
+              </div>
+            </div>
+        </div>
           <div class="testimonials__grid">
             <!-- Testimonial 1: Paige DeAngelo -->
             <div class="testimonial-card">
@@ -353,7 +354,6 @@
 
 
           </div>
-        </div>
       </section>
 
 
@@ -779,9 +779,10 @@
   <script src="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.js"></script>
   -->
 
+  <script src="assets/vendor/gsap/gsap.min.js"></script>
+  <script src="assets/vendor/gsap/ScrollTrigger.min.js"></script>
+  <script src="assets/js/testimonials-scroll.js"></script>
   <!-- ESSENCE AI scroll — temporarily disabled
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/gsap.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/ScrollTrigger.min.js"></script>
   <script src="assets/js/essence-ai-scroll.js"></script>
   -->
   <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>

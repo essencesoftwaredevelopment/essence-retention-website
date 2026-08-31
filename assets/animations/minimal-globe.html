@@ -4,6 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Globe</title>
+<script>
+if (new URLSearchParams(location.search).has('embed')) {
+  document.documentElement.classList.add('embed');
+}
+</script>
 <style>
   html, body { margin: 0; height: 100%; overflow: hidden; background: #ffffff; }
   #scene { position: fixed; inset: 0; cursor: grab; }
@@ -41,7 +46,9 @@
     width: 12px; height: 12px; border-radius: 50%;
     background: #202124; border: none; cursor: pointer;
   }
-  body.embed #panel { display: none; }
+  html.embed #panel,
+  body.embed #panel { display: none !important; }
+  html.embed #scene,
   body.embed #scene { cursor: default; }
 </style>
 </head>
@@ -53,8 +60,10 @@
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
-const isEmbed = new URLSearchParams(location.search).has('embed');
+const isEmbed = document.documentElement.classList.contains('embed')
+  || new URLSearchParams(location.search).has('embed');
 if (isEmbed) {
+  document.documentElement.classList.add('embed');
   document.body.classList.add('embed');
 }
 
@@ -280,7 +289,8 @@ function animate() {
 }
 animate();
 
-// --- Control panel ---
+// --- Control panel (hidden on the live site via ?embed=1) ---
+if (!isEmbed) {
 const rows = document.getElementById('rows');
 function slider(name, label, min, max, step, fmt, onChange) {
   const row = document.createElement('div');
@@ -316,6 +326,7 @@ document.getElementById('toggle').addEventListener('click', () => {
   document.getElementById('toggle').textContent =
     panel.classList.contains('collapsed') ? 'show' : 'hide';
 });
+}
 
 window.addEventListener('resize', () => {
   camera.aspect = window.innerWidth / window.innerHeight;
