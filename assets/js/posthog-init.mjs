@@ -27,6 +27,10 @@ posthog.init('phc_AWPpoUk36vJppq9rYn4SVVtE78HKvHAiGA2TEpPSGfnC', {
   api_host: 'https://eu.i.posthog.com',
   defaults: '2026-01-30',
   disable_external_dependency_loading: hasLocalRecorder,
+  session_recording: {
+    collectFonts: true,
+    inlineStylesheet: true,
+  },
   loaded: (ph) => {
     // Force replay to start for this session regardless of remote trigger gating.
     ph.startSessionRecording(true);

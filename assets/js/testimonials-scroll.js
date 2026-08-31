@@ -1,48 +1,60 @@
 (function initTestimonialsScroll() {
+  function headerOffset() {
+    const header = document.querySelector('.site-header');
+    if (!header) return 80;
+    return Math.max(72, Math.ceil(header.getBoundingClientRect().bottom + 8));
+  }
+
   function setup() {
-    const pin = document.querySelector('.testimonials__pin');
+    const scene = document.querySelector('.testimonials__scene');
+    const pin = scene && scene.querySelector('.testimonials__pin');
     const viewport = pin && pin.querySelector('.testimonials__quotes');
     const track = viewport && viewport.querySelector('.testimonials__quotes-track');
 
-    if (!pin || !viewport || !track || !window.gsap || !window.ScrollTrigger) return;
+    if (!scene || !pin || !viewport || !track || !window.gsap || !window.ScrollTrigger) return;
 
     window.gsap.registerPlugin(window.ScrollTrigger);
 
     const mm = window.gsap.matchMedia();
 
     mm.add('(min-width: 901px) and (prefers-reduced-motion: no-preference)', () => {
-      const getTravel = () => {
-        const styles = getComputedStyle(viewport);
-        const visible = viewport.clientWidth
-          - (parseFloat(styles.paddingLeft) || 0)
-          - (parseFloat(styles.paddingRight) || 0);
-        return Math.max(0, track.scrollWidth - visible);
+      const getTravel = () => Math.max(0, viewport.scrollWidth - viewport.clientWidth);
+
+      const applyLayout = () => {
+        const offset = headerOffset();
+        pin.style.top = offset + 'px';
+        scene.style.height = pin.offsetHeight + getTravel() + 'px';
       };
 
-      pin.classList.add('is-scroll-driven');
+      const syncCarousel = (progress) => {
+        viewport.scrollLeft = progress * getTravel();
+      };
 
-      window.gsap.to(track, {
-        x: () => -getTravel(),
-        ease: 'none',
-        scrollTrigger: {
-          trigger: pin,
-          pin: true,
-          pinSpacing: true,
-          pinType: 'fixed',
-          scrub: true,
-          anticipatePin: 1,
-          start: () => {
-            const header = document.querySelector('.site-header');
-            const offset = header ? Math.ceil(header.getBoundingClientRect().bottom + 10) : 80;
-            return `top ${offset}px`;
-          },
-          end: () => '+=' + Math.max(getTravel(), 1),
-          invalidateOnRefresh: true,
+      scene.classList.add('is-scroll-driven');
+      pin.classList.add('is-scroll-driven');
+      applyLayout();
+
+      const trigger = window.ScrollTrigger.create({
+        trigger: scene,
+        start: () => `top ${headerOffset()}px`,
+        end: () => '+=' + Math.max(getTravel(), 1),
+        invalidateOnRefresh: true,
+        onRefreshInit: applyLayout,
+        onUpdate: (self) => {
+          syncCarousel(self.progress);
+        },
+        onRefresh: (self) => {
+          syncCarousel(self.progress);
         },
       });
 
       return () => {
+        trigger.kill();
+        scene.classList.remove('is-scroll-driven');
         pin.classList.remove('is-scroll-driven');
+        scene.style.height = '';
+        pin.style.top = '';
+        viewport.scrollLeft = 0;
       };
     });
 

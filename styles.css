@@ -4490,6 +4490,11 @@ textarea {
 
 /* ========== Testimonial Quote Cards ========== */
 
+.testimonials__scene {
+  position: relative;
+  overflow-anchor: none;
+}
+
 .testimonials__pin {
   position: relative;
   z-index: 0;
@@ -4511,6 +4516,11 @@ textarea {
     margin-left: calc(50% - 50vw);
     margin-right: calc(50% - 50vw);
     padding: 0;
+  }
+
+  .testimonials__scene.is-scroll-driven .testimonials__pin {
+    position: sticky;
+    top: var(--testimonials-pin-top, 80px);
   }
 
   .testimonials__grid {
@@ -4550,7 +4560,6 @@ textarea {
   flex-wrap: nowrap;
   gap: 24px;
   width: max-content;
-  will-change: transform;
 }
 
 .quote-card {
