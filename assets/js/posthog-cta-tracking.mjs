@@ -30,7 +30,7 @@ function ctaProperties(element) {
     cta_text: (element.textContent || '').trim().slice(0, 120) || null,
     cta_destination: href,
     cta_destination_host: destinationHost,
-    is_booking_link: Boolean(href && href.includes('calendly.com'))
+    is_booking_link: Boolean(href && (href.includes('calendly.com') || href.includes('/booking')))
   };
 }
 
