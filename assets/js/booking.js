@@ -10,6 +10,7 @@ import {
 } from './booking-countries.js';
 
 const STORAGE_KEY = 'essence-booking';
+const TZ_STORAGE_KEY = 'essence-booking-tz';
 const FORM_STEPS = ['contact', 'phone', 'listSize', 'revenue', 'emailPct'];
 const ALL_STEPS = [...FORM_STEPS, 'calendar'];
 const WEEKDAYS = ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'];
@@ -38,6 +39,7 @@ const QUERY_ALIASES = {
   emailPct: ['emailpct', 'email_pct', 'email_revenue', 'klaviyo_pct', 'email_percent'],
   meetingDate: ['meetingdate', 'date'],
   meetingTime: ['meetingtime', 'time'],
+  timezone: ['timezone', 'tz', 'time_zone'],
   step: ['step', 'page'],
 };
 
@@ -121,6 +123,10 @@ const timesLabel = document.getElementById('booking-times-label');
 const timesTz = document.getElementById('booking-times-tz');
 const timesPanel = document.getElementById('booking-times');
 const timesGrid = document.getElementById('booking-times-grid');
+const timezoneButton = document.getElementById('booking-tz-button');
+const timezoneMenu = document.getElementById('booking-tz-menu');
+const timezoneSearch = document.getElementById('booking-tz-search');
+const timezoneList = document.getElementById('booking-tz-list');
 const bookedPanel = document.getElementById('booking-booked');
 const bookedLottieHost = document.getElementById('booking-booked-lottie');
 const bookedTitle = document.getElementById('booking-booked-title');
@@ -347,10 +353,6 @@ function startOfMonth(date) {
   return new Date(date.getFullYear(), date.getMonth(), 1);
 }
 
-function startOfDay(date) {
-  return new Date(date.getFullYear(), date.getMonth(), date.getDate());
-}
-
 function toIsoDate(date) {
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, '0');
@@ -419,6 +421,111 @@ function formatTimezoneLabel(timeZone) {
   const offset = formatTimezoneOffset(timeZone);
   if (city && offset) return `${city} (${offset})`;
   return city || offset || timeZone;
+}
+
+function formatTimezoneShortName(timeZone) {
+  try {
+    const parts = new Intl.DateTimeFormat('en-US', {
+      timeZone,
+      timeZoneName: 'longGeneric',
+    }).formatToParts(new Date());
+    return parts.find((part) => part.type === 'timeZoneName')?.value || '';
+  } catch {
+    try {
+      const parts = new Intl.DateTimeFormat('en-US', {
+        timeZone,
+        timeZoneName: 'short',
+      }).formatToParts(new Date());
+      return parts.find((part) => part.type === 'timeZoneName')?.value || '';
+    } catch {
+      return '';
+    }
+  }
+}
+
+function isValidTimeZone(timeZone) {
+  if (!timeZone) return false;
+  try {
+    Intl.DateTimeFormat('en-US', { timeZone }).format(new Date());
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+const FALLBACK_TIMEZONES = [
+  'UTC',
+  'America/New_York',
+  'America/Chicago',
+  'America/Denver',
+  'America/Los_Angeles',
+  'America/Phoenix',
+  'America/Anchorage',
+  'Pacific/Honolulu',
+  'America/Toronto',
+  'America/Vancouver',
+  'America/Mexico_City',
+  'America/Bogota',
+  'America/Lima',
+  'America/Santiago',
+  'America/Sao_Paulo',
+  'America/Argentina/Buenos_Aires',
+  'Europe/London',
+  'Europe/Dublin',
+  'Europe/Lisbon',
+  'Europe/Paris',
+  'Europe/Berlin',
+  'Europe/Amsterdam',
+  'Europe/Madrid',
+  'Europe/Rome',
+  'Europe/Stockholm',
+  'Europe/Warsaw',
+  'Europe/Athens',
+  'Europe/Istanbul',
+  'Europe/Moscow',
+  'Africa/Cairo',
+  'Africa/Johannesburg',
+  'Africa/Lagos',
+  'Asia/Dubai',
+  'Asia/Kolkata',
+  'Asia/Bangkok',
+  'Asia/Singapore',
+  'Asia/Hong_Kong',
+  'Asia/Shanghai',
+  'Asia/Tokyo',
+  'Asia/Seoul',
+  'Australia/Sydney',
+  'Australia/Melbourne',
+  'Australia/Perth',
+  'Pacific/Auckland',
+];
+
+let cachedTimeZones = null;
+
+function listTimeZones() {
+  if (cachedTimeZones) return cachedTimeZones;
+  try {
+    if (typeof Intl.supportedValuesOf !== 'function') {
+      cachedTimeZones = FALLBACK_TIMEZONES;
+      return cachedTimeZones;
+    }
+    cachedTimeZones = Intl.supportedValuesOf('timeZone').filter((zone) => (
+      zone === 'UTC' || (!zone.startsWith('Etc/') && zone !== 'Factory')
+    ));
+    return cachedTimeZones;
+  } catch {
+    cachedTimeZones = FALLBACK_TIMEZONES;
+    return cachedTimeZones;
+  }
+}
+
+function timezoneSearchHaystack(timeZone) {
+  return [
+    timeZone,
+    formatTimezoneCity(timeZone),
+    formatTimezoneOffset(timeZone),
+    formatTimezoneShortName(timeZone),
+  ].join(' ').toLowerCase().replace(/_/g, ' ');
 }
 
 function toUtcIso(date) {
@@ -492,11 +599,11 @@ function slotsForDate(dateKey) {
 }
 
 function hasAvailability(date) {
-  return slotsForDate(dateKeyInZone(date)).length > 0;
+  return slotsForDate(toIsoDate(date)).length > 0;
 }
 
 function isDisabledDay(date) {
-  if (startOfDay(date) < startOfDay(new Date())) return true;
+  if (toIsoDate(date) < dateKeyInZone(new Date())) return true;
   if (state.availability.status !== 'ready') return true;
   return !hasAvailability(date);
 }
@@ -608,6 +715,7 @@ const state = {
 const availabilityWindows = new Map();
 
 let countryLocked = false;
+let timezoneLocked = false;
 let websiteTouched = false;
 let websiteAutofill = '';
 
@@ -684,6 +792,22 @@ function loadStoredAnswers() {
 
 function persistAnswers() {
   sessionStorage.setItem(STORAGE_KEY, JSON.stringify(state.answers));
+}
+
+function persistTimezone() {
+  if (!state.timezone) {
+    sessionStorage.removeItem(TZ_STORAGE_KEY);
+    return;
+  }
+  sessionStorage.setItem(TZ_STORAGE_KEY, state.timezone);
+}
+
+function loadStoredTimezone() {
+  try {
+    return sessionStorage.getItem(TZ_STORAGE_KEY) || '';
+  } catch {
+    return '';
+  }
 }
 
 function selectedCountry() {
@@ -823,7 +947,7 @@ function syncChoiceStyles(name) {
 
 function hasQueryPrefill(query) {
   return Object.keys(QUERY_ALIASES).some((field) => {
-    if (field === 'step') return false;
+    if (field === 'step' || field === 'timezone') return false;
     return Boolean(readAliasedParam(query, field));
   });
 }
@@ -873,6 +997,20 @@ function hydrate() {
   maybeAutofillWebsite();
   if (freshLanding) {
     sessionStorage.removeItem(STORAGE_KEY);
+    sessionStorage.removeItem(TZ_STORAGE_KEY);
+  }
+
+  const queryTz = readAliasedParam(query, 'timezone');
+  if (isValidTimeZone(queryTz)) {
+    state.timezone = queryTz;
+    timezoneLocked = true;
+    persistTimezone();
+  } else if (!freshLanding) {
+    const storedTz = loadStoredTimezone();
+    if (isValidTimeZone(storedTz)) {
+      state.timezone = storedTz;
+      timezoneLocked = true;
+    }
   }
 
   const requestedIndex = ALL_STEPS.findIndex((step) => normalizeToken(step) === hash);
@@ -1064,6 +1202,7 @@ function settleStep(step, visible) {
 
 function goTo(index, direction = 1) {
   if (index === state.index || index < 0 || index >= steps.length) return;
+  closeTimezoneMenu();
 
   const outgoing = steps[state.index];
   const incoming = steps[index];
@@ -1238,6 +1377,15 @@ function setCalendarCollapsed(collapsed, { animate = true } = {}) {
   }
 }
 
+function syncTimezoneButton() {
+  const zone = formatTimezoneLabel(state.timezone);
+  if (timesTz) timesTz.textContent = zone;
+  if (timezoneButton) {
+    timezoneButton.hidden = !zone;
+    timezoneButton.setAttribute('aria-label', zone ? `Timezone, ${zone}` : 'Timezone');
+  }
+}
+
 function renderTimes() {
   if (!timesGrid || !timesLabel) return;
   const selectedDate = state.answers.meetingDate;
@@ -1251,11 +1399,7 @@ function renderTimes() {
   } else {
     timesLabel.textContent = 'Select a date';
   }
-  if (timesTz) {
-    const zone = formatTimezoneLabel(state.timezone);
-    timesTz.textContent = zone;
-    timesTz.hidden = !zone;
-  }
+  syncTimezoneButton();
 
   if (state.availability.status === 'loading') {
     timesGrid.innerHTML = '<p class="booking-times__empty">Finding open times.</p>';
@@ -1309,11 +1453,11 @@ function renderCalendar() {
     </div>
     <div class="shad-calendar__grid">
       ${days.map((date) => {
-        const iso = dateKeyInZone(date);
+        const iso = toIsoDate(date);
         const disabled = isDisabledDay(date);
         const classes = [
           'shad-calendar__day',
-          startOfDay(date) < startOfDay(new Date()) ? 'is-outside' : '',
+          iso < todayIso ? 'is-outside' : '',
           iso === todayIso ? 'is-today' : '',
           iso === selectedIso ? 'is-selected' : '',
         ].filter(Boolean).join(' ');
@@ -1370,7 +1514,10 @@ function bookErrorMessage(error) {
 }
 
 function showBookedSuccess() {
-  const when = `${formatMeetingDate(state.answers.meetingDate)} at ${state.answers.meetingTime}`;
+  const zone = formatTimezoneCity(state.timezone);
+  const when = zone
+    ? `${formatMeetingDate(state.answers.meetingDate)} at ${state.answers.meetingTime} (${zone})`
+    : `${formatMeetingDate(state.answers.meetingDate)} at ${state.answers.meetingTime}`;
   state.booked = true;
   persistAnswers();
   if (bookedTitle) {
@@ -1391,6 +1538,7 @@ function showBookedSuccess() {
     meeting_date: state.answers.meetingDate,
     meeting_time: state.answers.meetingTime,
     meeting_start: state.answers.meetingStart,
+    timezone: state.timezone,
     email: state.answers.email,
     test: isTestBooking(),
   }, { transport: 'sendBeacon' });
@@ -1609,6 +1757,7 @@ function closeCountryMenu() {
 
 function openCountryMenu() {
   if (!countryMenu || !countryButton) return;
+  closeTimezoneMenu();
   renderCountryOptions('');
   if (countrySearch) countrySearch.value = '';
   countryMenu.hidden = false;
@@ -1677,17 +1826,111 @@ function formatPhoneInput({ restoreCaret = true } = {}) {
   }
 }
 
-function applyVisitorTimezone(timeZone) {
-  if (!timeZone) return;
-  try {
-    Intl.DateTimeFormat('en-US', { timeZone }).format(new Date());
-  } catch {
+function setTimezone(timeZone, { persist = true } = {}) {
+  if (!isValidTimeZone(timeZone)) return;
+  if (state.timezone === timeZone) {
+    if (persist) timezoneLocked = true;
     return;
   }
+
   state.timezone = timeZone;
+  if (persist) timezoneLocked = true;
+
+  if (state.answers.meetingStart) {
+    const slot = state.availability.slots.find((item) => item.iso === state.answers.meetingStart);
+    if (slot) {
+      state.answers.meetingDate = dateKeyInZone(slot.start);
+      state.answers.meetingTime = formatSlotTime(slot.start);
+    }
+  }
+
   syncSelectedAvailability();
+
+  if (state.answers.meetingDate) {
+    const selected = parseIsoDate(state.answers.meetingDate);
+    if (selected) state.calendarMonth = startOfMonth(selected);
+  }
+
+  if (persist) persistTimezone();
+  persistAnswers();
   if (calendarRoot) renderCalendar();
   if (timesLabel) renderTimes();
+  updateChrome();
+}
+
+function applyVisitorTimezone(timeZone) {
+  if (timezoneLocked) return;
+  setTimezone(timeZone, { persist: false });
+}
+
+function isTimezoneMenuOpen() {
+  return Boolean(timezoneMenu && !timezoneMenu.hidden);
+}
+
+function renderTimezoneOptions(filter = '') {
+  if (!timezoneList) return;
+  const needle = filter.trim().toLowerCase().replace(/_/g, ' ');
+  const selectedZone = state.timezone;
+  const zones = listTimeZones().slice();
+  if (selectedZone && !zones.includes(selectedZone) && isValidTimeZone(selectedZone)) {
+    zones.unshift(selectedZone);
+  }
+  const items = zones
+    .sort((a, b) => {
+      if (a === selectedZone) return -1;
+      if (b === selectedZone) return 1;
+      return formatTimezoneCity(a).localeCompare(formatTimezoneCity(b));
+    })
+    .filter((zone) => {
+      if (!needle) return true;
+      return timezoneSearchHaystack(zone).includes(needle);
+    });
+
+  if (!items.length) {
+    timezoneList.innerHTML = '<li class="booking-tz-empty">No matching timezones</li>';
+    return;
+  }
+
+  timezoneList.innerHTML = items.map((zone) => {
+    const selected = zone === selectedZone;
+    const city = formatTimezoneCity(zone);
+    const offset = formatTimezoneOffset(zone);
+    return `
+      <li>
+        <button type="button" class="booking-tz-option${selected ? ' is-selected' : ''}" role="option" data-timezone="${zone}" aria-selected="${selected}">
+          <span>${city}</span>
+          <span class="booking-tz-option__offset">${offset}</span>
+        </button>
+      </li>
+    `;
+  }).join('');
+}
+
+function closeTimezoneMenu() {
+  if (!timezoneMenu || !timezoneButton) return;
+  timezoneMenu.hidden = true;
+  timezoneButton.setAttribute('aria-expanded', 'false');
+}
+
+function openTimezoneMenu() {
+  if (!timezoneMenu || !timezoneButton) return;
+  renderTimezoneOptions('');
+  if (timezoneSearch) timezoneSearch.value = '';
+  timezoneMenu.hidden = false;
+  timezoneButton.setAttribute('aria-expanded', 'true');
+  timezoneSearch?.focus();
+  requestAnimationFrame(() => {
+    timezoneList?.querySelector('.is-selected')?.scrollIntoView({ block: 'nearest' });
+  });
+}
+
+function toggleTimezoneMenu() {
+  if (isTimezoneMenuOpen()) {
+    closeTimezoneMenu();
+    return;
+  }
+  closeCountryMenu();
+  openTimezoneMenu();
 }
 
 async function detectVisitorCountry() {
@@ -1714,6 +1957,22 @@ async function detectVisitorCountry() {
 
 function onGlobalKeydown(event) {
   if (event.defaultPrevented || event.metaKey || event.ctrlKey || event.altKey) return;
+
+  if (isTimezoneMenuOpen()) {
+    if (event.key === 'Escape') {
+      event.preventDefault();
+      closeTimezoneMenu();
+      timezoneButton?.focus();
+      return;
+    }
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      timezoneList?.querySelector('.booking-tz-option')?.click();
+      return;
+    }
+    return;
+  }
+
   const currentId = ALL_STEPS[state.index];
   if (currentId === 'calendar') return;
 
@@ -1768,6 +2027,7 @@ function onGlobalKeydown(event) {
 
 function init() {
   hydrate();
+  syncTimezoneButton();
   detectVisitorCountry();
   preloadBookedLottie();
   preloadBookedSound();
@@ -1786,7 +2046,7 @@ function init() {
   form.addEventListener('focusin', (event) => {
     const target = event.target;
     if (!(target instanceof HTMLInputElement) || target.type === 'radio') return;
-    if (target.id === 'booking-country-search') return;
+    if (target.id === 'booking-country-search' || target.id === 'booking-tz-search') return;
     window.setTimeout(() => {
       target.scrollIntoView({ block: 'center', behavior: prefersReducedMotion() ? 'auto' : 'smooth' });
     }, 250);
@@ -1797,6 +2057,10 @@ function init() {
     if (!(target instanceof HTMLInputElement) || target.type === 'radio') return;
     if (target.id === 'booking-country-search') {
       renderCountryOptions(target.value);
+      return;
+    }
+    if (target.id === 'booking-tz-search') {
+      renderTimezoneOptions(target.value);
       return;
     }
     if (target.name === 'phone') {
@@ -1837,6 +2101,7 @@ function init() {
     renderCalendar();
     renderTimes();
     setCalendarCollapsed(true);
+    closeTimezoneMenu();
     updateChrome();
   });
 
@@ -1860,7 +2125,21 @@ function init() {
     state.answers.meetingStart = target.getAttribute('data-start') || '';
     persistAnswers();
     renderTimes();
+    closeTimezoneMenu();
     updateChrome();
+  });
+
+  timezoneButton?.addEventListener('click', (event) => {
+    event.preventDefault();
+    toggleTimezoneMenu();
+  });
+
+  timezoneList?.addEventListener('click', (event) => {
+    const option = event.target instanceof Element ? event.target.closest('[data-timezone]') : null;
+    if (!option) return;
+    setTimezone(option.getAttribute('data-timezone'));
+    closeTimezoneMenu();
+    timezoneButton?.focus();
   });
 
   countryButton?.addEventListener('click', (event) => {
@@ -1877,10 +2156,13 @@ function init() {
   });
 
   document.addEventListener('pointerdown', (event) => {
-    if (!isCountryMenuOpen()) return;
     const target = event.target;
-    if (target instanceof Element && target.closest('.booking-phone')) return;
-    closeCountryMenu();
+    if (isCountryMenuOpen() && !(target instanceof Element && target.closest('.booking-phone'))) {
+      closeCountryMenu();
+    }
+    if (isTimezoneMenuOpen() && !(target instanceof Element && target.closest('.booking-tz'))) {
+      closeTimezoneMenu();
+    }
   });
 
   form.addEventListener('animationstart', (event) => {

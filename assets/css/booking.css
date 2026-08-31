@@ -773,6 +773,7 @@
 }
 
 .booking-times {
+  position: relative;
   display: grid;
   align-content: start;
   gap: 10px;
@@ -781,7 +782,7 @@
 
 .booking-times__heading {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   justify-content: space-between;
   gap: 10px;
   margin: 0;
@@ -793,12 +794,155 @@
   font-weight: 500;
 }
 
-.booking-times__tz {
+.booking-tz {
+  position: relative;
+  flex: 0 1 auto;
+  min-width: 0;
+}
+
+.booking-tz__button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  max-width: 100%;
+  min-height: 28px;
+  padding: 0;
+  border: 0;
+  background: transparent;
   color: var(--muted-foreground);
+  font: inherit;
   font-size: 0.75rem;
   font-weight: 600;
   letter-spacing: 0.02em;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.booking-tz__button:hover,
+.booking-tz__button[aria-expanded="true"] {
+  color: var(--foreground);
+}
+
+.booking-tz__icon,
+.booking-tz__chevron {
+  width: 12px;
+  height: 12px;
+  flex: 0 0 auto;
+}
+
+.booking-tz__chevron {
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.booking-tz__button[aria-expanded="true"] .booking-tz__chevron {
+  transform: rotate(180deg);
+}
+
+.booking-tz__value {
+  overflow: hidden;
+  text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.booking-tz-menu {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+  z-index: 5;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  width: min(320px, 85vw);
+  max-height: min(360px, 52dvh);
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--background);
+  box-shadow: 0 18px 40px -20px rgba(0, 0, 0, 0.28);
+}
+
+.booking-tz-menu[hidden] {
+  display: none;
+}
+
+.booking-tz-search-label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+}
+
+.booking-tz-search {
+  width: 100%;
+  min-height: 48px;
+  padding: 12px 14px;
+  border: 0;
+  border-bottom: 1px solid var(--border);
+  background: transparent;
+  color: var(--foreground);
+  font: inherit;
+  font-size: 0.95rem;
+  outline: none;
+}
+
+.booking-tz-list {
+  margin: 0;
+  padding: 6px;
+  overflow: auto;
+  list-style: none;
+}
+
+.booking-tz-option {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 44px;
+  padding: 8px 10px;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--foreground);
+  font: inherit;
+  font-size: 0.92rem;
+  text-align: left;
+  cursor: pointer;
+}
+
+.booking-tz-option:hover,
+.booking-tz-option.is-active {
+  background: var(--muted);
+}
+
+.booking-tz-option.is-selected {
+  font-weight: 600;
+}
+
+.booking-tz-option__offset {
+  color: var(--muted-foreground);
+  font-size: 0.78rem;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.booking-tz-empty {
+  margin: 0;
+  padding: 14px 10px;
+  color: var(--muted-foreground);
+  font-size: 0.88rem;
+}
+
+@media (max-width: 719px) {
+  .booking-tz {
+    position: static;
+  }
+
+  .booking-tz-menu {
+    left: 0;
+    right: 0;
+    width: auto;
+  }
 }
 
 .booking-times__grid {
@@ -1242,6 +1386,7 @@ button:disabled > .booking-haptic-switch {
   .booking-back,
   .booking-next,
   .booking-cal-tab__chevron,
+  .booking-tz__chevron,
   .booking-input,
   .booking-field__label,
   .booking-story {

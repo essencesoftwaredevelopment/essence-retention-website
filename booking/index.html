@@ -322,10 +322,26 @@
                   </div>
                 </div>
                 <div class="booking-times" id="booking-times">
-                  <p class="booking-times__heading">
+                  <div class="booking-times__heading">
                     <span class="booking-times__label" id="booking-times-label">Select a date</span>
-                    <span class="booking-times__tz" id="booking-times-tz"></span>
-                  </p>
+                    <div class="booking-tz" id="booking-tz">
+                      <button class="booking-tz__button" id="booking-tz-button" type="button" aria-haspopup="listbox" aria-expanded="false" aria-controls="booking-tz-menu">
+                        <svg class="booking-tz__icon" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                          <circle cx="8" cy="8" r="6.25" stroke="currentColor" stroke-width="1.4" />
+                          <path d="M1.75 8h12.5M8 1.75c1.65 2.05 2.5 4.15 2.5 6.25s-.85 4.2-2.5 6.25C6.35 12.2 5.5 10.1 5.5 8s.85-4.2 2.5-6.25z" stroke="currentColor" stroke-width="1.4" />
+                        </svg>
+                        <span class="booking-tz__value" id="booking-times-tz"></span>
+                        <svg class="booking-tz__chevron" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                          <path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                      </button>
+                      <div class="booking-tz-menu" id="booking-tz-menu" hidden>
+                        <label class="booking-tz-search-label" for="booking-tz-search">Search timezone</label>
+                        <input class="booking-tz-search" id="booking-tz-search" type="search" placeholder="Search city or timezone" autocomplete="off" spellcheck="false" />
+                        <ul class="booking-tz-list" id="booking-tz-list" role="listbox" aria-label="Timezone"></ul>
+                      </div>
+                    </div>
+                  </div>
                   <div class="booking-times__grid" id="booking-times-grid"></div>
                 </div>
               </div>
