@@ -580,6 +580,10 @@ function readAliasedParam(queryMap, field) {
   return '';
 }
 
+function isTestBooking() {
+  return String(readQueryMap().get('test') || '').trim().toLowerCase() === 'true';
+}
+
 function optionTokens(input) {
   const label = input.closest('label')?.querySelector('.booking-choice__label')?.textContent || '';
   const tokens = new Set();
@@ -1261,6 +1265,7 @@ function showBookedSuccess() {
     meeting_time: state.answers.meetingTime,
     meeting_start: state.answers.meetingStart,
     email: state.answers.email,
+    test: isTestBooking(),
   }, { transport: 'sendBeacon' });
 }
 
@@ -1277,6 +1282,12 @@ async function confirmBooking() {
   updateChrome();
 
   try {
+    if (isTestBooking()) {
+      await new Promise((resolve) => window.setTimeout(resolve, 450));
+      showBookedSuccess();
+      return;
+    }
+
     const response = await fetch(BOOK_URL, {
       method: 'POST',
       headers: {
