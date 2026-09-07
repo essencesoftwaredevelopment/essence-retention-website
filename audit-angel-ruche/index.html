@@ -3,21 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<script>
-(function(){
-  var href=location.href.split('#')[0];
-  var q=href.indexOf('?');
-  if(q!==-1) href=href.slice(0,q);
-  var path=location.pathname;
-  var last=path.split('/').pop();
-  var isFile=last==='index'||last==='index.html'||last.indexOf('.')!==-1;
-  if(path.slice(-1)!=='/'&&!isFile) href+='/';
-  else if(isFile) href=href.replace(/[^/]+$/,'');
-  var el=document.createElement('base');
-  el.href=href;
-  document.head.insertBefore(el,document.head.firstChild);
-})();
-</script>
+<base href="/audit-angel-ruche/">
 <title>Angel Ruche &middot; Klaviyo Account Review</title>
 <meta name="robots" content="noindex, nofollow">
 <script>
@@ -792,13 +778,13 @@ html.unlocked .gate{display:none}
   <div class="quiz-pair">
     <div class="quiz-col">
       <div class="quiz-scale fill">
-        <iframe id="quiz-desk" title="Desktop popup demo" src="quiz-demo.html?embed=1&amp;variant=desktop"></iframe>
+        <iframe id="quiz-desk" title="Desktop popup demo" src="/audit-angel-ruche/quiz-demo.html?embed=1&amp;variant=desktop"></iframe>
       </div>
       <button class="quiz-play" type="button" data-quiz="quiz-desk" data-variant="desktop">Show popup</button>
     </div>
     <div class="quiz-col">
       <div class="quiz-scale fill">
-        <iframe id="quiz-phone" title="Mobile popup demo" src="quiz-demo.html?embed=1&amp;variant=mobile"></iframe>
+        <iframe id="quiz-phone" title="Mobile popup demo" src="/audit-angel-ruche/quiz-demo.html?embed=1&amp;variant=mobile"></iframe>
       </div>
       <button class="quiz-play" type="button" data-quiz="quiz-phone" data-variant="mobile">Show popup</button>
     </div>
