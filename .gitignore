@@ -3,3 +3,4 @@
 
 .env
 assets/js/runtime-config.generated.js
+.vercel
