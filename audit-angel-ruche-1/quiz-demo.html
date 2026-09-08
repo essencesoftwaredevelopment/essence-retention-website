@@ -1,0 +1,1448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Angel Ruche — Quiz Demo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400;0,500;0,700;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+  <script>
+  (function () {
+    var inFrame = false;
+    try { inFrame = window.parent !== window; } catch (e) { inFrame = true; }
+    var p = new URLSearchParams(location.search);
+    var v = p.get("variant");
+    if (!v) {
+      try {
+        var id = window.frameElement && window.frameElement.id;
+        if (id === "quiz-desk") v = "desktop";
+        if (id === "quiz-phone") v = "mobile";
+      } catch (e) {}
+    }
+    if (inFrame || p.get("embed") === "1") document.documentElement.classList.add("ar-embed");
+    if (v === "desktop" || v === "mobile") document.documentElement.classList.add("ar-variant-" + v);
+  })();
+  </script>
+  <style>
+    :root {
+      --ballerina: #f2d1de;
+      --whisper: #cba1b0;
+      --blush: #FCE9F1;
+      --slip: #e5c3ce;
+      --cream: #fffdfb;
+      --card: #FCE9F1;
+      --dots:
+        radial-gradient(#fff 1.35px, transparent 1.45px),
+        radial-gradient(#fff 1.35px, transparent 1.45px);
+      --accent: #6c4822;
+      --ink: #4a2e1f;
+      --link: #805d37;
+      --muted: rgba(74, 46, 31, 0.58);
+      --line: rgba(74, 46, 31, 0.16);
+      --shadow: rgba(108, 72, 34, 0.12) 0 4px 12px 0;
+      --display: "Alegreya", "Iowan Old Style", Georgia, serif;
+      --serif: "EB Garamond", Georgia, serif;
+      --ease: cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body { min-height: 100%; }
+
+    body {
+      font-family: var(--serif);
+      font-weight: 400;
+      color: var(--ink);
+      background: #fff;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    em, .serif-em {
+      font-family: var(--display);
+      font-weight: 400;
+      font-style: italic;
+      font-synthesis: none;
+    }
+
+    /* ------------------------------------------------------------------
+       DEMO PAGE — a thin stand-in for angelruche.com
+    ------------------------------------------------------------------ */
+    .site-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 40px;
+      background: var(--cream);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .site-brand {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+    }
+
+    .site-brand img {
+      height: 36px;
+      width: auto;
+      display: block;
+    }
+
+    .site-nav {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+
+    .site-nav a {
+      font-family: var(--display);
+      font-size: 13px;
+      font-weight: 400;
+      color: var(--ink);
+      text-decoration: none;
+    }
+
+    .site-nav a:hover { text-decoration: underline; text-underline-offset: 4px; }
+
+    .site-hero {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      min-height: calc(100dvh - 82px);
+      align-items: stretch;
+    }
+
+    .site-hero__copy {
+      padding: 80px 64px 72px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      max-width: 680px;
+    }
+
+    .site-kicker {
+      font-family: var(--display);
+      font-size: 12px;
+      font-weight: 400;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--link);
+      margin-bottom: 18px;
+    }
+
+    .site-hero h1 {
+      font-family: var(--display);
+      font-size: 40px;
+      line-height: 48px;
+      font-weight: 700;
+      color: var(--ink);
+      letter-spacing: 0;
+      margin-bottom: 18px;
+      text-wrap: balance;
+    }
+
+    .site-hero h1 em {
+      display: block;
+      font-size: 46px;
+      line-height: 1.05;
+      font-weight: 400;
+      color: var(--accent);
+    }
+
+    .site-hero p {
+      font-size: 21px;
+      line-height: 32px;
+      max-width: 42ch;
+      margin-bottom: 28px;
+    }
+
+    .site-hero__media {
+      position: relative;
+      background: var(--slip);
+      overflow: hidden;
+    }
+
+    .site-hero__media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: 50% 18%;
+      display: block;
+    }
+
+    .site-band {
+      background: var(--ballerina);
+      color: var(--ink);
+      padding: 16px 40px;
+      font-family: var(--display);
+      font-size: 13px;
+      font-weight: 400;
+      letter-spacing: 0.04em;
+      display: flex;
+      justify-content: space-between;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      box-sizing: border-box;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 200px;
+      min-height: 54px;
+      padding: 15px 36px;
+      background: var(--cream);
+      color: var(--ink);
+      border: 1px solid var(--accent);
+      border-radius: 2px;
+      font-family: var(--display);
+      font-size: 12px;
+      font-weight: 400;
+      text-decoration: none;
+      cursor: pointer;
+      transition: transform 0.12s var(--ease), background 0.25s var(--ease), color 0.25s var(--ease);
+    }
+
+    .btn:hover { background: var(--ballerina); }
+    .btn:active { transform: scale(0.98); }
+
+    .btn--ghost {
+      background: transparent;
+      color: var(--ink);
+      border-color: var(--accent);
+    }
+
+    .btn--ghost:hover { background: rgba(242, 209, 222, 0.45); }
+
+    .demo-dock {
+      position: fixed;
+      left: 16px;
+      bottom: 16px;
+      z-index: 2147483001;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px;
+      background: var(--ink);
+      color: var(--cream);
+      border-radius: 2px;
+      font-family: var(--display);
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.04em;
+    }
+
+    .demo-dock button {
+      background: transparent;
+      color: var(--cream);
+      border: 0;
+      border-radius: 2px;
+      padding: 8px 12px;
+      font-family: var(--display);
+      font-size: 11px;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+    }
+
+    .demo-dock button[aria-pressed="true"],
+    .demo-dock button:hover {
+      background: var(--ballerina);
+      color: var(--ink);
+    }
+
+    .demo-dock .demo-label {
+      padding: 0 8px 0 12px;
+      opacity: 0.45;
+      text-transform: uppercase;
+    }
+
+    html.ar-embed,
+    html.ar-embed body { overflow: hidden; height: 100%; background: #fff; }
+    html.ar-embed .demo-dock { display: none !important; }
+    html.ar-embed .site-header,
+    html.ar-embed .site-hero,
+    html.ar-embed .site-band { display: none !important; }
+    html.ar-embed #ar-quiz-root[data-variant="desktop"] {
+      padding: 0;
+      background: var(--card);
+    }
+    html.ar-embed #ar-quiz-root[data-variant="desktop"] .ar-modal {
+      width: 100%;
+      height: 100%;
+      max-height: none;
+      border-radius: 0;
+      transform: none;
+    }
+    html.ar-embed #ar-quiz-root[data-variant="desktop"] .ar-modal__media {
+      margin-right: -48px;
+    }
+    html.ar-embed #ar-quiz-root[data-variant="desktop"] .ar-progress {
+      padding: 0 28px 0 40px;
+      margin-top: 16px;
+    }
+    html.ar-embed #ar-quiz-root[data-variant="desktop"] .ar-pane {
+      padding: 10px 28px 14px 36px;
+    }
+    html.ar-embed #ar-quiz-root[data-variant="desktop"] .ar-logo {
+      height: 32px;
+      margin-bottom: 8px;
+    }
+    html.ar-embed #ar-quiz-root[data-variant="desktop"] .ar-h--gift {
+      font-size: 28px;
+      line-height: 32px;
+      margin-bottom: 4px;
+    }
+    html.ar-embed #ar-quiz-root[data-variant="desktop"] .ar-h {
+      font-size: 22px;
+      line-height: 26px;
+      margin-bottom: 6px;
+    }
+    html.ar-embed #ar-quiz-root[data-variant="desktop"] .ar-sub {
+      font-size: 15px;
+      line-height: 20px;
+      margin-bottom: 10px;
+    }
+    html.ar-embed #ar-quiz-root[data-variant="desktop"] .ar-opts { gap: 6px; }
+    html.ar-embed #ar-quiz-root[data-variant="desktop"] .ar-opt {
+      font-size: 15px;
+      line-height: 20px;
+      padding: 8px 14px;
+    }
+    html.ar-embed #ar-quiz-root[data-variant="desktop"] .ar-dismiss { margin-top: 8px; }
+    html.ar-embed #ar-quiz-root[data-variant="desktop"] .ar-btn {
+      min-height: 40px;
+      font-size: 12px;
+    }
+
+    html.ar-embed #ar-quiz-root[data-variant="mobile"] .ar-progress {
+      padding: 0 16px;
+      margin-top: 12px;
+    }
+    html.ar-embed #ar-quiz-root[data-variant="mobile"] .ar-pane {
+      padding: 12px 16px 14px;
+    }
+    html.ar-embed #ar-quiz-root[data-variant="mobile"] .ar-logo {
+      height: 32px;
+      margin-bottom: 8px;
+    }
+    html.ar-embed #ar-quiz-root[data-variant="mobile"] .ar-h--gift {
+      font-size: 28px;
+      line-height: 32px;
+      margin-bottom: 4px;
+    }
+    html.ar-embed #ar-quiz-root[data-variant="mobile"] .ar-h {
+      font-size: 20px;
+      line-height: 24px;
+    }
+    html.ar-embed #ar-quiz-root[data-variant="mobile"] .ar-sub {
+      font-size: 14px;
+      line-height: 18px;
+      margin-bottom: 10px;
+    }
+    html.ar-embed #ar-quiz-root[data-variant="mobile"] .ar-opts { gap: 5px; }
+    html.ar-embed #ar-quiz-root[data-variant="mobile"] .ar-opt {
+      font-size: 14px;
+      line-height: 18px;
+      padding: 8px 10px;
+    }
+    html.ar-embed #ar-quiz-root[data-variant="mobile"] .ar-dismiss { margin-top: 8px; }
+    html.ar-embed #ar-quiz-root[data-variant="mobile"] .ar-deco--bow,
+    html.ar-embed #ar-quiz-root[data-variant="mobile"] .ar-deco--bow-br { width: 72px; }
+    html.ar-embed #ar-quiz-root[data-variant="mobile"] .ar-deco--bag,
+    html.ar-embed #ar-quiz-root[data-variant="mobile"] .ar-deco--skirt { width: 68px; }
+
+    @media (max-width: 860px) {
+      .site-header { padding: 14px 20px; }
+      .site-nav a:not(.btn) { display: none; }
+      .site-nav .btn { min-width: 0; min-height: 44px; padding: 10px 18px; }
+      .site-hero { grid-template-columns: 1fr; }
+      .site-hero__copy { padding: 48px 24px 40px; }
+      .site-hero h1 { font-size: 32px; line-height: 38px; }
+      .site-hero h1 em { font-size: 36px; }
+      .site-hero p { font-size: 18px; line-height: 28px; }
+      .site-hero__media { min-height: 56vw; }
+      .site-band { padding: 14px 20px; }
+      .demo-dock { left: 8px; right: 8px; bottom: 8px; justify-content: center; flex-wrap: wrap; }
+      body.ar-quiz-on .demo-dock { display: none; }
+    }
+
+    /* ------------------------------------------------------------------
+       POPUP
+    ------------------------------------------------------------------ */
+    #ar-quiz-root {
+      position: fixed;
+      inset: 0;
+      z-index: 2147483000;
+      background: rgba(74, 46, 31, 0.42);
+      display: flex;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.28s ease;
+    }
+
+    #ar-quiz-root.ar-open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    #ar-quiz-root[data-variant="desktop"] {
+      align-items: center;
+      justify-content: center;
+      padding: 32px;
+    }
+
+    #ar-quiz-root[data-variant="mobile"] {
+      align-items: stretch;
+      justify-content: stretch;
+      padding: 0;
+    }
+
+    .ar-modal {
+      position: relative;
+      background-color: var(--card);
+      background-image: var(--dots);
+      background-size: 22px 22px;
+      background-position: 0 0, 11px 11px;
+      color: var(--ink);
+      font-family: var(--serif);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--line);
+    }
+
+    #ar-quiz-root[data-variant="desktop"] .ar-modal {
+      width: min(1040px, 92vw);
+      height: 74vh;
+      max-height: 740px;
+      border-radius: 4px;
+      flex-direction: row;
+      transform: translateY(14px) scale(0.985);
+      transition: transform 0.3s var(--ease);
+    }
+
+    #ar-quiz-root[data-variant="desktop"].ar-open .ar-modal { transform: none; }
+
+    #ar-quiz-root[data-variant="mobile"] .ar-modal {
+      width: 100%;
+      height: 100%;
+      max-height: 100dvh;
+      border-radius: 0;
+      border: 0;
+      transform: translateY(16px);
+      opacity: 0;
+      transition: transform 0.34s var(--ease), opacity 0.28s ease;
+    }
+
+    #ar-quiz-root[data-variant="mobile"].ar-open .ar-modal {
+      transform: none;
+      opacity: 1;
+    }
+
+    .ar-modal__media {
+      display: none;
+      position: relative;
+      background: transparent;
+      overflow: hidden;
+    }
+
+    #ar-quiz-root[data-variant="desktop"] .ar-modal__media {
+      display: block;
+      flex: 0 0 46%;
+      min-height: 100%;
+      margin-right: -72px;
+      z-index: 1;
+    }
+
+    .ar-modal__media img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: 50% 20%;
+      display: block;
+    }
+
+    #ar-quiz-root[data-variant="desktop"] .ar-modal__media::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background: linear-gradient(
+        90deg,
+        transparent 0%,
+        transparent 42%,
+        rgba(252, 233, 241, 0.28) 64%,
+        rgba(252, 233, 241, 0.78) 84%,
+        #FCE9F1 100%
+      );
+    }
+
+    .ar-modal__body {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      flex: 1;
+      min-height: 0;
+      background: transparent;
+    }
+
+    #ar-quiz-root[data-variant="mobile"] .ar-modal__body {
+      height: 100%;
+      padding-top: env(safe-area-inset-top, 0px);
+      padding-bottom: env(safe-area-inset-bottom, 0px);
+    }
+
+    .ar-progress {
+      display: flex;
+      gap: 4px;
+      padding: 0 48px 0 88px;
+      margin-top: 28px;
+      height: 3px;
+      flex-shrink: 0;
+    }
+
+    #ar-quiz-root[data-variant="mobile"] .ar-progress { padding: 0 24px; margin-top: 20px; }
+
+    .ar-progress i {
+      flex: 1;
+      height: 3px;
+      background: var(--line);
+      border-radius: 3px;
+      transition: background 0.4s ease;
+    }
+
+    .ar-progress i.ar-filled { background: var(--whisper); }
+
+    .ar-pane {
+      padding: 36px 48px 40px 88px;
+      overflow: auto;
+      -webkit-overflow-scrolling: touch;
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      text-align: center;
+    }
+
+    #ar-quiz-root[data-variant="mobile"] .ar-pane { padding: 28px 24px 32px; }
+
+    .ar-pane__inner {
+      width: 100%;
+      margin-top: auto;
+      margin-bottom: auto;
+    }
+
+    .ar-logo {
+      display: block;
+      height: 48px;
+      width: auto;
+      margin: 0 auto 26px;
+    }
+
+    .ar-decos {
+      display: none;
+    }
+
+    #ar-quiz-root[data-variant="mobile"] .ar-decos {
+      display: block;
+      position: absolute;
+      inset: 0;
+      z-index: 3;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .ar-deco {
+      position: absolute;
+      opacity: 0;
+      will-change: transform, opacity;
+    }
+
+    .ar-deco img {
+      display: block;
+      width: 100%;
+      height: auto;
+      mix-blend-mode: screen;
+    }
+
+    .ar-deco--bow img {
+      mix-blend-mode: multiply;
+      filter: invert(1) contrast(1.15);
+    }
+
+    .ar-deco--bow-br img {
+      mix-blend-mode: screen;
+      filter: brightness(1.55) contrast(1.2);
+    }
+
+    .ar-deco--bow {
+      top: 56px;
+      left: -18px;
+      width: 117px;
+      --from: translate3d(-28px, -20px, 0) rotate(-48deg) scale(0.68);
+      --to: rotate(-26deg) skewX(-8deg);
+    }
+
+    .ar-deco--bag {
+      bottom: 8px;
+      right: -20px;
+      top: auto;
+      width: 108px;
+      --from: translate3d(28px, 22px, 0) rotate(44deg) scale(0.68);
+      --to: rotate(18deg) skewX(6deg);
+    }
+
+    .ar-deco--skirt {
+      bottom: -6px;
+      left: -20px;
+      width: 105px;
+      --from: translate3d(-26px, 24px, 0) rotate(28deg) scale(0.68);
+      --to: rotate(-18deg) skewX(8deg);
+    }
+
+    .ar-deco--bow-br {
+      top: 18%;
+      right: -22px;
+      bottom: auto;
+      width: 117px;
+      --from: translate3d(32px, -18px, 0) rotate(40deg) scale(0.68);
+      --to: rotate(16deg) skewY(6deg);
+    }
+
+    #ar-quiz-root[data-variant="mobile"].ar-open .ar-decos-on .ar-deco {
+      animation: ar-deco-in 0.78s var(--ease) forwards;
+    }
+
+    #ar-quiz-root[data-variant="mobile"].ar-open .ar-decos-on .ar-deco--bow { animation-delay: 0.12s; }
+    #ar-quiz-root[data-variant="mobile"].ar-open .ar-decos-on .ar-deco--bag { animation-delay: 0.28s; }
+    #ar-quiz-root[data-variant="mobile"].ar-open .ar-decos-on .ar-deco--skirt { animation-delay: 0.42s; }
+    #ar-quiz-root[data-variant="mobile"].ar-open .ar-decos-on .ar-deco--bow-br { animation-delay: 0.56s; }
+
+    @keyframes ar-deco-in {
+      from {
+        opacity: 0;
+        transform: var(--from);
+      }
+      to {
+        opacity: 1;
+        transform: var(--to);
+      }
+    }
+
+    .ar-eyebrow {
+      font-family: var(--display);
+      font-size: 12px;
+      font-weight: 400;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--link);
+      margin: 0 0 14px;
+    }
+
+    .ar-h {
+      font-family: var(--display);
+      font-weight: 700;
+      font-size: 34px;
+      line-height: 42px;
+      color: var(--ink);
+      margin: 0 0 14px;
+      text-wrap: balance;
+    }
+
+    .ar-h em {
+      font-size: 36px;
+      line-height: 42px;
+      color: var(--accent);
+    }
+
+    .ar-h--gift {
+      font-family: var(--display);
+      font-size: 52px;
+      font-weight: 500;
+      font-style: italic;
+      font-synthesis: none;
+      line-height: 60px;
+      color: var(--ink);
+    }
+
+    .ar-sub {
+      font-family: var(--serif);
+      font-weight: 400;
+      font-style: normal;
+      font-size: 20px;
+      line-height: 30px;
+      color: var(--link);
+      margin: 0 0 24px;
+    }
+
+    #ar-quiz-root[data-variant="mobile"] .ar-logo { height: 42px; margin-bottom: 18px; }
+    #ar-quiz-root[data-variant="mobile"] .ar-sub { margin-bottom: 16px; }
+    #ar-quiz-root[data-variant="mobile"] .ar-h { font-size: 28px; line-height: 34px; }
+    #ar-quiz-root[data-variant="mobile"] .ar-h em { font-size: 30px; line-height: 34px; }
+    #ar-quiz-root[data-variant="mobile"] .ar-h--gift { font-size: 44px; line-height: 52px; }
+
+    .ar-p {
+      font-size: 19px;
+      line-height: 30px;
+      margin: 0 0 16px;
+      color: var(--ink);
+    }
+
+    .ar-fine {
+      font-size: 14px;
+      line-height: 20px;
+      color: var(--muted);
+      margin: 16px 0 0;
+    }
+
+    .ar-opts {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .ar-opt {
+      width: 100%;
+      text-align: center;
+      cursor: pointer;
+      font-family: var(--serif);
+      font-size: 18px;
+      font-weight: 400;
+      line-height: 26px;
+      color: var(--ink);
+      background: var(--cream);
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      padding: 14px 18px;
+      transition: border-color 0.18s ease, background 0.18s ease, transform 0.12s var(--ease);
+    }
+
+    .ar-opt:hover {
+      border-color: var(--accent);
+      background: var(--ballerina);
+    }
+
+    .ar-opt:active { transform: scale(0.99); }
+
+    .ar-btn {
+      box-sizing: border-box;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 200px;
+      min-height: 54px;
+      padding: 15px 36px;
+      background: var(--cream);
+      color: var(--ink);
+      border: 1px solid var(--accent);
+      border-radius: 2px;
+      font-family: var(--display);
+      font-size: 12px;
+      font-weight: 400;
+      text-decoration: none;
+      cursor: pointer;
+      transition: transform 0.12s var(--ease), background 0.25s ease, color 0.25s ease;
+    }
+
+    .ar-btn:hover { background: var(--ballerina); }
+    .ar-btn:active { transform: scale(0.98); }
+    .ar-btn[disabled] { opacity: 0.4; cursor: default; transform: none; }
+    .ar-btn.ar-wide { width: 100%; min-width: 0; }
+    .ar-btn:not(.ar-wide) { margin-left: auto; margin-right: auto; }
+
+    .ar-btn.ar-fill {
+      background: var(--ink);
+      border-color: var(--ink);
+      color: var(--cream);
+    }
+
+    .ar-btn.ar-fill:hover { background: var(--accent); border-color: var(--accent); }
+
+    .ar-textlink {
+      display: inline-block;
+      background: none;
+      border: 0;
+      padding: 0;
+      cursor: pointer;
+      font-family: var(--display);
+      font-size: 12px;
+      font-weight: 400;
+      color: var(--link);
+      text-decoration: none;
+    }
+
+    .ar-textlink:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+    .ar-back { margin: 0 0 18px; text-align: center; }
+
+    .ar-dismiss { margin: 22px 0 0; }
+
+    .ar-dismiss .ar-textlink {
+      color: var(--muted);
+    }
+
+    .ar-field { margin: 0 0 14px; }
+
+    .ar-field label {
+      display: block;
+      font-family: var(--display);
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .ar-field input {
+      width: 100%;
+      font-family: var(--serif);
+      font-size: 18px;
+      font-weight: 400;
+      line-height: 26px;
+      color: var(--ink);
+      background: transparent;
+      border: 0;
+      border-bottom: 1px solid var(--line);
+      border-radius: 0;
+      padding: 10px 0;
+    }
+
+    .ar-field input:focus {
+      outline: 0;
+      border-bottom-color: var(--accent);
+    }
+
+    .ar-field input::placeholder { color: rgba(74, 46, 31, 0.38); }
+
+    .ar-err {
+      font-size: 14px;
+      line-height: 20px;
+      color: #8a3d2f;
+      margin: 0;
+      min-height: 0;
+    }
+
+    .ar-err:not(:empty) {
+      margin: 0 0 10px;
+    }
+
+    .ar-result {
+      background: var(--cream);
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      box-shadow: var(--shadow);
+      padding: 16px 18px;
+      margin: 0 0 22px;
+    }
+
+    .ar-result .ar-eyebrow { margin-bottom: 6px; }
+
+    .ar-code {
+      font-family: var(--display);
+      font-weight: 700;
+      font-size: 28px;
+      letter-spacing: 0.08em;
+      color: var(--ink);
+      margin: 0 0 4px;
+    }
+
+    .ar-pill {
+      display: inline-block;
+      background: var(--ballerina);
+      color: var(--ink);
+      font-family: var(--display);
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 6px 10px;
+      border-radius: 2px;
+      margin: 0 0 14px;
+    }
+
+    .ar-spin {
+      display: inline-block;
+      width: 13px;
+      height: 13px;
+      border: 2px solid rgba(255, 253, 251, 0.28);
+      border-top-color: var(--cream);
+      border-radius: 50%;
+      animation: ar-turn 0.7s linear infinite;
+    }
+
+    @keyframes ar-turn { to { transform: rotate(360deg); } }
+
+    .ar-fade {
+      opacity: 0;
+      animation: ar-fade-in 0.55s var(--ease) calc(var(--ar-d, 0) * 0.16s + 0.04s) forwards;
+    }
+
+    .ar-fade-1 { --ar-d: 0; }
+    .ar-fade-2 { --ar-d: 1; }
+    .ar-fade-3 { --ar-d: 2; }
+    .ar-fade-4 { --ar-d: 3; }
+    .ar-fade-5 { --ar-d: 4; }
+    .ar-fade-6 { --ar-d: 5; }
+
+    @keyframes ar-fade-in {
+      from { opacity: 0; transform: translate3d(0, 12px, 0); }
+      to { opacity: 1; transform: translate3d(0, 0, 0); }
+    }
+
+    #ar-quiz-root :focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      #ar-quiz-root, .ar-modal, .ar-fade, .ar-spin, .btn, .ar-btn, .ar-opt, .ar-deco {
+        transition: none !important;
+        animation: none !important;
+      }
+      .ar-fade { opacity: 1; transform: none; }
+      .ar-deco { opacity: 1; transform: var(--to); }
+      #ar-quiz-root[data-variant="desktop"] .ar-modal,
+      #ar-quiz-root[data-variant="mobile"] .ar-modal { transform: none; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-brand" href="https://angelruche.com" target="_blank" rel="noopener">
+      <img src="https://media.brand.dev/f95be14d-1873-4b09-ad98-a1dc10a967a8.svg" alt="Angel Ruche">
+    </a>
+    <nav class="site-nav">
+      <a href="https://angelruche.com/collections/knit-collection" target="_blank" rel="noopener">Knits</a>
+      <a href="https://angelruche.com/collections/women-long-sleeves-pink-tops" target="_blank" rel="noopener">Tops</a>
+      <a href="https://angelruche.com/collections/skirt" target="_blank" rel="noopener">Skirts</a>
+      <a class="btn" href="https://angelruche.com/collections/back-in-stock" target="_blank" rel="noopener">Shop the drop</a>
+    </nav>
+  </header>
+
+  <section class="site-hero">
+    <div class="site-hero__copy">
+      <p class="site-kicker">Limited drop</p>
+      <h1>Soft knits, bows, and balletcore<em>in the flesh</em></h1>
+      <p>Cable sets, fold-over skirts, and the pieces that sold out first. A mystery gift on your first order.</p>
+      <a class="btn" href="https://angelruche.com/collections/knit-collection" target="_blank" rel="noopener">Shop knits</a>
+    </div>
+    <div class="site-hero__media">
+      <img src="https://cdn.shopify.com/s/files/1/0650/6345/2854/files/IMG_7427.jpg?v=1783949863" alt="Angel Ruche">
+    </div>
+  </section>
+
+  <div class="site-band">
+    <span>Mystery gift on your first order</span>
+    <span>Knit collection &middot; Tops &middot; Skirts &middot; Back in stock</span>
+  </div>
+
+  <div class="demo-dock" role="group" aria-label="Demo controls">
+    <span class="demo-label">Demo</span>
+    <button type="button" data-demo="open">Open</button>
+    <button type="button" data-demo="reset">Reset</button>
+    <button type="button" data-demo="auto" aria-pressed="true">Auto</button>
+    <button type="button" data-demo="desktop" aria-pressed="false">Desktop</button>
+    <button type="button" data-demo="mobile" aria-pressed="false">Mobile</button>
+  </div>
+
+  <script>
+  (function () {
+    "use strict";
+
+    var IMG = {
+      split: "https://cdn.shopify.com/s/files/1/0650/6345/2854/files/IMG_7427.jpg?v=1783949863",
+      decoBow: "decoration-bow.png",
+      decoBag: "decoration-bag.png",
+      decoSkirt: "decoration-skirt.png",
+      last: "last-image.png",
+      logo: "https://media.brand.dev/f95be14d-1873-4b09-ad98-a1dc10a967a8.svg",
+      dolly: "https://cdn.shopify.com/s/files/1/0650/6345/2854/files/5f056f27co1b3af351344a6f294a6ebd.jpg?v=1775723281",
+      fawn: "https://cdn.shopify.com/s/files/1/0650/6345/2854/collections/Photoroom_20260303_100442.jpg?v=1783237346",
+      cosy: "https://cdn.shopify.com/s/files/1/0650/6345/2854/files/IMG_2278.jpg?v=1775021998",
+      ballet: "https://cdn.shopify.com/s/files/1/0650/6345/2854/files/IMG_7427.jpg?v=1783949863",
+      sets: "https://cdn.shopify.com/s/files/1/0650/6345/2854/files/angelruchepinkStrawberryMilkCableKnitSetzipupcrophoodiejacketfoldoverskirtsetribbedknit_Pink_x.png?v=1775021862",
+      swim: "https://cdn.shopify.com/s/files/1/0650/6345/2854/collections/IMG_5719.jpg?v=1783237267"
+    };
+
+    var params = new URLSearchParams(location.search);
+    var inFrame = false;
+    try { inFrame = window.parent !== window; } catch (e) { inFrame = true; }
+    var embed = inFrame || params.get("embed") === "1";
+    var qVariant = params.get("variant");
+    if (qVariant !== "desktop" && qVariant !== "mobile") {
+      try {
+        var frameId = window.frameElement && window.frameElement.id;
+        if (frameId === "quiz-desk") qVariant = "desktop";
+        if (frameId === "quiz-phone") qVariant = "mobile";
+      } catch (e) {}
+    }
+
+    var CFG = {
+      offerLine: "15% off your first order",
+      offerShort: "15% off",
+      staticCode: "SOFT15",
+      mobileBreakpoint: 720,
+      forceVariant: qVariant === "desktop" || qVariant === "mobile" ? qVariant : "auto"
+    };
+
+    if (embed) {
+      document.documentElement.classList.add("ar-embed");
+      document.body.classList.add("ar-embed");
+      if (qVariant === "desktop" || qVariant === "mobile") {
+        document.documentElement.classList.add("ar-variant-" + qVariant);
+        document.body.classList.add("ar-variant-" + qVariant);
+      }
+    }
+
+    var QUESTIONS = [
+      {
+        key: "style",
+        headline: "Choose your style...",
+        options: [
+          { label: "Knit Collection", value: "knit" },
+          { label: "Tops", value: "tops" },
+          { label: "Skirts", value: "skirts" },
+          { label: "Back in Stocks", value: "restock" }
+        ]
+      }
+    ];
+
+    var EDITS = {
+      knit: {
+        name: "Knit Collection",
+        url: "https://angelruche.com/collections/knit-collection",
+        pill: "Your mystery gift",
+        img: IMG.cosy
+      },
+      tops: {
+        name: "Tops",
+        url: "https://angelruche.com/collections/women-long-sleeves-pink-tops",
+        pill: "Your mystery gift",
+        img: IMG.ballet
+      },
+      skirts: {
+        name: "Skirts",
+        url: "https://angelruche.com/collections/skirt",
+        pill: "Your mystery gift",
+        img: IMG.dolly
+      },
+      restock: {
+        name: "Back in Stocks",
+        url: "https://angelruche.com/collections/back-in-stock",
+        pill: "Your mystery gift",
+        img: IMG.fawn
+      }
+    };
+
+    function resolve(a) {
+      var key = EDITS[a.style] ? a.style : "knit";
+      var lines = {
+        knit: "A matching knit set, wrap, or cable piece from Cosy Hour — your mystery gift is waiting in the knit collection.",
+        tops: "A bow cami, wrap, or long sleeve in blush. Your mystery gift lives with the tops.",
+        skirts: "Pleats, petticoats, a skirt that moves. Your mystery gift is on the skirt rack.",
+        restock: "The pieces that sold out first, back again. Your mystery gift is in Back in Stocks."
+      };
+
+      return {
+        edit: key,
+        line: lines[key]
+      };
+    }
+
+    var answers = {};
+    var step = 0;
+    var result = null;
+    var lastFocus = null;
+    var currentRender = null;
+    var variant = "desktop";
+    var scrim, modal, media, pane, bars;
+
+    function el(tag, cls, html) {
+      var n = document.createElement(tag);
+      if (cls) n.className = cls;
+      if (html != null) n.innerHTML = html;
+      return n;
+    }
+
+    function activeVariant() {
+      if (CFG.forceVariant === "desktop" || CFG.forceVariant === "mobile") return CFG.forceVariant;
+      return window.matchMedia("(max-width:" + (CFG.mobileBreakpoint - 1) + "px)").matches ? "mobile" : "desktop";
+    }
+
+    function paintMedia(src) {
+      if (!media) return;
+      media.setAttribute("aria-hidden", variant === "desktop" ? "false" : "true");
+      var image = src || IMG.split;
+      if (media.getAttribute("data-ready") === image) return;
+      media.setAttribute("data-ready", image);
+      media.innerHTML = '<img src="' + image + '" alt="Angel Ruche">';
+    }
+
+    function applyVariant(next) {
+      var resolved = next || activeVariant();
+      var changed = resolved !== variant;
+      variant = resolved;
+      if (!scrim) return;
+      scrim.setAttribute("data-variant", variant);
+      if (result && EDITS[result.edit]) paintMedia(EDITS[result.edit].img);
+      else paintMedia(IMG.split);
+      if (changed && currentRender) currentRender();
+      if (changed && variant === "mobile" && scrim && scrim.classList.contains("ar-open")) playDecos();
+    }
+
+    function build() {
+      if (document.getElementById("ar-quiz-root")) {
+        scrim = document.getElementById("ar-quiz-root");
+        modal = scrim.querySelector(".ar-modal");
+        media = scrim.querySelector(".ar-modal__media");
+        pane = scrim.querySelector(".ar-pane");
+        bars = scrim.querySelector(".ar-progress");
+        return;
+      }
+
+      scrim = el("div");
+      scrim.id = "ar-quiz-root";
+      scrim.setAttribute("role", "dialog");
+      scrim.setAttribute("aria-modal", "true");
+      scrim.setAttribute("aria-label", "Find your Angel Ruche edit");
+
+      modal = el("div", "ar-modal");
+      media = el("div", "ar-modal__media");
+
+      var body = el("div", "ar-modal__body");
+      bars = el("div", "ar-progress");
+      for (var b = 0; b < 4; b++) bars.appendChild(el("i"));
+
+      pane = el("div", "ar-pane");
+
+      body.appendChild(bars);
+      body.appendChild(pane);
+      var decos = el("div", "ar-decos");
+      decos.setAttribute("aria-hidden", "true");
+      decos.innerHTML =
+        '<span class="ar-deco ar-deco--bow"><img src="' + IMG.decoBow + '" alt=""></span>' +
+        '<span class="ar-deco ar-deco--bag"><img src="' + IMG.decoBag + '" alt=""></span>' +
+        '<span class="ar-deco ar-deco--skirt"><img src="' + IMG.decoSkirt + '" alt=""></span>' +
+        '<span class="ar-deco ar-deco--bow-br"><img src="' + IMG.decoBow + '" alt=""></span>';
+
+      modal.appendChild(media);
+      modal.appendChild(body);
+      modal.appendChild(decos);
+      scrim.appendChild(modal);
+      document.body.appendChild(scrim);
+
+      document.addEventListener("keydown", function (e) {
+        if (!scrim.classList.contains("ar-open")) return;
+        if (e.key === "Tab") trap(e);
+      });
+
+      window.addEventListener("resize", function () {
+        if (CFG.forceVariant !== "auto") return;
+        var next = activeVariant();
+        if (next !== variant) applyVariant(next);
+      });
+
+      applyVariant();
+    }
+
+    function trap(e) {
+      var nodes = modal.querySelectorAll("button, input, a[href]");
+      var f = [];
+      for (var i = 0; i < nodes.length; i++) {
+        f.push(nodes[i]);
+      }
+      if (!f.length) return;
+      var first = f[0], last = f[f.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    }
+
+    function paint(html, opts) {
+      pane.innerHTML = '<div class="ar-pane__inner">' + html + "</div>";
+      pane.scrollTop = 0;
+      if (opts && opts.focusSelector) {
+        var f = pane.querySelector(opts.focusSelector);
+        if (f) f.focus({ preventScroll: true });
+      }
+    }
+
+    function progress(n) {
+      var kids = bars.children;
+      for (var i = 0; i < kids.length; i++) kids[i].classList.toggle("ar-filled", i < n);
+    }
+
+    function renderQuestion(i) {
+      currentRender = function () { renderQuestion(i); };
+      step = i + 1;
+      progress(i + 1);
+      result = null;
+      paintMedia(IMG.split);
+      var q = QUESTIONS[i];
+      var fadeBase = i === 0 ? 3 : 2;
+      var opts = q.options.map(function (o, idx) {
+        return '<button type="button" class="ar-opt ar-fade ar-fade-' + Math.min(fadeBase + idx, 6) + '" data-v="' + o.value + '">' + o.label + "</button>";
+      }).join("");
+
+      var intro = "";
+      if (i === 0) {
+        intro =
+          '<img class="ar-logo ar-fade ar-fade-1" src="' + IMG.logo + '" alt="Angel Ruche">' +
+          '<h2 class="ar-h ar-h--gift ar-fade ar-fade-2">You\'ve Got a Mystery Gift</h2>' +
+          '<p class="ar-sub ar-fade ar-fade-3">Choose your style...</p>';
+      } else {
+        intro =
+          '<div class="ar-back ar-fade ar-fade-1"><button type="button" class="ar-textlink" data-act="back">Back</button></div>' +
+          '<h2 class="ar-h ar-fade ar-fade-1">' + q.headline + "</h2>";
+      }
+
+      paint(
+        intro +
+        '<div class="ar-opts" role="radiogroup" aria-label="Question">' + opts + "</div>" +
+        '<p class="ar-dismiss ar-fade ar-fade-6"><button type="button" class="ar-textlink" data-act="dismiss">No thanks, I don\'t want a gift</button></p>'
+      );
+
+      Array.prototype.forEach.call(pane.querySelectorAll(".ar-opt"), function (b) {
+        b.addEventListener("click", function () {
+          answers[q.key] = b.getAttribute("data-v");
+          result = resolve(answers);
+          renderEmail();
+        });
+      });
+
+      var back = pane.querySelector("[data-act=back]");
+      if (back) back.addEventListener("click", function () { renderQuestion(i - 1); });
+
+      var dismiss = pane.querySelector("[data-act=dismiss]");
+      if (dismiss) dismiss.addEventListener("click", close);
+    }
+
+    function bindDismiss() {
+      var dismiss = pane.querySelector("[data-act=dismiss]");
+      if (dismiss) dismiss.addEventListener("click", close);
+    }
+
+    function renderEmail() {
+      currentRender = renderEmail;
+      step = 2;
+      progress(2);
+      result = result || resolve(answers);
+      var rec = EDITS[result.edit];
+      paintMedia(rec.img);
+
+      paint(
+        '<div class="ar-back ar-fade ar-fade-1"><button type="button" class="ar-textlink" data-act="back">Back</button></div>' +
+        '<h2 class="ar-h ar-fade ar-fade-2">Where should we send it?</h2>' +
+        '<p class="ar-sub ar-fade ar-fade-3">Enter your email for your mystery gift.</p>' +
+        '<div class="ar-field ar-fade ar-fade-4">' +
+          '<label for="ar-email">Email</label>' +
+          '<input id="ar-email" type="email" inputmode="email" autocomplete="email" placeholder="you@email.com" value="' + (answers.email || "") + '">' +
+        "</div>" +
+        '<p class="ar-err" id="ar-err" role="alert"></p>' +
+        '<button type="button" class="ar-btn ar-wide ar-fade ar-fade-5" data-act="next">Continue</button>' +
+        '<p class="ar-dismiss ar-fade ar-fade-6"><button type="button" class="ar-textlink" data-act="dismiss">No thanks, I don\'t want a gift</button></p>',
+        { focusSelector: "#ar-email" }
+      );
+
+      pane.querySelector("[data-act=back]").addEventListener("click", function () { renderQuestion(0); });
+      bindDismiss();
+
+      var input = pane.querySelector("#ar-email");
+      var err = pane.querySelector("#ar-err");
+      var next = pane.querySelector("[data-act=next]");
+      input.addEventListener("keydown", function (e) { if (e.key === "Enter") next.click(); });
+      input.addEventListener("input", function () { err.textContent = ""; });
+      next.addEventListener("click", function () {
+        var v = (input.value || "").trim();
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)) {
+          err.textContent = "Enter a valid email to continue.";
+          input.focus();
+          return;
+        }
+        answers.email = v;
+        next.disabled = true;
+        next.innerHTML = '<span class="ar-spin"></span>';
+        setTimeout(renderSms, 360);
+      });
+    }
+
+    function renderSms() {
+      currentRender = renderSms;
+      step = 3;
+      progress(3);
+      result = result || resolve(answers);
+      paintMedia(EDITS[result.edit].img);
+
+      paint(
+        '<div class="ar-back ar-fade ar-fade-1"><button type="button" class="ar-textlink" data-act="back">Back</button></div>' +
+        '<h2 class="ar-h ar-fade ar-fade-2">Get it by text</h2>' +
+        '<p class="ar-sub ar-fade ar-fade-3">Add your number and we\'ll text your mystery gift.</p>' +
+        '<div class="ar-field ar-fade ar-fade-4">' +
+          '<label for="ar-sms">Mobile number</label>' +
+          '<input id="ar-sms" type="tel" inputmode="tel" autocomplete="tel" placeholder="(555) 000-0000" value="' + (answers.phone || "") + '">' +
+        "</div>" +
+        '<p class="ar-err" id="ar-err" role="alert"></p>' +
+        '<button type="button" class="ar-btn ar-wide ar-fade ar-fade-5" data-act="next">Text my gift</button>' +
+        '<p class="ar-dismiss ar-fade ar-fade-6"><button type="button" class="ar-textlink" data-act="dismiss">No thanks, I don\'t want a gift</button></p>',
+        { focusSelector: "#ar-sms" }
+      );
+
+      pane.querySelector("[data-act=back]").addEventListener("click", renderEmail);
+      bindDismiss();
+
+      var input = pane.querySelector("#ar-sms");
+      var err = pane.querySelector("#ar-err");
+      var next = pane.querySelector("[data-act=next]");
+      input.addEventListener("keydown", function (e) { if (e.key === "Enter") next.click(); });
+      input.addEventListener("input", function () { err.textContent = ""; });
+      next.addEventListener("click", function () {
+        var v = (input.value || "").trim();
+        var digits = v.replace(/\D/g, "");
+        if (digits.length < 10 || digits.length > 15) {
+          err.textContent = "Enter a valid mobile number to continue.";
+          input.focus();
+          return;
+        }
+        answers.phone = v;
+        next.disabled = true;
+        next.innerHTML = '<span class="ar-spin"></span>';
+        setTimeout(renderSuccess, 360);
+      });
+    }
+
+    function renderSuccess() {
+      currentRender = renderSuccess;
+      step = 4;
+      progress(4);
+      result = result || resolve(answers);
+      var rec = EDITS[result.edit];
+      paintMedia(IMG.last);
+
+      paint(
+        '<p class="ar-pill ar-fade ar-fade-1">' + rec.pill + "</p>" +
+        '<h2 class="ar-h ar-h--gift ar-fade ar-fade-2">You\'re in</h2>' +
+        '<p class="ar-p ar-fade ar-fade-3">Check your inbox for your code</p>' +
+        '<a class="ar-btn ar-wide ar-fade ar-fade-4" href="' + rec.url + '" target="_blank" rel="noopener">Shop your gift</a>'
+      );
+    }
+
+    function playDecos() {
+      if (!modal) return;
+      var wrap = modal.querySelector(".ar-decos");
+      if (!wrap) return;
+      wrap.classList.remove("ar-decos-on");
+      void wrap.offsetWidth;
+      wrap.classList.add("ar-decos-on");
+    }
+
+    function open() {
+      build();
+      applyVariant();
+      lastFocus = document.activeElement;
+      scrim.classList.add("ar-open");
+      document.body.classList.add("ar-quiz-on");
+      document.body.style.overflow = "hidden";
+      playDecos();
+      if (!pane.querySelector(".ar-pane__inner")) renderQuestion(0);
+    }
+
+    function close() {
+      if (!scrim) return;
+      scrim.classList.remove("ar-open");
+      document.body.classList.remove("ar-quiz-on");
+      document.body.style.overflow = "";
+      if (lastFocus && lastFocus.focus) lastFocus.focus();
+    }
+
+    function reset() {
+      answers = {};
+      result = null;
+      step = 0;
+      currentRender = null;
+      if (pane) pane.innerHTML = "";
+      if (media) media.removeAttribute("data-ready");
+      if (scrim && scrim.classList.contains("ar-open")) renderQuestion(0);
+    }
+
+    function setVariant(v) {
+      CFG.forceVariant = v === "desktop" || v === "mobile" ? v : "auto";
+      applyVariant();
+    }
+
+    window.AngelRucheQuiz = {
+      open: open,
+      close: close,
+      reset: reset,
+      setVariant: setVariant,
+      getVariant: function () { return variant; }
+    };
+
+    Array.prototype.forEach.call(document.querySelectorAll("[data-demo]"), function (btn) {
+      btn.addEventListener("click", function () {
+        var act = btn.getAttribute("data-demo");
+        if (act === "open") open();
+        if (act === "reset") reset();
+        if (act === "auto" || act === "desktop" || act === "mobile") {
+          setVariant(act);
+          Array.prototype.forEach.call(document.querySelectorAll("[data-demo=auto], [data-demo=desktop], [data-demo=mobile]"), function (b) {
+            b.setAttribute("aria-pressed", b.getAttribute("data-demo") === act ? "true" : "false");
+          });
+        }
+      });
+    });
+
+    window.addEventListener("message", function (e) {
+      var data = e.data || {};
+      if (data.type !== "ar-quiz") return;
+      if (data.variant === "desktop" || data.variant === "mobile") setVariant(data.variant);
+      if (data.action === "open") { reset(); open(); }
+      if (data.action === "close") close();
+      if (data.action === "reset") reset();
+    });
+
+    function boot() {
+      if (embed) return;
+      var preview = params.get("preview");
+      if (preview === "q1") {
+        open();
+        return;
+      }
+      if (preview === "email" || preview === "q2") {
+        answers.style = "knit";
+        result = resolve(answers);
+        open();
+        renderEmail();
+        return;
+      }
+      if (preview === "sms") {
+        answers.style = "skirts";
+        answers.email = "you@email.com";
+        result = resolve(answers);
+        open();
+        renderSms();
+        return;
+      }
+      if (preview === "success" || preview === "code") {
+        answers.style = "knit";
+        answers.email = "you@email.com";
+        answers.phone = "(312) 847-1928";
+        result = resolve(answers);
+        open();
+        renderSuccess();
+        return;
+      }
+      setTimeout(open, 700);
+    }
+
+    if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot);
+    else boot();
+  })();
+  </script>
+</body>
+</html>
