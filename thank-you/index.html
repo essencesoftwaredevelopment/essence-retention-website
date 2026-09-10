@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Thank You | ESSENCE Retention</title>
+  <meta name="description" content="Your call with ESSENCE Retention is booked. Check your inbox for the calendar invite, then see what happens before we speak." />
+  <meta name="robots" content="noindex" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Thank You | ESSENCE Retention" />
+  <meta property="og:description" content="Your call with ESSENCE Retention is booked." />
+  <meta property="og:image" content="/assets/images/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="ESSENCE Retention" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Thank You | ESSENCE Retention" />
+  <meta name="twitter:description" content="Your call with ESSENCE Retention is booked." />
+  <meta name="twitter:image" content="/assets/images/og-image.png" />
+  <link rel="icon" type="image/x-icon" href="../assets/images/favicon.ico" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../styles.css" />
+  <link rel="stylesheet" href="../assets/css/thank-you.css" />
+  <link rel="preload" href="../assets/animations/booking-success.json" as="fetch" crossorigin />
+  <link rel="modulepreload" href="../assets/vendor/lottie-web/lottie.min.esm.js" />
+  <script type="importmap">
+    {
+      "imports": {
+        "posthog-js": "../assets/vendor/posthog-js/module.full.no-external.js"
+      }
+    }
+  </script>
+  <script type="module" src="../assets/js/posthog-init.mjs"></script>
+  <script type="module" src="../assets/js/posthog-cta-tracking.mjs"></script>
+</head>
+
+<body class="thank-you-page">
+  <div class="page-grid">
+    <header class="site-header">
+      <a class="ty-brand" href="/" aria-label="ESSENCE Retention home">
+        <img class="site-header__logo" src="../assets/images/ESSENCE-Retention.png" alt="ESSENCE Retention logo" />
+      </a>
+      <nav class="site-header__nav">
+        <a class="site-header__link" href="/#service-tiers" data-ph-cta="nav_service_tiers" data-ph-cta-location="thank_you_header">Service Tiers</a>
+        <a class="button button--ghost site-header__cta" href="/" data-ph-cta="back_home" data-ph-cta-location="thank_you_header">Back to Home</a>
+      </nav>
+    </header>
+
+    <main class="ty-main">
+      <section class="ty-hero" aria-labelledby="ty-title">
+        <div class="ty-hero__mark" id="ty-mark">
+          <div class="ty-hero__lottie" id="ty-lottie" aria-hidden="true"></div>
+          <svg class="ty-hero__mark-fallback" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+            <circle cx="24" cy="24" r="21" stroke="currentColor" stroke-width="3" />
+            <path d="M15.5 24.5l6 6 11.5-12.5" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </div>
+        <p class="ty-hero__kicker">Booked</p>
+        <h1 class="ty-hero__title" id="ty-title">You're on the calendar.</h1>
+        <p class="ty-hero__copy">A calendar invite is on its way to your inbox. Accept it and the slot is yours.</p>
+      </section>
+
+      <section class="ty-steps" aria-labelledby="ty-steps-title">
+        <p class="ty-section-kicker">Before the call</p>
+        <h2 class="ty-section-title" id="ty-steps-title">What happens next</h2>
+        <div class="ty-steps__grid">
+          <article class="ty-step">
+            <span class="ty-step__index">1</span>
+            <h3 class="ty-step__title">Accept the invite</h3>
+            <p class="ty-step__copy">The confirmation email carries your calendar invite and a reschedule link. Nothing in your inbox after five minutes? Check spam.</p>
+          </article>
+          <article class="ty-step">
+            <span class="ty-step__index">2</span>
+            <h3 class="ty-step__title">We review your brand</h3>
+            <p class="ty-step__copy">Before we speak, we go through your store, your emails, and your sign-up flow, and note where revenue leaks.</p>
+          </article>
+          <article class="ty-step">
+            <span class="ty-step__index">3</span>
+            <h3 class="ty-step__title">Join from a desktop</h3>
+            <p class="ty-step__copy">We share our screen and walk through what we found. A bigger screen makes the numbers easier to read.</p>
+          </article>
+        </div>
+        <p class="ty-reschedule">Need a different time? Use the reschedule link in your confirmation email, or write to <a href="mailto:jacques@essenceretention.com">jacques@essenceretention.com</a>.</p>
+      </section>
+
+      <section class="ty-stories" aria-labelledby="ty-stories-title">
+        <p class="ty-section-kicker">While you wait</p>
+        <h2 class="ty-section-title" id="ty-stories-title">Hear from founders who took this call</h2>
+        <div class="ty-stories__grid">
+          <article class="ty-story">
+            <div class="ty-story__header">
+              <div class="ty-story__info">
+                <h3 class="ty-story__name">Paige DeAngelo</h3>
+                <p class="ty-story__role">Founder of <strong>Aer Cosmetics</strong></p>
+              </div>
+              <p class="ty-story__stars" aria-label="5 out of 5 stars">
+                <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M6 1.2l1.35 2.74 3.02.44-2.18 2.13.52 3.01L6 8.1l-2.71 1.42.52-3.01L1.63 4.38l3.02-.44z" fill="currentColor"/></svg>
+                <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M6 1.2l1.35 2.74 3.02.44-2.18 2.13.52 3.01L6 8.1l-2.71 1.42.52-3.01L1.63 4.38l3.02-.44z" fill="currentColor"/></svg>
+                <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M6 1.2l1.35 2.74 3.02.44-2.18 2.13.52 3.01L6 8.1l-2.71 1.42.52-3.01L1.63 4.38l3.02-.44z" fill="currentColor"/></svg>
+                <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M6 1.2l1.35 2.74 3.02.44-2.18 2.13.52 3.01L6 8.1l-2.71 1.42.52-3.01L1.63 4.38l3.02-.44z" fill="currentColor"/></svg>
+                <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M6 1.2l1.35 2.74 3.02.44-2.18 2.13.52 3.01L6 8.1l-2.71 1.42.52-3.01L1.63 4.38l3.02-.44z" fill="currentColor"/></svg>
+              </p>
+            </div>
+            <blockquote class="ty-story__quote">We Have 11 X'd Our Sales</blockquote>
+            <div class="ty-story__video">
+              <iframe src="https://www.youtube.com/embed/sCkWw0e447Y" title="Paige DeAngelo testimonial" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+            </div>
+          </article>
+          <article class="ty-story">
+            <div class="ty-story__header">
+              <div class="ty-story__info">
+                <h3 class="ty-story__name">John King</h3>
+                <p class="ty-story__role">Founder of <strong>Spicy Wear</strong></p>
+              </div>
+              <p class="ty-story__stars" aria-label="5 out of 5 stars">
+                <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M6 1.2l1.35 2.74 3.02.44-2.18 2.13.52 3.01L6 8.1l-2.71 1.42.52-3.01L1.63 4.38l3.02-.44z" fill="currentColor"/></svg>
+                <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M6 1.2l1.35 2.74 3.02.44-2.18 2.13.52 3.01L6 8.1l-2.71 1.42.52-3.01L1.63 4.38l3.02-.44z" fill="currentColor"/></svg>
+                <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M6 1.2l1.35 2.74 3.02.44-2.18 2.13.52 3.01L6 8.1l-2.71 1.42.52-3.01L1.63 4.38l3.02-.44z" fill="currentColor"/></svg>
+                <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M6 1.2l1.35 2.74 3.02.44-2.18 2.13.52 3.01L6 8.1l-2.71 1.42.52-3.01L1.63 4.38l3.02-.44z" fill="currentColor"/></svg>
+                <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M6 1.2l1.35 2.74 3.02.44-2.18 2.13.52 3.01L6 8.1l-2.71 1.42.52-3.01L1.63 4.38l3.02-.44z" fill="currentColor"/></svg>
+              </p>
+            </div>
+            <blockquote class="ty-story__quote">They genuinely want to see you succeed</blockquote>
+            <div class="ty-story__video">
+              <iframe src="https://www.youtube.com/embed/aikdwBMh9Io" title="John King testimonial" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+            </div>
+          </article>
+          <article class="ty-story">
+            <div class="ty-story__header">
+              <div class="ty-story__info">
+                <h3 class="ty-story__name">Gavin Kennelly</h3>
+                <p class="ty-story__role">Founder of <strong>Young Irish Entrepreneurs</strong></p>
+              </div>
+              <p class="ty-story__stars" aria-label="5 out of 5 stars">
+                <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M6 1.2l1.35 2.74 3.02.44-2.18 2.13.52 3.01L6 8.1l-2.71 1.42.52-3.01L1.63 4.38l3.02-.44z" fill="currentColor"/></svg>
+                <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M6 1.2l1.35 2.74 3.02.44-2.18 2.13.52 3.01L6 8.1l-2.71 1.42.52-3.01L1.63 4.38l3.02-.44z" fill="currentColor"/></svg>
+                <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M6 1.2l1.35 2.74 3.02.44-2.18 2.13.52 3.01L6 8.1l-2.71 1.42.52-3.01L1.63 4.38l3.02-.44z" fill="currentColor"/></svg>
+                <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M6 1.2l1.35 2.74 3.02.44-2.18 2.13.52 3.01L6 8.1l-2.71 1.42.52-3.01L1.63 4.38l3.02-.44z" fill="currentColor"/></svg>
+                <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M6 1.2l1.35 2.74 3.02.44-2.18 2.13.52 3.01L6 8.1l-2.71 1.42.52-3.01L1.63 4.38l3.02-.44z" fill="currentColor"/></svg>
+              </p>
+            </div>
+            <blockquote class="ty-story__quote">Their experience made it very seamless for us</blockquote>
+            <div class="ty-story__video">
+              <iframe src="https://www.youtube.com/embed/axN1Eil39NU" title="Gavin Kennelly testimonial" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+            </div>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>© <span id="year">2026</span> Essence Retention. All rights reserved.</p>
+      <div class="site-footer__links">
+        <a href="/privacy-policy">Privacy Policy</a>
+        <a href="mailto:jacques@essenceretention.com">jacques@essenceretention.com</a>
+      </div>
+    </footer>
+  </div>
+
+  <script type="module" src="../assets/js/thank-you.js"></script>
+</body>
+
+</html>

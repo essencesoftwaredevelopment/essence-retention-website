@@ -1,0 +1,351 @@
+/* ========== Thank You Page ========== */
+
+.thank-you-page .page-grid {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 48px);
+}
+
+.ty-main {
+  flex: 1;
+  width: min(1060px, 100%);
+  margin: 0 auto;
+  padding: clamp(48px, 8vw, 88px) 0 72px;
+}
+
+.ty-brand {
+  display: inline-flex;
+  align-items: center;
+}
+
+/* ---------- Sections shared ---------- */
+
+.ty-section-kicker {
+  margin: 0 0 6px;
+  color: var(--muted-foreground);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.ty-section-title {
+  margin: 0 0 28px;
+  font-size: clamp(1.5rem, 3.4vw, 2.1rem);
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  line-height: 1.15;
+  text-align: center;
+  text-wrap: balance;
+}
+
+/* ---------- Hero ---------- */
+
+.ty-hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 16px;
+  text-align: center;
+}
+
+.ty-hero__mark {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 132px;
+  height: 132px;
+  margin-bottom: 20px;
+  pointer-events: none;
+}
+
+.ty-hero__lottie {
+  position: absolute;
+  inset: 0;
+}
+
+.ty-hero__mark-fallback {
+  width: 76px;
+  height: 76px;
+  color: var(--foreground);
+}
+
+.ty-hero__mark.is-animated .ty-hero__mark-fallback {
+  display: none;
+}
+
+.ty-hero__kicker {
+  margin: 0 0 10px;
+  color: var(--muted-foreground);
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.ty-hero__title {
+  margin: 0 0 14px;
+  font-size: clamp(2.2rem, 5.4vw, 3.6rem);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 1.02;
+  text-wrap: balance;
+}
+
+.ty-hero__copy {
+  margin: 0 auto;
+  max-width: 46ch;
+  color: var(--muted-foreground);
+  font-size: 1.05rem;
+  line-height: 1.6;
+}
+
+/* ---------- Next steps ---------- */
+
+.ty-steps {
+  margin-top: clamp(56px, 8vw, 88px);
+}
+
+.ty-steps__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.ty-step {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 22px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-2xl);
+  background: var(--card);
+  box-shadow: var(--shadow);
+}
+
+.ty-step__index {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--muted);
+  color: var(--foreground);
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.ty-step__title {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.ty-step__copy {
+  margin: 0;
+  color: var(--muted-foreground);
+  font-size: 0.94rem;
+  line-height: 1.6;
+}
+
+.ty-reschedule {
+  margin: 22px auto 0;
+  max-width: 60ch;
+  color: var(--muted-foreground);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  text-align: center;
+}
+
+.ty-reschedule a {
+  color: var(--foreground);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* ---------- Founder stories ---------- */
+
+.ty-stories {
+  margin-top: clamp(64px, 9vw, 104px);
+}
+
+.ty-stories__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.ty-story {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-2xl);
+  background: var(--card);
+  box-shadow: var(--shadow);
+  transition: border-color 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.ty-story:hover {
+  border-color: color-mix(in oklch, var(--foreground) 16%, var(--border));
+}
+
+.ty-story__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.ty-story__name {
+  margin: 0;
+  font-size: 0.98rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.ty-story__role {
+  margin: 2px 0 0;
+  color: var(--muted-foreground);
+  font-size: 0.82rem;
+}
+
+.ty-story__role strong {
+  color: var(--foreground);
+  font-weight: 600;
+}
+
+.ty-story__stars {
+  display: inline-flex;
+  gap: 2px;
+  margin: 3px 0 0;
+  color: var(--foreground);
+}
+
+.ty-story__stars svg {
+  width: 11px;
+  height: 11px;
+}
+
+.ty-story__quote {
+  margin: 0;
+  font-size: 0.92rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.4;
+}
+
+.ty-story__quote::before {
+  content: '\201C';
+}
+
+.ty-story__quote::after {
+  content: '\201D';
+}
+
+.ty-story__video {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border-radius: calc(var(--radius) + 2px);
+  background: var(--muted);
+  aspect-ratio: 9 / 16;
+}
+
+.ty-story__video iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+/* ---------- Entrance motion ---------- */
+
+@media (prefers-reduced-motion: no-preference) {
+  .ty-hero__mark,
+  .ty-hero__kicker,
+  .ty-hero__title,
+  .ty-hero__copy {
+    animation: ty-rise 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  .ty-hero__kicker {
+    animation-delay: 0.08s;
+  }
+
+  .ty-hero__title {
+    animation-delay: 0.14s;
+  }
+
+  .ty-hero__copy {
+    animation-delay: 0.2s;
+  }
+}
+
+@keyframes ty-rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 960px) {
+  .ty-steps__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ty-stories__grid {
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-columns: none;
+    grid-auto-columns: minmax(240px, 280px);
+    margin: 0 -24px;
+    padding: 2px 24px 10px;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: 24px;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .ty-stories__grid::-webkit-scrollbar {
+    height: 0;
+  }
+
+  .ty-story {
+    scroll-snap-align: start;
+  }
+}
+
+@media (max-width: 640px) {
+  .ty-hero__mark {
+    width: 112px;
+    height: 112px;
+  }
+
+  .ty-main {
+    padding-top: 40px;
+  }
+
+  .ty-stories__grid {
+    margin: 0 -12px;
+    padding: 2px 12px 10px;
+    scroll-padding-inline: 12px;
+  }
+}
