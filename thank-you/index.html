@@ -60,7 +60,16 @@
         </div>
         <p class="ty-hero__kicker">Booked</p>
         <h1 class="ty-hero__title" id="ty-title">You're on the calendar.</h1>
-        <p class="ty-hero__copy">A calendar invite is on its way to your inbox.</p>
+        <p class="ty-hero__copy" id="ty-hero-copy">A calendar invite is on its way to your inbox.</p>
+        <p class="ty-hero__event" id="ty-event" hidden>
+          <svg class="ty-hero__event-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <rect x="1.75" y="2.75" width="12.5" height="11.5" rx="2" stroke="currentColor" stroke-width="1.4" />
+            <path d="M1.75 6.25h12.5M5 1.25v3M11 1.25v3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" />
+          </svg>
+          <span id="ty-event-name"></span>
+          <span class="ty-hero__event-sep" id="ty-event-sep" aria-hidden="true" hidden>·</span>
+          <span id="ty-event-time"></span>
+        </p>
       </section>
 
       <section class="ty-steps" aria-labelledby="ty-steps-title">
@@ -68,7 +77,7 @@
         <div class="ty-steps__grid">
           <article class="ty-step">
             <span class="ty-step__index">1</span>
-            <h3 class="ty-step__title">Look an email with the invite</h3>
+            <h3 class="ty-step__title">Look for an email with the invite</h3>
             <p class="ty-step__copy">The confirmation email carries your calendar invite and a reschedule link. Nothing in your inbox after five minutes? Check spam.</p>
           </article>
           <article class="ty-step">
