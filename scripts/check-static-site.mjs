@@ -11,6 +11,7 @@ const htmlFiles = [
   "privacy-policy/index.html",
   "data-deletion-instructions/index.html",
   "booking/index.html",
+  "thank-you/index.html",
 ];
 
 const generatedFiles = new Set([
