@@ -19,7 +19,7 @@ async function ensureLocalRecorder() {
     script.onerror = () => resolve(false);
     document.head.appendChild(script);
   });
-}
+} 
 
 const hasLocalRecorder = await ensureLocalRecorder();
 
