@@ -1,0 +1,786 @@
+/* acq-build-offer — VSL wireframe */
+
+.abo-page {
+  min-height: 100dvh;
+  background: var(--background);
+  color: var(--foreground);
+  overflow-x: clip;
+}
+
+.abo {
+  width: min(100% - 2rem, 1200px);
+  margin-inline: auto;
+  padding: clamp(1rem, 2.5vw, 1.75rem) 0 clamp(3rem, 8vw, 5rem);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1.5rem;
+}
+
+.abo-logo {
+  display: block;
+  line-height: 0;
+  margin-bottom: 0.65rem;
+  animation: abo-fade-in 0.5s ease both;
+  animation-delay: 0s;
+}
+
+.abo-logo img {
+  display: block;
+  height: 1.0125rem;
+  width: auto;
+  filter: invert(1);
+}
+
+.abo-copy {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+}
+
+.abo-chip--meta {
+  margin: 0;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--muted-foreground);
+  gap: 0.4rem;
+  padding-inline: 0.7rem 0.9rem;
+}
+
+.abo-chip__logo {
+  width: 0.95rem;
+  height: 0.95rem;
+  object-fit: contain;
+  display: block;
+  flex-shrink: 0;
+  border-radius: 0.15rem;
+}
+
+.abo-chip__icon {
+  width: 0.95rem;
+  height: 0.95rem;
+  display: block;
+  flex-shrink: 0;
+}
+
+.abo-chip__icon--warn {
+  color: #f97316;
+}
+
+.abo-headline {
+  margin: 0;
+  width: 100%;
+  font-size: clamp(1.75rem, 4.5vw, 2.75rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+}
+
+.abo-headline__title {
+  display: block;
+  white-space: nowrap;
+  animation: abo-fade-in 0.7s ease both;
+  animation-delay: 0s;
+}
+
+.abo-headline__product {
+  white-space: nowrap;
+}
+
+.abo-headline__line {
+  display: block;
+  margin-top: 0.2em;
+  animation: abo-fade-in 0.7s ease both;
+  animation-delay: 0.3s;
+}
+
+.abo-highlight {
+  position: relative;
+  display: inline;
+  text-decoration: none;
+  z-index: 0;
+  white-space: nowrap;
+}
+
+.abo-highlight::before {
+  content: '';
+  position: absolute;
+  left: -0.06em;
+  bottom: 0.06em;
+  width: calc(100% + 0.12em);
+  height: 0.42em;
+  background: #18d682;
+  z-index: -1;
+  transform: skewX(-6deg) rotate(-1deg) scaleX(0);
+  transform-origin: left center;
+  pointer-events: none;
+  animation: abo-highlight-draw 0.75s cubic-bezier(0.22, 1, 0.36, 1) 0.35s forwards;
+}
+
+/* Until "Free" is revealed, it takes up zero layout width, so "In 24 Hours
+   For $2,000" sits dead center as if "Free" weren't there at all. The slot
+   snaps open the instant "Free" starts animating in, which is what shifts
+   line 2 to the left. */
+.abo-free-slot {
+  display: inline-block;
+  max-width: 0;
+  animation: abo-free-slot-open 0.05s linear 1.85s forwards;
+}
+
+/* "Free" stays hidden until the price has been scratched out, then pops in
+   and gets its highlight drawn. */
+.abo-headline__line .abo-highlight {
+  display: inline-block;
+  margin-left: 0.28em;
+  opacity: 0;
+  animation: abo-free-reveal 0.4s cubic-bezier(0.22, 1, 0.36, 1) 1.85s forwards;
+}
+
+.abo-headline__line .abo-highlight::before {
+  animation-delay: 2s;
+}
+
+@keyframes abo-highlight-draw {
+  to {
+    transform: skewX(-6deg) rotate(-1deg) scaleX(1);
+  }
+}
+
+@keyframes abo-free-slot-open {
+  to {
+    max-width: 10em;
+  }
+}
+
+@keyframes abo-free-reveal {
+  from {
+    opacity: 0;
+    transform: translateX(0.75em);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes abo-price-scratch {
+  from {
+    transform: rotate(-3deg) scaleX(0);
+  }
+  to {
+    transform: rotate(-3deg) scaleX(1);
+  }
+}
+
+@keyframes abo-price-mute {
+  from {
+    color: var(--foreground);
+  }
+  to {
+    color: var(--muted-foreground);
+  }
+}
+
+@keyframes abo-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .abo-highlight::before {
+    animation: none;
+    transform: skewX(-6deg) rotate(-1deg) scaleX(1);
+  }
+
+  .abo-logo,
+  .abo-headline__title,
+  .abo-headline__line,
+  .abo-subheadline,
+  .abo-rating,
+  .abo-vsl,
+  .abo-cta-meta,
+  .abo-cta,
+  .abo-proof,
+  .abo-headline__line .abo-highlight {
+    animation: none;
+    opacity: 1;
+  }
+
+  .abo-price-strike {
+    animation: none;
+    color: var(--muted-foreground);
+  }
+
+  .abo-price-strike::after {
+    animation: none;
+    transform: rotate(-3deg) scaleX(1);
+  }
+
+  .abo-free-slot {
+    animation: none;
+    max-width: 10em;
+  }
+}
+
+.abo-price-strike {
+  position: relative;
+  display: inline-block;
+  text-decoration: none;
+  font-weight: 500;
+  color: var(--foreground);
+  animation: abo-price-mute 0.3s ease 1.55s forwards;
+}
+
+.abo-price-strike::after {
+  content: '';
+  position: absolute;
+  left: -0.08em;
+  right: -0.08em;
+  top: 52%;
+  height: 0.1em;
+  background: currentColor;
+  transform: rotate(-3deg) scaleX(0);
+  transform-origin: left center;
+  pointer-events: none;
+  animation: abo-price-scratch 0.6s linear 0.9s forwards;
+}
+
+.abo-subheadline {
+  margin: 0;
+  font-size: clamp(1rem, 2vw, 1.125rem);
+  line-height: 1.5;
+  color: var(--muted-foreground);
+  max-width: 42ch;
+  animation: abo-fade-in 0.6s ease both;
+  animation-delay: 0.5s;
+}
+
+.abo-rating {
+  display: inline-flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0.45rem 0.55rem;
+  /* .abo-rating is a direct child of .abo now, which already applies its own
+     1.5rem gap between siblings; this margin just tops that up to match the
+     tighter spacing it used to have nested inside .abo-copy. */
+  margin: 0 0 0.1rem;
+  padding: 0.28rem 0.7rem 0.28rem 0.28rem;
+  border: 1.5px solid transparent;
+  border-radius: 999px;
+  background:
+    linear-gradient(#fff, #fff) padding-box,
+    linear-gradient(135deg, #f8e7a0 0%, #d4a017 35%, #a67c00 65%, #f0d878 100%) border-box;
+  animation: abo-fade-in 0.6s ease both;
+  animation-delay: 0s;
+}
+
+.abo-brands {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  padding-inline: 0;
+}
+
+.abo-brands__item {
+  position: relative;
+  width: 1.55rem;
+  height: 1.55rem;
+  border-radius: 50%;
+  border: none;
+  background: #111;
+  overflow: hidden;
+  box-shadow: none;
+  display: grid;
+  place-items: center;
+  padding: 0.18rem;
+  box-sizing: border-box;
+}
+
+.abo-brands__item--light {
+  background: #fff;
+}
+
+.abo-brands__item + .abo-brands__item {
+  margin-left: -0.7rem;
+}
+
+.abo-brands__item:nth-child(1) { z-index: 1; }
+.abo-brands__item:nth-child(2) { z-index: 2; }
+.abo-brands__item:nth-child(3) { z-index: 3; }
+.abo-brands__item:nth-child(4) { z-index: 4; }
+
+.abo-brands__item img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+}
+
+.abo-rating__text {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #4b5563;
+  letter-spacing: -0.01em;
+}
+
+.abo-vsl {
+  width: min(100%, 640px);
+  margin-top: 0.25rem;
+  animation: abo-fade-in 0.65s ease both;
+  animation-delay: 0.95s;
+}
+
+.abo-cta-meta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0.45rem;
+  margin-top: 0.35rem;
+  animation: abo-fade-in 0.55s ease both;
+  animation-delay: 1.18s;
+}
+
+.abo-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: min(100%, 420px);
+  margin-top: 0.15rem;
+  padding: 1.05rem 1.75rem;
+  border: 1.5px solid #000;
+  border-radius: 999px;
+  background: #000;
+  color: #fff;
+  font-size: 1.125rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  text-decoration: none;
+  text-align: center;
+  transition: transform 120ms ease, background-color 120ms ease, color 120ms ease;
+  animation: abo-fade-in 0.6s ease both;
+  animation-delay: 1.25s;
+}
+
+.abo-cta:hover {
+  background: #fff;
+  color: #000;
+  border-color: #000;
+}
+
+.abo-cta:active {
+  transform: scale(0.98);
+}
+
+.abo-vsl__frame {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 1rem;
+  border-style: solid;
+  background: var(--muted);
+}
+
+.abo-vsl__media {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  overflow: hidden;
+  background: inherit;
+}
+
+.abo-vsl__placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  color: var(--muted-foreground);
+}
+
+.abo-vsl__play {
+  width: 3.25rem;
+  height: 3.25rem;
+  border-radius: 50%;
+  border: 1.5px solid color-mix(in oklch, var(--foreground) 25%, transparent);
+  display: grid;
+  place-items: center;
+  color: var(--foreground);
+}
+
+.abo-vsl__play svg {
+  width: 1.1rem;
+  height: 1.1rem;
+  margin-left: 0.15rem;
+}
+
+.abo-vsl__label {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.abo-chip {
+  margin: 0;
+  padding: 0.45rem 0.85rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--card);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--foreground);
+  white-space: normal;
+  text-align: left;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.abo-proof {
+  width: 100%;
+  margin-top: 1.5rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  animation: abo-fade-in 0.7s ease both;
+  animation-delay: 1.7s;
+}
+
+.abo-proof__header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.abo-proof__eyebrow {
+  margin: 0;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+}
+
+.abo-proof__title {
+  margin: 0;
+  font-size: clamp(1.25rem, 3vw, 1.65rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+  max-width: 18ch;
+}
+
+.abo-proof__logos {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0.75rem 1rem;
+  width: 100%;
+  align-items: center;
+  justify-items: center;
+}
+
+.abo-proof__logos img {
+  display: block;
+  max-width: 100%;
+  height: 1.65rem;
+  width: auto;
+  object-fit: contain;
+  filter: grayscale(1);
+  opacity: 0.72;
+}
+
+/* Flex-wrap (not grid) on purpose: the video cards are much taller than the
+   text cards, and grid would force every row to the height of its tallest
+   cell, leaving big gaps under the shorter text cards. Flex-wrap only sizes
+   a row (line) to the items actually placed in it, so grouping same-height
+   cards into the same line via `order` (below) keeps every row even, while
+   mobile falls back to one column where height-matching doesn't matter, so
+   it can use the true text/video/text/video reading order instead. */
+.abo-proof__quotes {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 1rem;
+  width: 100%;
+  text-align: left;
+}
+
+.abo-quote {
+  flex: 1 1 calc(50% - 0.5rem);
+  margin: 0;
+  padding: 1.15rem 1.2rem 1.1rem;
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  background: var(--card);
+}
+
+/* Group all video cards after all text cards on desktop so a row never
+   pairs a short text card with a tall video card. */
+.abo-quote--video {
+  order: 1;
+}
+
+.abo-quote blockquote {
+  margin: 0;
+}
+
+.abo-quote__headline {
+  margin: 0 0 0.45rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.3;
+}
+
+.abo-quote__body {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--muted-foreground);
+}
+
+.abo-quote__body strong {
+  color: var(--foreground);
+  font-weight: 700;
+}
+
+.abo-quote__brand {
+  margin-top: 0.85rem;
+  display: flex;
+  align-items: center;
+}
+
+.abo-quote__brand img {
+  display: block;
+  height: 1.35rem;
+  width: auto;
+  object-fit: contain;
+}
+
+.abo-quote__logo--invert {
+  filter: invert(1);
+}
+
+/* Video testimonials share the same card shell as the text ones, but swap
+   the body copy for a YouTube embed plus a name/role caption. */
+.abo-quote--video {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.abo-quote__video {
+  position: relative;
+  width: 100%;
+  /* Below ~240px, YouTube's embed player renders a degraded, non-full-bleed
+     placeholder instead of the normal player — keep clear of that. */
+  max-width: 260px;
+  margin: 0 auto 0.85rem;
+  aspect-ratio: 9 / 16;
+  overflow: hidden;
+  border-radius: 0.7rem;
+  background: var(--muted, #f1f1f1);
+}
+
+.abo-quote__video iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.abo-quote--video .abo-quote__headline {
+  margin: 0;
+}
+
+.abo-quote__person {
+  margin-top: 0.6rem;
+}
+
+.abo-quote__person-name {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.abo-quote__person-role {
+  margin: 0.1rem 0 0;
+  font-size: 0.8rem;
+  color: var(--muted-foreground);
+}
+
+.abo-cta--secondary {
+  animation: none;
+  opacity: 1;
+}
+
+@media (max-width: 720px) {
+  .abo {
+    width: min(100% - 1.5rem, 1120px);
+    gap: 1.1rem;
+    padding: 0.85rem 0 2.5rem;
+  }
+
+  /* Reorder: move the trust bar to sit right above the CTA instead of at
+     the top, above the headline. */
+  .abo-logo { order: 1; }
+  .abo-copy { order: 2; }
+  .abo-vsl { order: 3; }
+  .abo-cta-meta { order: 4; }
+  .abo-rating { order: 5; }
+  .abo-cta { order: 6; }
+  .abo-proof { order: 7; }
+
+  .abo-logo {
+    margin-bottom: 0.35rem;
+  }
+
+  .abo-logo img {
+    height: 0.9rem;
+  }
+
+  .abo-copy {
+    gap: 0.55rem;
+  }
+
+  .abo-headline {
+    font-size: clamp(1.35rem, 6.2vw, 1.85rem);
+    letter-spacing: -0.025em;
+    line-height: 1.18;
+  }
+
+  .abo-headline__title {
+    white-space: normal;
+  }
+
+  .abo-headline__product {
+    display: block;
+  }
+
+  .abo-headline__line {
+    white-space: normal;
+  }
+
+  .abo-subheadline {
+    font-size: 0.9375rem;
+    max-width: 34ch;
+  }
+
+  .abo-rating {
+    gap: 0.35rem 0.45rem;
+    max-width: 100%;
+    margin-bottom: 0;
+    padding: 0.24rem 0.6rem 0.24rem 0.24rem;
+  }
+
+  .abo-rating__text {
+    font-size: 0.85rem;
+    width: auto;
+  }
+
+  .abo-vsl {
+    width: 100%;
+    margin-top: 0.1rem;
+  }
+
+  .abo-vsl__frame {
+    border-radius: 0.85rem;
+  }
+
+  .abo-vsl__play {
+    width: 2.75rem;
+    height: 2.75rem;
+  }
+
+  .abo-cta-meta {
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    gap: 0.4rem;
+    margin-top: 0.15rem;
+  }
+
+  .abo-chip--meta {
+    justify-content: center;
+    width: auto;
+    max-width: 100%;
+    text-align: center;
+    font-size: 0.7rem;
+    padding: 0.4rem 0.75rem;
+  }
+
+  .abo-cta {
+    width: 100%;
+    padding: 0.95rem 1.25rem;
+    font-size: 1.05rem;
+  }
+
+  .abo-proof {
+    margin-top: 1.1rem;
+    padding-top: 1.5rem;
+    gap: 1.15rem;
+  }
+
+  .abo-proof__logos {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.85rem 0.75rem;
+  }
+
+  .abo-proof__logos img {
+    height: 1.4rem;
+  }
+
+  .abo-quote {
+    /* Single column on mobile, so there's no shared-row height issue — use
+       the true DOM order (text, video, text, video, ...) instead of the
+       desktop grouping. */
+    flex-basis: 100%;
+    order: 0;
+    padding: 1rem;
+  }
+
+  .abo-quote__headline {
+    font-size: 0.98rem;
+  }
+
+  .abo-quote__body {
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .abo {
+    width: min(100% - 1.25rem, 1120px);
+  }
+
+  .abo-headline {
+    font-size: clamp(1.2rem, 6.8vw, 1.55rem);
+  }
+
+  .abo-brands__item {
+    width: 1.4rem;
+    height: 1.4rem;
+  }
+}

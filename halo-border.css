@@ -1,0 +1,124 @@
+/**
+ * Halo traveling border
+ *
+ * A glowing highlight that orbits the element's edge. Copy this file into
+ * another project and add the classes below to any element with a border-radius.
+ *
+ *   <div class="halo-border halo-border-on">…</div>
+ *
+ * `.halo-border` prepares the layers. `.halo-border-on` starts the orbit.
+ * The element uses ::before (soft glow) and ::after (sharp trail), so do not
+ * put other content in those pseudos.
+ */
+
+@property --halo-border-angle {
+  syntax: '<angle>';
+  inherits: true;
+  initial-value: 0deg;
+}
+
+@keyframes halo-border-intro {
+  from {
+    --halo-border-angle: 0deg;
+  }
+  to {
+    --halo-border-angle: 400deg;
+  }
+}
+
+@keyframes halo-border-orbit {
+  from {
+    --halo-border-angle: 400deg;
+  }
+  to {
+    --halo-border-angle: 760deg;
+  }
+}
+
+.halo-border {
+  position: relative;
+  --halo-border-spin: conic-gradient(
+    from var(--halo-border-angle),
+    oklch(1 0 0) 0deg,
+    oklch(0.72 0 0) 8deg,
+    transparent 28deg,
+    transparent 58deg,
+    oklch(0.12 0 0) 72deg,
+    oklch(0.32 0 0) 84deg,
+    transparent 102deg,
+    transparent 138deg,
+    oklch(0.94 0 0) 152deg,
+    oklch(0.58 0 0) 164deg,
+    transparent 186deg,
+    transparent 218deg,
+    oklch(0.08 0 0) 232deg,
+    oklch(0.42 0 0) 246deg,
+    transparent 266deg,
+    transparent 304deg,
+    oklch(0.68 0 0) 328deg,
+    oklch(1 0 0) 360deg
+  );
+}
+
+.halo-border::before,
+.halo-border::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  background: var(--halo-border-spin);
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  transition: opacity 70ms linear;
+}
+
+.halo-border::before {
+  inset: -3px;
+  padding: 4px;
+  filter: blur(7px);
+}
+
+.halo-border::after {
+  padding: 0.85px;
+}
+
+.halo-border.halo-border-on {
+  border-width: 0.5px;
+  border-color: light-dark(oklch(0.145 0 0 / 0.5), oklch(1 0 0 / 0.5));
+  animation:
+    halo-border-intro 0.4s cubic-bezier(0.01, 0.9, 0.15, 0.97) forwards,
+    halo-border-orbit 9s linear 0.4s infinite;
+}
+
+.halo-border.halo-border-on:hover {
+  border-color: light-dark(oklch(0.145 0 0 / 0.5), oklch(1 0 0 / 0.5));
+}
+
+.halo-border.halo-border-on::before {
+  opacity: 0.55;
+}
+
+.halo-border.halo-border-on::after {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .halo-border.halo-border-on,
+  .halo-border::after {
+    animation: none;
+  }
+
+  .halo-border,
+  .halo-border::before,
+  .halo-border::after {
+    transition: none;
+  }
+}
