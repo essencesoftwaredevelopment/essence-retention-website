@@ -1,9 +1,8 @@
 /**
- * Mobile-only qualification bottom sheet for the acq-build-offer CTA.
- * Desktop keeps the direct /booking link.
+ * Qualification modal for the acq-build-offer CTA.
+ * Mobile: bottom sheet. Desktop: centered popup.
  */
 
-const MOBILE_MQ = '(max-width: 720px)';
 const VIEWS = ['q1', 'q2', 'q3', 'success', 'reject'];
 const NEXT_ON_YES = { q1: 'q2', q2: 'q3', q3: 'success' };
 const SLIDE_MS = 320;
@@ -13,7 +12,6 @@ const root = document.getElementById('abo-qualify');
 if (root) {
   const sheet = root.querySelector('.abo-qualify__sheet');
   const viewport = root.querySelector('.abo-qualify__viewport');
-  const mobileMq = window.matchMedia(MOBILE_MQ);
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
   let currentView = 'q1';
@@ -22,10 +20,6 @@ if (root) {
   let closeTimer = 0;
   let slideTimer = 0;
   let sliding = false;
-
-  function isMobile() {
-    return mobileMq.matches;
-  }
 
   function viewEl(id) {
     return root.querySelector(`[data-qualify-view="${id}"]`);
@@ -75,7 +69,6 @@ if (root) {
     fromEl.classList.add('is-leave');
     fromEl.classList.remove('is-active');
 
-    // Next frame so the enter transform is applied before transitioning to rest.
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         toEl.classList.add('is-active');
@@ -97,7 +90,7 @@ if (root) {
   }
 
   function open() {
-    if (!isMobile() || root.classList.contains('is-open')) return;
+    if (root.classList.contains('is-open')) return;
 
     lastFocus = document.activeElement instanceof HTMLElement ? document.activeElement : null;
     showViewInstant('q1');
@@ -204,7 +197,6 @@ if (root) {
 
       const trigger = target.closest('[data-abo-qualify-trigger]');
       if (trigger) {
-        if (!isMobile()) return;
         event.preventDefault();
         open();
         return;
@@ -213,7 +205,6 @@ if (root) {
       if (!root.classList.contains('is-open')) return;
 
       if (target.closest('[data-abo-qualify-close]')) {
-        // Overlay switch already clicked the host; still handle direct clicks.
         if (!(event.target instanceof Element && event.target.classList.contains('abo-qualify-haptic'))) {
           event.preventDefault();
         }
@@ -238,17 +229,6 @@ if (root) {
     event.preventDefault();
     close();
   });
-
-  const onMqChange = () => {
-    if (!isMobile() && root.classList.contains('is-open')) {
-      close();
-    }
-  };
-  if (typeof mobileMq.addEventListener === 'function') {
-    mobileMq.addEventListener('change', onMqChange);
-  } else if (typeof mobileMq.addListener === 'function') {
-    mobileMq.addListener(onMqChange);
-  }
 
   mountHapticOverlays();
 }

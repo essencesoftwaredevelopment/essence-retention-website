@@ -4,11 +4,29 @@
 
 import { mountVSLPlayer } from './VSLPlayer.mjs';
 
-function readPlaybackId() {
+function readPlaybackIdFromPage() {
   const root = document.querySelector('[data-vsl-root]');
   const fromDom = root instanceof HTMLElement ? root.dataset.playbackId : '';
   const cfg = window.__ESSENCE_RUNTIME_CONFIG__ || {};
   return (fromDom || cfg.vslPlaybackId || '').trim();
+}
+
+/**
+ * Static `runtime-config.generated.js` is gitignored and often missing on Vercel.
+ * Fall back to `/api/runtime-config`, which reads Production env vars at request time.
+ */
+async function resolvePlaybackId() {
+  const fromPage = readPlaybackIdFromPage();
+  if (fromPage) return fromPage;
+
+  try {
+    const response = await fetch('/api/runtime-config', { method: 'GET' });
+    if (!response.ok) return '';
+    const payload = await response.json();
+    return typeof payload?.vslPlaybackId === 'string' ? payload.vslPlaybackId.trim() : '';
+  } catch {
+    return '';
+  }
 }
 
 function wireCtaTracking(api) {
@@ -38,7 +56,7 @@ async function boot() {
   const root = document.querySelector('[data-vsl-root]');
   if (!(root instanceof HTMLElement)) return;
 
-  const playbackId = readPlaybackId();
+  const playbackId = await resolvePlaybackId();
 
   const api = await mountVSLPlayer(root, {
     playbackId,
