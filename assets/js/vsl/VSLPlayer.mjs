@@ -397,30 +397,54 @@ export async function mountVSLPlayer(root, options) {
   }
 
   let idleTimer = 0;
+  function isTouchUi() {
+    return window.matchMedia('(hover: none), (pointer: coarse)').matches;
+  }
+
+  function hideControlsChrome() {
+    shell.classList.remove('vsl-player--active');
+    shell.classList.remove('vsl-player--hover');
+    const focused = shell.querySelector(':focus');
+    if (focused instanceof HTMLElement) focused.blur();
+  }
+
   function bumpActivity() {
     if (!engagementStarted) return;
     shell.classList.add('vsl-player--active');
     window.clearTimeout(idleTimer);
     idleTimer = window.setTimeout(() => {
-      if (state.playing && !shell.matches(':hover')) {
-        shell.classList.remove('vsl-player--active');
+      if (!state.playing) return;
+      // Touch browsers often keep a sticky :hover after tap; ignore it there.
+      if (isTouchUi() || !shell.matches(':hover')) {
+        hideControlsChrome();
       }
     }, 2500);
   }
 
-  shell.addEventListener('pointerenter', () => {
+  shell.addEventListener('pointerenter', (event) => {
     if (!engagementStarted) return;
+    // Ignore synthetic hover from touch so the bar can auto-hide while playing.
+    if (event.pointerType === 'touch') return;
     shell.classList.add('vsl-player--hover');
     shell.classList.add('vsl-player--active');
   });
-  shell.addEventListener('pointerleave', () => {
+  shell.addEventListener('pointerleave', (event) => {
+    if (event.pointerType === 'touch') return;
     shell.classList.remove('vsl-player--hover');
     if (engagementStarted && state.playing) {
-      shell.classList.remove('vsl-player--active');
+      hideControlsChrome();
     }
   });
-  shell.addEventListener('pointermove', bumpActivity);
-  shell.addEventListener('pointerdown', bumpActivity);
+  shell.addEventListener('pointermove', (event) => {
+    if (event.pointerType === 'touch') return;
+    bumpActivity();
+  });
+  // Don't reveal controls on touch pointerdown — that steals the tap and
+  // cancels the click that should pause/play. Touch relies on click instead.
+  shell.addEventListener('pointerdown', (event) => {
+    if (event.pointerType === 'touch') return;
+    bumpActivity();
+  });
   shell.addEventListener('focusin', bumpActivity);
 
   mediaSlot.addEventListener('click', () => {

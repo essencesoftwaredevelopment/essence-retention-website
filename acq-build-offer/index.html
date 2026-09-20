@@ -103,7 +103,7 @@
         3 Available per Month
       </p>
     </div>
-    <a class="abo-cta" href="/booking" data-ph-cta="check_qualified" data-ph-cta-location="acq_build_offer">Check If You're Qualified →</a>
+    <a class="abo-cta" href="/booking" data-ph-cta="check_qualified" data-ph-cta-location="acq_build_offer" data-abo-qualify-trigger>Check If You're Qualified →</a>
 
     <section class="abo-proof" aria-labelledby="abo-proof-title">
       <header class="abo-proof__header">
@@ -227,9 +227,80 @@
         </figure>
       </div>
 
-      <a class="abo-cta abo-cta--secondary" href="/booking" data-ph-cta="check_qualified_proof" data-ph-cta-location="acq_build_offer_proof">Check If You're Qualified →</a>
+      <a class="abo-cta abo-cta--secondary" href="/booking" data-ph-cta="check_qualified_proof" data-ph-cta-location="acq_build_offer_proof" data-abo-qualify-trigger>Check If You're Qualified →</a>
     </section>
   </main>
+
+  <div class="abo-qualify" id="abo-qualify" hidden>
+    <div class="abo-qualify__backdrop" data-abo-qualify-close tabindex="-1"></div>
+    <div
+      class="abo-qualify__sheet"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="abo-qualify-title-q1"
+      tabindex="-1"
+    >
+      <div class="abo-qualify__handle" aria-hidden="true"></div>
+
+      <div class="abo-qualify__viewport" data-view="q1">
+        <div class="abo-qualify__dots" aria-hidden="true">
+          <span class="abo-qualify__dot" data-dot="q1"></span>
+          <span class="abo-qualify__dot" data-dot="q2"></span>
+          <span class="abo-qualify__dot" data-dot="q3"></span>
+        </div>
+
+        <div class="abo-qualify__stage">
+          <section class="abo-qualify__view is-active" data-qualify-view="q1">
+            <h2 class="abo-qualify__title" id="abo-qualify-title-q1">Is Your Store Revenue Above $1M/Year?</h2>
+            <div class="abo-qualify__actions">
+              <button type="button" class="abo-qualify__btn abo-qualify__btn--yes" data-abo-qualify-answer="yes">Yes</button>
+              <button type="button" class="abo-qualify__btn abo-qualify__btn--no" data-abo-qualify-answer="no">No</button>
+            </div>
+          </section>
+
+          <section class="abo-qualify__view" data-qualify-view="q2" hidden>
+            <h2 class="abo-qualify__title" id="abo-qualify-title-q2">Is less than 25% of your store revenue coming from Klaviyo?</h2>
+            <div class="abo-qualify__actions">
+              <button type="button" class="abo-qualify__btn abo-qualify__btn--yes" data-abo-qualify-answer="yes">Yes</button>
+              <button type="button" class="abo-qualify__btn abo-qualify__btn--no" data-abo-qualify-answer="no">No</button>
+            </div>
+          </section>
+
+          <section class="abo-qualify__view" data-qualify-view="q3" hidden>
+            <h2 class="abo-qualify__title" id="abo-qualify-title-q3">Are you considering working with an email/retention marketing team?</h2>
+            <div class="abo-qualify__actions">
+              <button type="button" class="abo-qualify__btn abo-qualify__btn--yes" data-abo-qualify-answer="yes">Yes</button>
+              <button type="button" class="abo-qualify__btn abo-qualify__btn--no" data-abo-qualify-answer="no">No</button>
+            </div>
+          </section>
+
+          <section class="abo-qualify__view abo-qualify__view--success" data-qualify-view="success" hidden>
+            <p class="abo-qualify__badge" aria-hidden="true">✓</p>
+            <h2 class="abo-qualify__title" id="abo-qualify-title-success">You're qualified</h2>
+            <p class="abo-qualify__copy">Your store looks like a strong fit for this build offer. Book a short onboarding call and we'll get started.</p>
+            <div class="abo-qualify__actions">
+              <a
+                class="abo-qualify__btn abo-qualify__btn--yes"
+                href="/booking"
+                data-ph-cta="book_onboarding"
+                data-ph-cta-location="acq_build_offer_qualify"
+              >Book Your Onboarding →</a>
+            </div>
+          </section>
+
+          <section class="abo-qualify__view abo-qualify__view--reject" data-qualify-view="reject" hidden>
+            <h2 class="abo-qualify__title" id="abo-qualify-title-reject">Not quite a fit right now</h2>
+            <p class="abo-qualify__copy">This free build is reserved for brands that meet those criteria. Thanks for checking.</p>
+            <div class="abo-qualify__actions">
+              <button type="button" class="abo-qualify__btn abo-qualify__btn--yes" data-abo-qualify-close>Close</button>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="../assets/js/acq-qualify-sheet.mjs"></script>
 </body>
 
 </html>

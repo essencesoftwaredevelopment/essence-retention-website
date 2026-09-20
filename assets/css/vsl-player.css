@@ -271,12 +271,21 @@
 
 .vsl-player--engaged.vsl-player--hover .vsl-controls,
 .vsl-player--engaged.vsl-player--active .vsl-controls,
-.vsl-player--engaged:hover .vsl-controls,
 .vsl-player--engaged .vsl-controls:focus-within {
   opacity: 1;
   visibility: visible;
   transform: none;
   pointer-events: auto;
+}
+
+/* Desktop only — touch leaves sticky :hover which would pin the bar open. */
+@media (hover: hover) and (pointer: fine) {
+  .vsl-player--engaged:hover .vsl-controls {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    pointer-events: auto;
+  }
 }
 
 /* —— Center play/pause transport —— */
