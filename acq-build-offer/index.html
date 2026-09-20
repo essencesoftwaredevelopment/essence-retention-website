@@ -22,6 +22,9 @@
   <link rel="stylesheet" href="../styles.css" />
   <link rel="stylesheet" href="../halo-border.css" />
   <link rel="stylesheet" href="../assets/css/acq-build-offer.css" />
+  <link rel="stylesheet" href="../assets/css/vsl-player.css" />
+  <link rel="preconnect" href="https://image.mux.com" />
+  <link rel="preconnect" href="https://stream.mux.com" />
   <script type="importmap">
     {
       "imports": {
@@ -29,8 +32,10 @@
       }
     }
   </script>
+  <script src="../assets/js/runtime-config.generated.js"></script>
   <script type="module" src="../assets/js/posthog-init.mjs"></script>
   <script type="module" src="../assets/js/posthog-cta-tracking.mjs"></script>
+  <script type="module" src="../assets/js/vsl/acq-build-offer-vsl.mjs"></script>
 </head>
 
 <body class="abo-page">
@@ -71,14 +76,16 @@
 
     <div class="abo-vsl" role="region" aria-label="Video sales letter">
       <div class="abo-vsl__frame halo-border halo-border-on">
-        <div class="abo-vsl__media">
-          <div class="abo-vsl__placeholder">
-            <span class="abo-vsl__play" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l11-6.5L8 5.5z"/></svg>
-            </span>
-            <span class="abo-vsl__label">Video Coming Soon</span>
-          </div>
-        </div>
+        <div
+          class="abo-vsl__media"
+          data-vsl-root
+          data-title="ESSENCE Retention VSL"
+          data-autoplay="true"
+          data-initial-muted="true"
+          data-show-unmute-overlay="true"
+          data-captions="false"
+          data-resume="true"
+        ></div>
       </div>
     </div>
 
@@ -103,17 +110,40 @@
         <h2 class="abo-proof__title" id="abo-proof-title">Trusted by brands who take retention seriously</h2>
       </header>
 
-      <div class="abo-proof__logos" aria-label="Client brands">
-        <img src="../assets/images/client-logos/linear.png" alt="Linear Bar" loading="lazy" />
-        <img src="../assets/images/client-logos/aer.png" alt="Aer Cosmetics" loading="lazy" />
-        <img src="../assets/images/client-logos/spicywear.png" alt="Spicy Wear" loading="lazy" />
-        <img src="../assets/images/client-logos/CPL.png" alt="Custom Puddle Lights" loading="lazy" />
-        <img src="../assets/images/client-logos/hbm.png" alt="History By Mail" loading="lazy" />
-        <img src="../assets/images/client-logos/lashstar.png" alt="Lash Star" loading="lazy" />
-        <img src="../assets/images/client-logos/drip.png" alt="Drip Accessory" loading="lazy" />
-        <img src="../assets/images/client-logos/flutter.png" alt="Flutter" loading="lazy" />
-        <img src="../assets/images/client-logos/oem.png" alt="OEM" loading="lazy" />
-        <img src="../assets/images/client-logos/ag.png" alt="Amazin' Graze" loading="lazy" />
+      <div class="client-logos abo-proof__logos" aria-label="Client brands">
+        <div class="client-logos__viewport">
+          <div class="client-logos__track">
+            <img class="client-logos__image" src="../assets/images/client-logos/CPL.png" alt="CPL" loading="lazy" />
+            <img class="client-logos__image" src="../assets/images/client-logos/LFS.png" alt="LFS" loading="lazy" />
+            <img class="client-logos__image" src="../assets/images/client-logos/aer.png" alt="Aer" loading="lazy" />
+            <img class="client-logos__image" src="../assets/images/client-logos/drip.png" alt="Drip" loading="lazy" />
+            <img class="client-logos__image" src="../assets/images/client-logos/flutter.png" alt="Flutter" loading="lazy" />
+            <img class="client-logos__image" src="../assets/images/client-logos/gdn.png" alt="GDN" loading="lazy" />
+            <img class="client-logos__image" src="../assets/images/client-logos/hbm.png" alt="HBM" loading="lazy" />
+            <img class="client-logos__image" src="../assets/images/client-logos/lashstar.png" alt="Lash Star" loading="lazy" />
+            <img class="client-logos__image" src="../assets/images/client-logos/oem.png" alt="OEM" loading="lazy" />
+            <img class="client-logos__image" src="../assets/images/client-logos/pmev.png" alt="PMEV" loading="lazy" />
+            <img class="client-logos__image" src="../assets/images/client-logos/spicywear.png" alt="Spicy Wear" loading="lazy" />
+            <img class="client-logos__image" src="../assets/images/client-logos/ag.png" alt="AG" loading="lazy" />
+            <img class="client-logos__image" src="../assets/images/client-logos/dal.png" alt="DAL" loading="lazy" />
+            <img class="client-logos__image client-logos__image--linear" src="../assets/images/client-logos/linear.png" alt="Linear" loading="lazy" />
+
+            <img class="client-logos__image" src="../assets/images/client-logos/CPL.png" alt="" loading="lazy" aria-hidden="true" />
+            <img class="client-logos__image" src="../assets/images/client-logos/LFS.png" alt="" loading="lazy" aria-hidden="true" />
+            <img class="client-logos__image" src="../assets/images/client-logos/aer.png" alt="" loading="lazy" aria-hidden="true" />
+            <img class="client-logos__image" src="../assets/images/client-logos/drip.png" alt="" loading="lazy" aria-hidden="true" />
+            <img class="client-logos__image" src="../assets/images/client-logos/flutter.png" alt="" loading="lazy" aria-hidden="true" />
+            <img class="client-logos__image" src="../assets/images/client-logos/gdn.png" alt="" loading="lazy" aria-hidden="true" />
+            <img class="client-logos__image" src="../assets/images/client-logos/hbm.png" alt="" loading="lazy" aria-hidden="true" />
+            <img class="client-logos__image" src="../assets/images/client-logos/lashstar.png" alt="" loading="lazy" aria-hidden="true" />
+            <img class="client-logos__image" src="../assets/images/client-logos/oem.png" alt="" loading="lazy" aria-hidden="true" />
+            <img class="client-logos__image" src="../assets/images/client-logos/pmev.png" alt="" loading="lazy" aria-hidden="true" />
+            <img class="client-logos__image" src="../assets/images/client-logos/spicywear.png" alt="" loading="lazy" aria-hidden="true" />
+            <img class="client-logos__image" src="../assets/images/client-logos/ag.png" alt="" loading="lazy" aria-hidden="true" />
+            <img class="client-logos__image" src="../assets/images/client-logos/dal.png" alt="" loading="lazy" aria-hidden="true" />
+            <img class="client-logos__image client-logos__image--linear" src="../assets/images/client-logos/linear.png" alt="" loading="lazy" aria-hidden="true" />
+          </div>
+        </div>
       </div>
 
       <div class="abo-proof__quotes">

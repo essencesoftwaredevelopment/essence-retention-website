@@ -6,5 +6,10 @@ module.exports = async function handler(req, res) {
 
   return res.status(200).json({
     leadsApiBaseUrl: process.env.LEADS_API_BASE_URL || "https://essence-ai-ten.vercel.app",
+    // Public playback ID only — never expose Mux API token/secret here.
+    vslPlaybackId:
+      process.env.NEXT_PUBLIC_VSL_PLAYBACK_ID ||
+      process.env.VSL_PLAYBACK_ID ||
+      "",
   });
 };

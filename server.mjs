@@ -66,6 +66,10 @@ function handleRuntimeConfig(req, res) {
 
   sendJson(res, 200, {
     leadsApiBaseUrl,
+    vslPlaybackId:
+      process.env.NEXT_PUBLIC_VSL_PLAYBACK_ID ||
+      process.env.VSL_PLAYBACK_ID ||
+      "",
   });
 }
 

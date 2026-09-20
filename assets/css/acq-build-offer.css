@@ -336,7 +336,7 @@
 }
 
 .abo-vsl {
-  width: min(100%, 640px);
+  width: min(100%, 1150px);
   margin-top: 0.25rem;
   animation: abo-fade-in 0.65s ease both;
   animation-delay: 0.95s;
@@ -387,7 +387,7 @@
 
 .abo-vsl__frame {
   width: 100%;
-  aspect-ratio: 16 / 9;
+  aspect-ratio: 2.24 / 1;
   border-radius: 1rem;
   border-style: solid;
   background: var(--muted);
@@ -398,9 +398,10 @@
   inset: 0;
   border-radius: inherit;
   overflow: hidden;
-  background: inherit;
+  background: #0a0a0a;
 }
 
+/* Legacy placeholder kept only as a non-JS fallback shell; player replaces contents. */
 .abo-vsl__placeholder {
   position: absolute;
   inset: 0;
@@ -490,23 +491,29 @@
   max-width: 18ch;
 }
 
-.abo-proof__logos {
-  display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 0.75rem 1rem;
+.abo-proof__logos.client-logos {
   width: 100%;
-  align-items: center;
-  justify-items: center;
+  margin: 0;
+  padding: 0;
 }
 
-.abo-proof__logos img {
-  display: block;
-  max-width: 100%;
-  height: 1.65rem;
-  width: auto;
-  object-fit: contain;
-  filter: grayscale(1);
-  opacity: 0.72;
+.abo-proof__logos .client-logos__viewport {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  background: var(--card);
+  padding: 0.85rem 0;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 6%, #000 94%, transparent 100%);
+  mask-image: linear-gradient(90deg, transparent 0%, #000 6%, #000 94%, transparent 100%);
+}
+
+.abo-proof__logos .client-logos__image {
+  height: 2.75rem;
+  opacity: 1;
+  filter: grayscale(1) contrast(1.25) brightness(0.42);
+}
+
+.abo-proof__logos .client-logos__image--linear {
+  filter: grayscale(1) contrast(1.1) brightness(0.65);
 }
 
 /* Flex-wrap (not grid) on purpose: the video cards are much taller than the
@@ -643,18 +650,17 @@
     padding: 0.85rem 0 2.5rem;
   }
 
-  /* Reorder: move the trust bar to sit right above the CTA instead of at
-     the top, above the headline. */
+  /* Mobile stack: logo → trust bar → headline → VSL → … */
   .abo-logo { order: 1; }
-  .abo-copy { order: 2; }
-  .abo-vsl { order: 3; }
-  .abo-cta-meta { order: 4; }
-  .abo-rating { order: 5; }
+  .abo-rating { order: 2; }
+  .abo-copy { order: 3; }
+  .abo-vsl { order: 4; }
+  .abo-cta-meta { order: 5; }
   .abo-cta { order: 6; }
   .abo-proof { order: 7; }
 
   .abo-logo {
-    margin-bottom: 0.35rem;
+    margin-bottom: 0.15rem;
   }
 
   .abo-logo img {
@@ -689,15 +695,31 @@
   }
 
   .abo-rating {
-    gap: 0.35rem 0.45rem;
+    flex-wrap: nowrap;
+    width: auto;
     max-width: 100%;
-    margin-bottom: 0;
-    padding: 0.24rem 0.6rem 0.24rem 0.24rem;
+    margin: 0;
+    gap: 0.3rem;
+    padding: 0.18rem 0.45rem 0.18rem 0.18rem;
+    transform: scale(0.92);
+    transform-origin: center top;
+  }
+
+  .abo-brands__item {
+    width: 1.2rem;
+    height: 1.2rem;
+    padding: 0.12rem;
+  }
+
+  .abo-brands__item + .abo-brands__item {
+    margin-left: -0.55rem;
   }
 
   .abo-rating__text {
-    font-size: 0.85rem;
-    width: auto;
+    font-size: 0.68rem;
+    letter-spacing: -0.02em;
+    white-space: nowrap;
+    line-height: 1.2;
   }
 
   .abo-vsl {
@@ -743,13 +765,13 @@
     gap: 1.15rem;
   }
 
-  .abo-proof__logos {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 0.85rem 0.75rem;
+  .abo-proof__logos .client-logos__viewport {
+    padding: 0.65rem 0;
   }
 
-  .abo-proof__logos img {
-    height: 1.4rem;
+  .abo-proof__logos .client-logos__image {
+    height: 2.25rem;
+    padding: 0.5rem 0.75rem;
   }
 
   .abo-quote {
@@ -779,8 +801,22 @@
     font-size: clamp(1.2rem, 6.8vw, 1.55rem);
   }
 
+  .abo-rating {
+    transform: scale(0.84);
+    gap: 0.22rem;
+    padding: 0.14rem 0.38rem 0.14rem 0.14rem;
+  }
+
   .abo-brands__item {
-    width: 1.4rem;
-    height: 1.4rem;
+    width: 1.05rem;
+    height: 1.05rem;
+  }
+
+  .abo-brands__item + .abo-brands__item {
+    margin-left: -0.48rem;
+  }
+
+  .abo-rating__text {
+    font-size: 0.62rem;
   }
 }
