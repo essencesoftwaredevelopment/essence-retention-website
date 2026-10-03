@@ -136,7 +136,19 @@
     .foot nav {
       display: flex;
       gap: 16px;
+      flex-wrap: wrap;
       margin-top: 8px;
+    }
+
+    @media (max-width: 640px) {
+      .top {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .top nav {
+        justify-content: flex-start;
+      }
     }
   </style>
 </head>
@@ -149,6 +161,7 @@
       </a>
       <nav aria-label="Privacy page navigation">
         <a href="/">Home</a>
+        <a href="/support">Support</a>
         <a href="mailto:jacques@essenceretention.com">Contact</a>
       </nav>
     </header>
@@ -343,6 +356,7 @@
       <p>© <span id="year"></span> Essence Retention. All rights reserved.</p>
       <nav>
         <a href="/">Home</a>
+        <a href="/support">Support</a>
         <a href="mailto:jacques@essenceretention.com">jacques@essenceretention.com</a>
       </nav>
     </footer>

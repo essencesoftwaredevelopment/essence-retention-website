@@ -13,6 +13,8 @@ const htmlFiles = [
   "booking/index.html",
   "acq-build-offer/index.html",
   "thank-you/index.html",
+  "support/index.html",
+  "essence-ai/privacy/index.html",
 ];
 
 const generatedFiles = new Set([
