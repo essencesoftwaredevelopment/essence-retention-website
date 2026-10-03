@@ -2,7 +2,7 @@
  * Playback-speed menu for the VSL player.
  */
 
-const RATES = [1, 1.25, 1.4, 1.5, 1.75, 2];
+const RATES = [1, 1.2, 1.25, 1.4, 1.5, 1.75, 2];
 
 /**
  * @param {{

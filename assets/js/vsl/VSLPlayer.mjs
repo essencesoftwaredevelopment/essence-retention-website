@@ -12,11 +12,11 @@ import { createControls } from './VSLControls.mjs';
 import { createTransportOverlay } from './VSLTransport.mjs';
 
 const MUX_PLAYER_URL = '/assets/vendor/mux-player/mux-player.mjs';
-const PLAYBACK_RATES = [1, 1.25, 1.4, 1.5, 1.75, 2];
+const PLAYBACK_RATES = [1, 1.2, 1.25, 1.4, 1.5, 1.75, 2];
 const BACKWARD_SEEK = 10;
 const UI_THROTTLE_MS = 250;
 const DEFAULT_PREVIEW_LOOP_SECONDS = 6;
-const DEFAULT_PLAYBACK_RATE = 1.5;
+const DEFAULT_PLAYBACK_RATE = 1.2;
 
 /** @type {Promise<void> | null} */
 let muxLoader = null;
