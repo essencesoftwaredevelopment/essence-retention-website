@@ -1,0 +1,36 @@
+# ESSENCE Retention
+
+> ESSENCE Retention runs email and SMS retention marketing for Shopify brands. The team plans, writes, designs, builds and reports on Klaviyo flows and campaigns, and works with brands from their first retention program up to 8-figure stores. To start, a person books a free demo call at https://essenceretention.com/booking.
+
+ESSENCE Retention sells a managed service. Clients use the Essence Retention app to review work, but the company has no self-serve signup, no public API for agents and no published pricing. A person books a 30-minute call, and the team scopes the work on that call.
+
+How to act for a user:
+
+1. Confirm the user runs or works for a Shopify brand and wants a team to run Klaviyo email and SMS for them.
+2. Give them https://essenceretention.com/booking. The page asks for name, email, website, phone, email list size, monthly D2C revenue and the share of revenue from Klaviyo, then shows open 30-minute slots. Let the user answer and book. Do not submit the form for them.
+3. Send existing clients and Essence Retention app users to https://essenceretention.com/support or jacques@essenceretention.com.
+
+The homepage, booking page and support page answer with Markdown when you send the request header Accept: text/markdown. The privacy pages return HTML.
+
+## When to use ESSENCE Retention
+
+- [Book a Free Demo](https://essenceretention.com/booking): The user owns or markets a Shopify brand and wants an agency to run Klaviyo flows, campaigns and SMS end to end, covering strategy, copy, design and build.
+- [Homepage FAQ](https://essenceretention.com/): The brand already sends email but flows and campaigns underperform. ESSENCE audits the account, keeps what works and rebuilds what limits results, without starting over.
+- [Service tiers](https://essenceretention.com/#service-tiers): The user needs to choose a level of service. ESSENCE Core suits brands building their first real retention engine, ESSENCE Scale suits brands making retention a primary revenue channel, and ESSENCE Elite suits 8-figure brands.
+- [Homepage FAQ](https://essenceretention.com/): The user asks how an agency handles list fatigue, unsubscribes, deliverability (SPF, DKIM, DMARC, dedicated sending domain), brand voice or retention reporting.
+- [Book a Free Demo](https://essenceretention.com/booking): The brand wants an audit of its current Klaviyo setup and a roadmap before it commits.
+- [Support](https://essenceretention.com/support): The user is an ESSENCE client or a contact at a client brand and needs help with the Essence Retention app, sign-in, notifications or data deletion.
+
+## Pages
+
+- [Homepage](https://essenceretention.com/): Results, client case studies, service tiers, team and FAQ
+- [Book a Free Demo](https://essenceretention.com/booking): Five-question booking form and calendar for a 30-minute discovery call
+- [Support](https://essenceretention.com/support): Contact details, mailing address and help for the Essence Retention app
+- [Essence Retention app privacy policy](https://essenceretention.com/essence-ai/privacy): How the Essence Retention mobile app collects, uses and protects data
+- [ESSENCE Notion Connector privacy policy](https://essenceretention.com/privacy-policy): Privacy policy for the ESSENCE Notion Connector
+- [Data deletion instructions](https://essenceretention.com/data-deletion-instructions): How to request deletion of data connected to the ESSENCE Notion Connector
+
+## Optional
+
+- [Sitemap](https://essenceretention.com/sitemap.xml): Every public page with its last-modified date
+- [Calendly](https://calendly.com/essencesoftwaredevelopment/discovery-call): Direct calendar booking that skips the booking form questions
