@@ -48,6 +48,10 @@ describe("middleware", () => {
     assert.equal(middleware(request("/__ora-404-probe-7qaet3qk", "text/html")), undefined);
   });
 
+  it("stays on the Edge runtime, where Vercel bundles the ES modules in lib/", () => {
+    assert.ok(config.runtime === undefined || config.runtime === "edge", `runtime: ${config.runtime}`);
+  });
+
   it("skips the same prefixes as lib/site-routes.mjs", () => {
     const excluded = config.matcher.match(/^\/\(\(\?!(.*)\)\.\*\)$/)?.[1].split("|");
     assert.deepEqual(

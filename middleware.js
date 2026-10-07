@@ -4,8 +4,10 @@
 
 import { negotiateMarkdown } from "./lib/markdown-negotiation.mjs";
 
+// Stay on the default Edge runtime even though Vercel's build suggests
+// runtime: "nodejs". Vercel compiles this file to CommonJS, and its Node.js
+// launcher cannot require() the ES modules in lib/ (ERR_REQUIRE_ESM).
 export const config = {
-  runtime: "nodejs",
   // Skip /api/ and /assets/ (lib/site-routes.mjs NON_PAGE_PREFIXES).
   matcher: "/((?!api/|assets/).*)",
 };
