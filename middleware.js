@@ -5,6 +5,7 @@
 import { negotiateMarkdown } from "./lib/markdown-negotiation.mjs";
 
 export const config = {
+  runtime: "nodejs",
   // Skip /api/ and /assets/ (lib/site-routes.mjs NON_PAGE_PREFIXES).
   matcher: "/((?!api/|assets/).*)",
 };
