@@ -3,6 +3,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import leadUrlValidation from "./lib/lead-url-validation.cjs";
+import { isPagePath, negotiateMarkdown } from "./lib/markdown-negotiation.mjs";
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -20,6 +21,9 @@ const mimeTypes = {
   ".js": "application/javascript; charset=utf-8",
   ".mjs": "application/javascript; charset=utf-8",
   ".json": "application/json; charset=utf-8",
+  ".txt": "text/plain; charset=utf-8",
+  ".xml": "application/xml; charset=utf-8",
+  ".md": "text/markdown; charset=utf-8",
   ".svg": "image/svg+xml",
   ".png": "image/png",
   ".jpg": "image/jpeg",
@@ -361,7 +365,13 @@ function resolveFilePath(urlPathname) {
   return absolutePath;
 }
 
-async function serveStatic(res, filePath) {
+// Mirrors vercel.json: page responses vary on Accept because of Markdown
+// negotiation in middleware.js.
+function varyHeaders(urlPathname) {
+  return isPagePath(urlPathname) ? { Vary: "Accept" } : {};
+}
+
+async function serveStatic(res, filePath, urlPathname) {
   try {
     const stat = await fs.stat(filePath);
     const resolvedPath = stat.isDirectory() ? path.join(filePath, "index.html") : filePath;
@@ -378,6 +388,7 @@ async function serveStatic(res, filePath) {
       res.writeHead(200, {
         "Content-Type": contentType,
         "Cache-Control": "no-cache",
+        ...varyHeaders(urlPathname),
       });
       res.end(html);
       return;
@@ -386,10 +397,11 @@ async function serveStatic(res, filePath) {
     res.writeHead(200, {
       "Content-Type": contentType,
       "Cache-Control": "no-cache",
+      ...varyHeaders(urlPathname),
     });
     res.end(data);
   } catch {
-    res.writeHead(404, { "Content-Type": "text/plain; charset=utf-8" });
+    res.writeHead(404, { "Content-Type": "text/plain; charset=utf-8", ...varyHeaders(urlPathname) });
     res.end("Not Found");
   }
 }
@@ -432,6 +444,17 @@ const server = http.createServer(async (req, res) => {
     return;
   }
 
+  const markdown = negotiateMarkdown({
+    method: req.method,
+    pathname: url.pathname,
+    accept: req.headers.accept || "",
+  });
+  if (markdown) {
+    res.writeHead(markdown.status, markdown.headers);
+    res.end(req.method === "HEAD" ? undefined : markdown.body);
+    return;
+  }
+
   const filePath = resolveFilePath(url.pathname);
   if (!filePath) {
     res.writeHead(403, { "Content-Type": "text/plain; charset=utf-8" });
@@ -439,7 +462,7 @@ const server = http.createServer(async (req, res) => {
     return;
   }
 
-  await serveStatic(res, filePath);
+  await serveStatic(res, filePath, url.pathname);
 });
 
 server.listen(port, () => {

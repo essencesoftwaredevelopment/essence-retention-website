@@ -1,6 +1,8 @@
 {
   "scripts": {
     "check": "node scripts/check-static-site.mjs",
+    "test": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --test tests/*.test.mjs",
+    "generate:sitemap": "node scripts/generate-sitemap.mjs",
     "prepare:runtime-config": "node scripts/generate-runtime-config.mjs",
     "predev": "npm run prepare:runtime-config",
     "dev": "node server.mjs",
