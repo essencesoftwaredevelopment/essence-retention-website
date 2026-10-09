@@ -1234,6 +1234,7 @@ const faqData = [
   const targets = document.querySelectorAll(
     [
       '.stats-row .stat-card',
+      '.client-results__header',
       '.client-logos__subhead',
       '.testimonials__header',
       '.quote-card',
