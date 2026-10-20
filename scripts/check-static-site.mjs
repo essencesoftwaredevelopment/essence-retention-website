@@ -12,6 +12,7 @@ const htmlFiles = [
   "data-deletion-instructions/index.html",
   "booking/index.html",
   "acq-build-offer/index.html",
+  "bfcm-landing/index.html",
   "thank-you/index.html",
   "support/index.html",
   "essence-ai/privacy/index.html",

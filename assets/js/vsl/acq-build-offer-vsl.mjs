@@ -35,8 +35,13 @@ function wireCtaTracking(api) {
   const ctas = document.querySelectorAll('[data-ph-cta]');
   if (!ctas.length) return;
 
+  const root = document.querySelector('[data-vsl-root]');
+  const location = root instanceof HTMLElement && root.dataset.analyticsLocation
+    ? root.dataset.analyticsLocation
+    : 'acq_build_offer';
+
   // CTA is always present on this page — count a shown event once the player is up.
-  api.trackCtaShown({ location: 'acq_build_offer' });
+  api.trackCtaShown({ location });
 
   ctas.forEach((cta) => {
     cta.addEventListener(
