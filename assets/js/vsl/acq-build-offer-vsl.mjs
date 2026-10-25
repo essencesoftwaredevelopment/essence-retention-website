@@ -3,6 +3,7 @@
  */
 
 import { mountVSLPlayer } from './VSLPlayer.mjs';
+import { mountChapters } from './VSLChapters.mjs';
 
 function readPlaybackIdFromPage() {
   const root = document.querySelector('[data-vsl-root]');
@@ -71,6 +72,7 @@ async function boot() {
     showUnmuteOverlay: root.dataset.showUnmuteOverlay !== 'false',
     captions: root.dataset.captions !== 'false',
     resume: root.dataset.resume !== 'false',
+    playbackRate: root.dataset.playbackRate ? Number(root.dataset.playbackRate) : undefined,
     poster: root.dataset.poster || undefined,
     onTimeUpdate(time) {
       // Parent pages can reveal timed CTAs from this callback / vsl:timeupdate.
@@ -80,6 +82,11 @@ async function boot() {
   });
 
   wireCtaTracking(api);
+
+  const chaptersEl = document.querySelector('[data-vsl-chapters]');
+  if (api && chaptersEl instanceof HTMLElement) {
+    mountChapters(chaptersEl, api, root);
+  }
 }
 
 boot().catch((error) => {

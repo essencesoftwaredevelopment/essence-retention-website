@@ -1,20 +1,13 @@
 /* bfcm-landing — VSL page built on the acq-build-offer system */
 
-@property --bfcm-shot-span {
-  syntax: "<length>";
-  inherits: false;
-  initial-value: 0px;
-}
-
-@property --bfcm-shots-width {
-  syntax: "<length>";
-  inherits: false;
-  initial-value: 0px;
-}
-
 .bfcm-page .abo {
   gap: 0;
   width: min(100% - 2rem, 1120px);
+}
+
+/* BFCM VSL is 16:9 — match the frame so the player doesn't crop it. */
+.bfcm-page .abo-vsl__frame {
+  aspect-ratio: 16 / 9;
 }
 
 .bfcm-hero {
@@ -117,7 +110,6 @@
 
 .bfcm-stats,
 .bfcm-interviews,
-.bfcm-shots,
 .bfcm-quotes,
 .bfcm-build {
   width: 100%;
@@ -125,16 +117,24 @@
 
 .bfcm-stats {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: minmax(0, 1fr);
   gap: 0.85rem;
 }
 
+/* One card per row: stat on the left, a large Klaviyo screenshot on the right. */
 .bfcm-stat {
-  padding: 1.2rem 1.15rem 1.1rem;
+  display: flex;
+  align-items: center;
+  gap: clamp(1.25rem, 3vw, 2.5rem);
+  padding: 1.25rem;
   border: 1px solid var(--border);
   border-radius: 1rem;
   background: var(--card);
   text-align: left;
+}
+
+.bfcm-stat__body {
+  flex: 0 0 15rem;
 }
 
 .bfcm-stat__values {
@@ -173,6 +173,52 @@
   margin: 0.15rem 0 0;
   font-size: 0.82rem;
   color: var(--muted-foreground);
+}
+
+.bfcm-stat .bfcm-stat__shot {
+  flex: 1 1 auto;
+  min-width: 0;
+  border-radius: 0.65rem;
+}
+
+/* Screenshots differ in shape — show each at its own ratio, no letterboxing. */
+.bfcm-stat .bfcm-stat__shot img {
+  aspect-ratio: auto;
+}
+
+/* Fixed-height logo row keeps the numbers level across cards. */
+.bfcm-stat__brand {
+  display: flex;
+  align-items: center;
+  height: 2.6rem;
+  margin: 0 0 0.85rem;
+  line-height: 0;
+}
+
+.bfcm-logo {
+  display: block;
+  width: auto;
+  height: 1rem;
+}
+
+.bfcm-logo--linear {
+  height: 0.95rem;
+}
+
+.bfcm-logo--angel-ruche {
+  height: 2.6rem;
+}
+
+/* CPL's logo is white on transparent — invert it for the light card. */
+.bfcm-logo--cpl {
+  height: 2.1rem;
+  filter: invert(1);
+}
+
+/* Email marquee — reuses the homepage .email-marquee__* styles, bled to the full window. */
+.bfcm-marquee .email-marquee__viewport {
+  width: 100vw;
+  overflow: hidden;
 }
 
 .bfcm-interviews {
@@ -234,76 +280,6 @@
   color: var(--muted-foreground);
 }
 
-.bfcm-shots {
-  --bfcm-shot-size: calc(45.5rem * 0.78);
-  --bfcm-shot-scale: 1.2;
-  --bfcm-shot-gap: 1.25rem;
-  --bfcm-shots-width: min(2240px, calc(100vw - 3rem));
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: var(--bfcm-shot-gap);
-  width: var(--bfcm-shots-width);
-  margin-inline: 0;
-  overflow: visible;
-  transition: --bfcm-shots-width 0.2s ease-in-out;
-}
-
-.bfcm-shot {
-  --bfcm-shot-span: var(--bfcm-shot-size);
-  width: var(--bfcm-shot-span);
-  max-width: 100%;
-  min-width: 0;
-  flex: 0 1 var(--bfcm-shot-span);
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 0.65rem;
-  text-align: left;
-  transition: --bfcm-shot-span 0.2s ease-in-out;
-}
-
-@media (hover: hover) and (min-width: 721px) {
-  .bfcm-shot:hover,
-  .bfcm-shot:focus-within {
-    --bfcm-shot-span: calc(var(--bfcm-shot-size) * var(--bfcm-shot-scale));
-    max-width: none;
-    flex-shrink: 0;
-  }
-}
-
-/* Two across: widen the row by the growth so the neighbor stays beside it. */
-@media (hover: hover) and (min-width: 75.25rem) and (max-width: 111.96rem) {
-  .bfcm-shots:has(.bfcm-shot:hover),
-  .bfcm-shots:has(.bfcm-shot:focus-within) {
-    --bfcm-shots-width: max(
-      min(2240px, calc(100vw - 3rem)),
-      calc(var(--bfcm-shot-size) * 2.2 + var(--bfcm-shot-gap))
-    );
-  }
-
-  .bfcm-shots:has(.bfcm-shot:hover) .bfcm-shot,
-  .bfcm-shots:has(.bfcm-shot:focus-within) .bfcm-shot {
-    flex-shrink: 0;
-  }
-}
-
-/* Three across: same idea, with both neighbors staying on the row. */
-@media (hover: hover) and (min-width: 111.97rem) {
-  .bfcm-shots:has(.bfcm-shot:hover),
-  .bfcm-shots:has(.bfcm-shot:focus-within) {
-    --bfcm-shots-width: max(
-      min(2240px, calc(100vw - 3rem)),
-      calc(var(--bfcm-shot-size) * 3.2 + var(--bfcm-shot-gap) * 2)
-    );
-  }
-
-  .bfcm-shots:has(.bfcm-shot:hover) .bfcm-shot,
-  .bfcm-shots:has(.bfcm-shot:focus-within) .bfcm-shot {
-    flex-shrink: 0;
-  }
-}
-
 .bfcm-shot__open {
   position: relative;
   display: block;
@@ -354,13 +330,6 @@
 .bfcm-shot__open:focus-visible {
   outline: 2px solid #000;
   outline-offset: 3px;
-}
-
-.bfcm-shot figcaption {
-  font-size: 0.88rem;
-  font-weight: 600;
-  letter-spacing: -0.02em;
-  line-height: 1.35;
 }
 
 .bfcm-quotes {
@@ -643,13 +612,22 @@
 }
 
 @media (max-width: 900px) {
-  .bfcm-stats,
   .bfcm-quotes,
   .bfcm-build {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .bfcm-stats .bfcm-stat:last-child,
+  .bfcm-stat {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+    padding: 1.2rem 1.15rem 1.1rem;
+  }
+
+  .bfcm-stat__body {
+    flex: none;
+  }
+
   .bfcm-quotes .abo-quote:last-child {
     grid-column: 1 / -1;
   }
@@ -687,26 +665,16 @@
     font-size: 1.45rem;
   }
 
-  .bfcm-stats,
   .bfcm-interviews,
   .bfcm-quotes,
   .bfcm-build {
     grid-template-columns: 1fr;
   }
 
-  .bfcm-shots {
-    width: 100%;
-  }
-
-  .bfcm-shot {
-    width: 100%;
-    flex-basis: 100%;
-  }
-
-  .bfcm-stats .bfcm-stat:last-child,
   .bfcm-quotes .abo-quote:last-child {
     grid-column: auto;
   }
+
 
   .bfcm-interview__video {
     width: min(100%, 240px);
@@ -732,24 +700,14 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .bfcm-marquee .email-marquee__track {
+    animation: none;
+  }
+
   .bfcm-qualify__view,
-  .bfcm-shots,
-  .bfcm-shot,
   .bfcm-shot__open,
   .bfcm-shot__zoom {
     transition: none;
-  }
-
-  .bfcm-shot:hover,
-  .bfcm-shot:focus-within {
-    --bfcm-shot-span: var(--bfcm-shot-size);
-    max-width: 100%;
-    flex-shrink: 1;
-  }
-
-  .bfcm-shots:has(.bfcm-shot:hover),
-  .bfcm-shots:has(.bfcm-shot:focus-within) {
-    --bfcm-shots-width: min(2240px, calc(100vw - 3rem));
   }
 
   .bfcm-qualify__view.is-leave,

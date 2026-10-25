@@ -1,0 +1,234 @@
+- generic [ref=f9e1]:
+  - main [ref=f9e2]:
+    - generic [ref=f9e3]:
+      - link "ESSENCE Retention home" [ref=f9e4] [cursor=pointer]:
+        - /url: /
+        - img "ESSENCE Retention" [ref=f9e5]
+      - generic "Trusted by 30+ ecommerce brands worldwide" [ref=f9e6]:
+        - paragraph [ref=f9e12]: Trusted By 30+ Ecommerce Brands Worldwide.
+      - generic [ref=f9e13]:
+        - heading "Make Klaviyo Your Biggest Revenue Channel This Black Friday" [level=1] [ref=f9e14]:
+          - generic [ref=f9e15]:
+            - generic [ref=f9e16]:
+              - text: Make
+              - img "Klaviyo" [ref=f9e18]
+              - text: Your
+            - generic [ref=f9e19]: Biggest Revenue Channel
+          - generic [ref=f9e20]: This Black Friday
+        - paragraph [ref=f9e21]: Written, designed, and installed for 7–8 figure brands. Built, tested, and live before the biggest week of the year.
+      - region "Video sales letter" [ref=f9e22]:
+        - region "ESSENCE BFCM VSL" [ref=f9e25]:
+          - region "video player" [ref=f9e29]
+          - group "Video controls" [ref=f9e214]:
+            - button "Mute" [ref=f9e217] [cursor=pointer]
+            - slider "Seek" [ref=f9e223] [cursor=pointer]: "397"
+        - navigation "Video chapters" [ref=f9e42]:
+          - list [ref=f9e43]:
+            - listitem [ref=f9e44]:
+              - button "0:00 Hook — $41k to $123k in 30 days" [ref=f9e45] [cursor=pointer]
+            - listitem [ref=f9e46]:
+              - button "0:26 Who this is for" [ref=f9e47] [cursor=pointer]
+            - listitem [ref=f9e48]:
+              - button "0:37 Meet Jacques" [ref=f9e49] [cursor=pointer]
+            - listitem [ref=f9e50]:
+              - button "1:02 How the system works" [ref=f9e51] [cursor=pointer]
+            - listitem [ref=f9e52]:
+              - button "1:26 Client results" [active] [ref=f9e53] [cursor=pointer]
+            - listitem [ref=f9e54]:
+              - button "3:06 Why email, why now" [ref=f9e55] [cursor=pointer]
+            - listitem [ref=f9e56]:
+              - button "4:02 Only 4 spots before Black Friday" [ref=f9e57] [cursor=pointer]
+            - listitem [ref=f9e58]:
+              - button "4:42 What working together looks like" [ref=f9e59] [cursor=pointer]
+            - listitem [ref=f9e60]:
+              - button "6:19 The guarantee" [ref=f9e61] [cursor=pointer]
+          - paragraph [ref=f9e62]: 1:26 · Client results
+      - link "See if you're qualified →" [ref=f9e63] [cursor=pointer]:
+        - /url: "#qualify"
+      - generic [ref=f9e64]:
+        - paragraph [ref=f9e65]: 7 / 8 Figure Brands Only
+        - paragraph [ref=f9e66]: 3 Available per Month
+    - region [ref=f9e69]:
+      - heading "What happens when retention is built properly" [level=2] [ref=f9e71]
+      - generic [ref=f9e72]:
+        - article [ref=f9e73]:
+          - paragraph [ref=f9e74]:
+            - generic [ref=f9e75]: $33.5K
+            - generic [ref=f9e78]: $112K
+          - paragraph [ref=f9e79]: Klaviyo revenue
+          - paragraph [ref=f9e80]: Sep 20 – Oct 20
+        - article [ref=f9e81]:
+          - paragraph [ref=f9e82]:
+            - generic [ref=f9e83]: 0.67%
+            - generic [ref=f9e86]: 36.3%
+          - paragraph [ref=f9e87]: Revenue share
+          - paragraph [ref=f9e88]: Linear Bar
+        - article [ref=f9e89]:
+          - paragraph [ref=f9e90]:
+            - generic [ref=f9e91]: 0%
+            - generic [ref=f9e94]: 33.4%
+          - paragraph [ref=f9e95]: Store revenue
+          - paragraph [ref=f9e96]: Custom Puddle Lights
+      - paragraph [ref=f9e97]: Figures are from client accounts as reported. Results vary, and they are not a guarantee.
+    - region [ref=f9e98]:
+      - heading "Client interviews" [level=2] [ref=f9e100]
+      - generic [ref=f9e101]:
+        - figure [ref=f9e102]:
+          - iframe [ref=f9e104]:
+            - generic [ref=f10e1]:
+              - generic "YouTube Video Player" [ref=f10e3]
+              - generic [ref=f10e5]:
+                - generic:
+                  - generic:
+                    - generic [ref=f10e6] [cursor=pointer]
+                    - button "Play video" [ref=f10e10] [cursor=pointer]
+                    - button "Hide player controls" [ref=f10e14] [cursor=pointer]
+                    - generic [ref=f10e23]:
+                      - generic [ref=f10e24]:
+                        - link "Aer Cosmetics Testimonial" [ref=f10e25] [cursor=pointer]:
+                          - /url: https://www.youtube.com/shorts/sCkWw0e447Y
+                        - link "Jacques Schaeken - ESSENCE Retention" [ref=f10e26] [cursor=pointer]:
+                          - /url: /channel/UCV95cmSgqdwK0NU7ewHlC1Q
+                      - generic [ref=f10e28]:
+                        - button [ref=f10e29] [cursor=pointer]
+                        - generic [ref=f10e31]:
+                          - generic: Jacques Schaeken - ESSENCE Retention
+                          - generic: 8 subscribers
+          - blockquote [ref=f9e105]:
+            - paragraph [ref=f9e106]: We have 11x'd our sales.
+          - generic [ref=f9e107]:
+            - paragraph [ref=f9e108]: Paige DeAngelo
+            - paragraph [ref=f9e109]: Founder of Aer Cosmetics
+        - figure [ref=f9e110]:
+          - iframe [ref=f9e112]:
+            - generic [ref=f11e1]:
+              - generic "YouTube Video Player" [ref=f11e3]
+              - generic [ref=f11e5]:
+                - generic:
+                  - generic:
+                    - generic [ref=f11e6] [cursor=pointer]
+                    - button "Play video" [ref=f11e10] [cursor=pointer]
+                    - button "Hide player controls" [ref=f11e14] [cursor=pointer]
+                    - generic [ref=f11e23]:
+                      - generic [ref=f11e24]:
+                        - link "Spicy Wear Testimonial" [ref=f11e25] [cursor=pointer]:
+                          - /url: https://www.youtube.com/shorts/aikdwBMh9Io
+                        - link "Jacques Schaeken - ESSENCE Retention" [ref=f11e26] [cursor=pointer]:
+                          - /url: /channel/UCV95cmSgqdwK0NU7ewHlC1Q
+                      - generic [ref=f11e28]:
+                        - button [ref=f11e29] [cursor=pointer]
+                        - generic [ref=f11e31]:
+                          - generic: Jacques Schaeken - ESSENCE Retention
+                          - generic: 8 subscribers
+          - blockquote [ref=f9e113]:
+            - paragraph [ref=f9e114]: They genuinely want to see you succeed.
+          - generic [ref=f9e115]:
+            - paragraph [ref=f9e116]: John King
+            - paragraph [ref=f9e117]: Founder of Spicy Wear
+        - figure [ref=f9e118]:
+          - iframe [ref=f9e120]:
+            - generic [ref=f12e1]:
+              - generic "YouTube Video Player" [ref=f12e3]
+              - generic [ref=f12e5]:
+                - generic:
+                  - generic:
+                    - generic [ref=f12e6] [cursor=pointer]
+                    - button "Play video" [ref=f12e10] [cursor=pointer]
+                    - button "Hide player controls" [ref=f12e14] [cursor=pointer]
+                    - generic [ref=f12e23]:
+                      - generic [ref=f12e24]:
+                        - link "Strive Fitness Company Testimonial" [ref=f12e25] [cursor=pointer]:
+                          - /url: https://www.youtube.com/shorts/axN1Eil39NU
+                        - link "Jacques Schaeken - ESSENCE Retention" [ref=f12e26] [cursor=pointer]:
+                          - /url: /channel/UCV95cmSgqdwK0NU7ewHlC1Q
+                      - generic [ref=f12e28]:
+                        - button [ref=f12e29] [cursor=pointer]
+                        - generic [ref=f12e31]:
+                          - generic: Jacques Schaeken - ESSENCE Retention
+                          - generic: 8 subscribers
+          - blockquote [ref=f9e121]:
+            - paragraph [ref=f9e122]: Their experience made it very seamless for us.
+          - generic [ref=f9e123]:
+            - paragraph [ref=f9e124]: Gavin Kennelly
+            - paragraph [ref=f9e125]: Founder of Young Irish Entrepreneurs
+    - region [ref=f9e126]:
+      - heading "Real Klaviyo screenshots" [level=2] [ref=f9e128]
+      - generic [ref=f9e129]:
+        - figure "+$75,000 per month from Klaviyo" [ref=f9e130]:
+          - button "Klaviyo dashboard showing $112,155 in attributed revenue for September 20 to October 20 2026. View full size" [ref=f9e131] [cursor=pointer]:
+            - img "Klaviyo dashboard showing $112,155 in attributed revenue for September 20 to October 20 2026." [ref=f9e132]
+            - generic [ref=f9e133]: View full size
+        - figure "0 -> $548k of Klaviyo Revenue in < 1 Year" [ref=f9e135]:
+          - button "Klaviyo growth overview showing $548K attributed revenue. View full size" [ref=f9e136] [cursor=pointer]:
+            - img "Klaviyo growth overview showing $548K attributed revenue." [ref=f9e137]
+            - generic [ref=f9e138]: View full size
+        - figure "0 -> 36.3% of Klaviyo Revenue in 4 months" [ref=f9e140]:
+          - button "Klaviyo dashboard showing 36.33 percent of store revenue attributed. View full size" [ref=f9e141] [cursor=pointer]:
+            - img "Klaviyo dashboard showing 36.33 percent of store revenue attributed." [ref=f9e142]
+            - generic [ref=f9e143]: View full size
+    - region [ref=f9e145]:
+      - heading "Trusted by brands who take retention seriously" [level=2] [ref=f9e147]
+      - generic [ref=f9e148]:
+        - figure [ref=f9e149]:
+          - blockquote [ref=f9e150]:
+            - paragraph [ref=f9e151]: Everyone on the team has been a pleasure to work with.
+            - paragraph [ref=f9e152]:
+              - text: Within the first month, flows were live and email was driving
+              - strong [ref=f9e153]: 20% of attributed revenue
+              - text: — climbing to
+              - strong [ref=f9e154]: 33% the following week
+              - text: .
+          - generic [ref=f9e155]:
+            - img "Linear Bar"
+        - figure [ref=f9e156]:
+          - blockquote [ref=f9e157]:
+            - paragraph [ref=f9e158]: They genuinely want to see you succeed.
+            - paragraph [ref=f9e159]:
+              - text: Essence contributed across the business — and the results followed, with the brand growing over
+              - strong [ref=f9e160]: 110%
+              - text: since they started working together.
+          - generic [ref=f9e161]:
+            - img "Spicy Wear"
+        - figure [ref=f9e162]:
+          - blockquote [ref=f9e163]:
+            - paragraph [ref=f9e164]: The best investment I've made in my business.
+            - paragraph [ref=f9e165]:
+              - text: Aer Cosmetics grew
+              - strong [ref=f9e166]: 11x from 2024 to 2025
+              - text: ", and founder Paige credits Essence's strategic marketing."
+          - img "Aer Cosmetics" [ref=f9e168]
+      - link "See if you're qualified →" [ref=f9e169] [cursor=pointer]:
+        - /url: "#qualify"
+    - region [ref=f9e170]:
+      - heading "The BFCM Revenue Build-Out" [level=2] [ref=f9e172]
+      - list [ref=f9e173]:
+        - listitem [ref=f9e174]:
+          - paragraph [ref=f9e175]: "01"
+          - heading "Welcome flow" [level=3] [ref=f9e176]
+          - paragraph [ref=f9e177]: A popup and welcome series that catches Black Friday traffic and turns it into buyers.
+        - listitem [ref=f9e178]:
+          - paragraph [ref=f9e179]: "02"
+          - heading "Campaign calendar" [level=3] [ref=f9e180]
+          - paragraph [ref=f9e181]: The peak-week sends, written and designed around the days that actually drive revenue.
+        - listitem [ref=f9e182]:
+          - paragraph [ref=f9e183]: "03"
+          - heading "Core automations" [level=3] [ref=f9e184]
+          - paragraph [ref=f9e185]: Abandoned checkout, browse, and post-purchase, rebuilt so they hold up when traffic spikes.
+        - listitem [ref=f9e186]:
+          - paragraph [ref=f9e187]: "04"
+          - heading "Lifecycle" [level=3] [ref=f9e188]
+          - paragraph [ref=f9e189]: Winback and VIP paths that bring customers you already paid for back before the sale ends.
+      - complementary [ref=f9e190]:
+        - generic [ref=f9e191]:
+          - paragraph [ref=f9e192]: Jacques Schaeken
+          - paragraph [ref=f9e193]: Founder
+          - paragraph [ref=f9e194]: ESSENCE Retention plans, writes, and designs Klaviyo programs for Shopify brands. This build-out is reviewed by the team before it goes live in your account.
+    - region [ref=f9e195]:
+      - heading "A few quick questions, then pick your time" [level=2] [ref=f9e197]
+      - generic [ref=f9e204]:
+        - heading "Is your store revenue above $1M/year?" [level=3] [ref=f9e205]
+        - generic [ref=f9e206]:
+          - button "Yes" [ref=f9e207] [cursor=pointer]
+          - button "No" [ref=f9e208] [cursor=pointer]
+  - contentinfo [ref=f9e209]:
+    - paragraph [ref=f9e210]: ESSENCE Retention

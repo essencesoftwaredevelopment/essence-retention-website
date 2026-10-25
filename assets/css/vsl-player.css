@@ -568,3 +568,196 @@
   aspect-ratio: auto;
   border-radius: 0;
 }
+
+/* —— Chapters (below the player) —— */
+
+.vsl-chapters-wrap {
+  width: 100%;
+  margin-top: 0.85rem;
+  text-align: left;
+}
+
+.vsl-chapters {
+  display: flex;
+  gap: 3px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  opacity: 0;
+  transition: opacity 200ms ease;
+}
+
+.vsl-chapters.is-ready {
+  opacity: 1;
+}
+
+.vsl-chapters__item {
+  display: flex;
+  flex: var(--chapter-span, 1) 1 0;
+  min-width: 0;
+}
+
+.vsl-chapters__segment {
+  position: relative;
+  flex: 1;
+  height: 1.5rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.vsl-chapters__segment::before,
+.vsl-chapters__segment::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 5px;
+  border-radius: 999px;
+  transition: height 120ms ease;
+}
+
+.vsl-chapters__segment::before {
+  background: color-mix(in oklch, var(--foreground) 14%, transparent);
+  transform: translateY(-50%);
+}
+
+.vsl-chapters__segment::after {
+  background: var(--foreground);
+  transform-origin: left center;
+  transform: translateY(-50%) scaleX(var(--chapter-fill, 0));
+}
+
+.vsl-chapters__segment:hover::before,
+.vsl-chapters__segment:hover::after,
+.vsl-chapters__segment:focus-visible::before,
+.vsl-chapters__segment:focus-visible::after {
+  height: 9px;
+}
+
+.vsl-chapters__segment:focus-visible {
+  outline: 2px solid var(--foreground);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Tooltip — chapter name on hover / keyboard focus */
+.vsl-chapters__label {
+  position: absolute;
+  bottom: calc(100% + 0.3rem);
+  left: 50%;
+  z-index: 2;
+  padding: 0.38rem 0.62rem;
+  border-radius: 0.5rem;
+  background: var(--foreground);
+  color: var(--background);
+  font-size: 0.78rem;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transform: translate(-50%, 4px);
+  transition: opacity 120ms ease, transform 120ms ease;
+}
+
+.vsl-chapters__segment[data-align="start"] .vsl-chapters__label {
+  left: 0;
+  transform: translate(0, 4px);
+}
+
+.vsl-chapters__segment[data-align="end"] .vsl-chapters__label {
+  left: auto;
+  right: 0;
+  transform: translate(0, 4px);
+}
+
+.vsl-chapters__segment:hover .vsl-chapters__label,
+.vsl-chapters__segment:focus-visible .vsl-chapters__label {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+.vsl-chapters__segment[data-align="start"]:hover .vsl-chapters__label,
+.vsl-chapters__segment[data-align="start"]:focus-visible .vsl-chapters__label,
+.vsl-chapters__segment[data-align="end"]:hover .vsl-chapters__label,
+.vsl-chapters__segment[data-align="end"]:focus-visible .vsl-chapters__label {
+  transform: translate(0, 0);
+}
+
+.vsl-chapters__time {
+  margin-right: 0.3rem;
+  opacity: 0.6;
+  font-variant-numeric: tabular-nums;
+}
+
+.vsl-chapters__current {
+  margin: 0.2rem 0 0;
+  min-height: 1.2em;
+  color: var(--muted-foreground);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+/* Touch screens can't hover — show chapter names as scrollable chips instead. */
+@media (hover: none) {
+  .vsl-chapters {
+    gap: 0.4rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+    padding: 2px;
+  }
+
+  .vsl-chapters::-webkit-scrollbar {
+    display: none;
+  }
+
+  .vsl-chapters__item {
+    flex: 0 0 auto;
+  }
+
+  .vsl-chapters__segment {
+    height: auto;
+    padding: 0.5rem 0.8rem;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: var(--background);
+  }
+
+  .vsl-chapters__segment::before,
+  .vsl-chapters__segment::after {
+    display: none;
+  }
+
+  .vsl-chapters__label,
+  .vsl-chapters__segment[data-align] .vsl-chapters__label {
+    position: static;
+    display: block;
+    padding: 0;
+    background: none;
+    color: var(--foreground);
+    font-size: 0.8125rem;
+    opacity: 1;
+    transform: none;
+  }
+
+  .vsl-chapters__segment[aria-current="true"] {
+    border-color: var(--foreground);
+    background: var(--foreground);
+  }
+
+  .vsl-chapters__segment[aria-current="true"] .vsl-chapters__label {
+    color: var(--background);
+  }
+
+  .vsl-chapters__current {
+    display: none;
+  }
+}

@@ -1,0 +1,159 @@
+- main [ref=f9e2]:
+  - link "ESSENCE Retention home" [ref=f9e3] [cursor=pointer]:
+    - /url: /
+    - img "ESSENCE Retention" [ref=f9e4]
+  - generic "Trusted by 30+ ecommerce brands worldwide" [ref=f9e5]:
+    - paragraph [ref=f9e11]: Trusted By 30+ Ecommerce Brands Worldwide.
+  - generic [ref=f9e12]:
+    - heading "Get An On-Brand Pop Up & Welcome Flow In 24 Hours For $2,000 Free" [level=1] [ref=f9e13]:
+      - generic [ref=f9e14]: Get An On-Brand Pop Up & Welcome Flow
+      - generic [ref=f9e15]:
+        - text: In 24 Hours For
+        - generic [ref=f9e16]: $2,000
+        - generic: Free
+    - paragraph [ref=f9e18]: Written, designed, and installed by a human 👋
+  - region "Video sales letter" [ref=f9e19]:
+    - region "ESSENCE Retention VSL" [ref=f9e22]:
+      - region "video player" [ref=f9e26]
+      - button "Your video is already playing. Click to Unmute" [ref=f9e30] [cursor=pointer]:
+        - generic [ref=f9e36]:
+          - generic [ref=f9e37]: Your video is already playing
+          - generic [ref=f9e38]: Click to Unmute
+  - generic [ref=f9e39]:
+    - paragraph [ref=f9e40]: 7 / 8 Figure Brands Only
+    - paragraph [ref=f9e41]: 3 Available per Month
+  - link "Check If You're Qualified →" [ref=f9e44] [cursor=pointer]:
+    - /url: /booking
+  - region [ref=f9e45]:
+    - heading "Trusted by brands who take retention seriously" [level=2] [ref=f9e47]
+    - generic "Client brands" [ref=f9e48]:
+      - generic [ref=f9e50]:
+        - img "CPL" [ref=f9e51]
+        - img "LFS" [ref=f9e52]
+        - img "Aer" [ref=f9e53]
+        - img "Drip" [ref=f9e54]
+        - img "Flutter" [ref=f9e55]
+        - img "GDN" [ref=f9e56]
+        - img "HBM" [ref=f9e57]
+        - img "Lash Star" [ref=f9e58]
+        - img "OEM" [ref=f9e59]
+        - img "PMEV" [ref=f9e60]
+        - img "Spicy Wear" [ref=f9e61]
+        - img "AG" [ref=f9e62]
+        - img "DAL" [ref=f9e63]
+        - img "Linear" [ref=f9e64]
+    - generic [ref=f9e79]:
+      - figure [ref=f9e80]:
+        - blockquote [ref=f9e81]:
+          - paragraph [ref=f9e82]: Everyone on the team has been a pleasure to work with.
+          - paragraph [ref=f9e83]:
+            - text: Within the first month, flows were live and email was driving
+            - strong [ref=f9e84]: 20% of attributed revenue
+            - text: — climbing to
+            - strong [ref=f9e85]: 33% the following week
+            - text: .
+        - img "Linear Bar" [ref=f9e87]
+      - figure [ref=f9e88]:
+        - iframe [ref=f9e90]:
+          - generic [ref=f10e1]:
+            - generic "YouTube Video Player" [ref=f10e3]
+            - generic [ref=f10e5]:
+              - generic:
+                - generic:
+                  - generic [ref=f10e6] [cursor=pointer]
+                  - button "Play video" [ref=f10e10] [cursor=pointer]
+                  - button "Hide player controls" [ref=f10e14] [cursor=pointer]
+                  - generic [ref=f10e23]:
+                    - generic [ref=f10e24]:
+                      - link "Aer Cosmetics Testimonial" [ref=f10e25] [cursor=pointer]:
+                        - /url: https://www.youtube.com/shorts/sCkWw0e447Y
+                      - link "Jacques Schaeken - ESSENCE Retention" [ref=f10e26] [cursor=pointer]:
+                        - /url: /channel/UCV95cmSgqdwK0NU7ewHlC1Q
+                    - generic [ref=f10e28]:
+                      - button [ref=f10e29] [cursor=pointer]
+                      - generic [ref=f10e31]:
+                        - generic: Jacques Schaeken - ESSENCE Retention
+                        - generic: 8 subscribers
+        - blockquote [ref=f9e91]:
+          - paragraph [ref=f9e92]: We have 11x'd our sales.
+        - generic [ref=f9e93]:
+          - paragraph [ref=f9e94]: Paige DeAngelo
+          - paragraph [ref=f9e95]: Founder of Aer Cosmetics
+      - figure [ref=f9e96]:
+        - blockquote [ref=f9e97]:
+          - paragraph [ref=f9e98]: They genuinely want to see you succeed.
+          - paragraph [ref=f9e99]:
+            - text: Essence contributed across the business — and the results followed, with the brand growing over
+            - strong [ref=f9e100]: 110%
+            - text: since they started working together.
+        - img "Spicy Wear" [ref=f9e102]
+      - figure [ref=f9e103]:
+        - iframe [ref=f9e105]:
+          - generic [ref=f11e1]:
+            - generic "YouTube Video Player" [ref=f11e3]
+            - generic [ref=f11e5]:
+              - generic:
+                - generic:
+                  - generic [ref=f11e6] [cursor=pointer]
+                  - button "Play video" [ref=f11e10] [cursor=pointer]
+                  - button "Hide player controls" [ref=f11e14] [cursor=pointer]
+                  - generic [ref=f11e23]:
+                    - generic [ref=f11e24]:
+                      - link "Spicy Wear Testimonial" [ref=f11e25] [cursor=pointer]:
+                        - /url: https://www.youtube.com/shorts/aikdwBMh9Io
+                      - link "Jacques Schaeken - ESSENCE Retention" [ref=f11e26] [cursor=pointer]:
+                        - /url: /channel/UCV95cmSgqdwK0NU7ewHlC1Q
+                    - generic [ref=f11e28]:
+                      - button [ref=f11e29] [cursor=pointer]
+                      - generic [ref=f11e31]:
+                        - generic: Jacques Schaeken - ESSENCE Retention
+                        - generic: 8 subscribers
+        - blockquote [ref=f9e106]:
+          - paragraph [ref=f9e107]: They genuinely want to see you succeed.
+        - generic [ref=f9e108]:
+          - paragraph [ref=f9e109]: John King
+          - paragraph [ref=f9e110]: Founder of Spicy Wear
+      - figure [ref=f9e111]:
+        - blockquote [ref=f9e112]:
+          - paragraph [ref=f9e113]: The best investment I've made in my business.
+          - paragraph [ref=f9e114]:
+            - text: Aer Cosmetics grew
+            - strong [ref=f9e115]: 11x from 2024 to 2025
+            - text: ", and founder Paige credits Essence's strategic marketing."
+        - img "Aer Cosmetics" [ref=f9e117]
+      - figure [ref=f9e118]:
+        - iframe [ref=f9e120]:
+          - generic [ref=f12e1]:
+            - generic "YouTube Video Player" [ref=f12e3]
+            - generic [ref=f12e5]:
+              - generic:
+                - generic:
+                  - generic [ref=f12e6] [cursor=pointer]
+                  - button "Play video" [ref=f12e10] [cursor=pointer]
+                  - button "Hide player controls" [ref=f12e14] [cursor=pointer]
+                  - generic [ref=f12e23]:
+                    - generic [ref=f12e24]:
+                      - link "Strive Fitness Company Testimonial" [ref=f12e25] [cursor=pointer]:
+                        - /url: https://www.youtube.com/shorts/axN1Eil39NU
+                      - link "Jacques Schaeken - ESSENCE Retention" [ref=f12e26] [cursor=pointer]:
+                        - /url: /channel/UCV95cmSgqdwK0NU7ewHlC1Q
+                    - generic [ref=f12e28]:
+                      - button [ref=f12e29] [cursor=pointer]
+                      - generic [ref=f12e31]:
+                        - generic: Jacques Schaeken - ESSENCE Retention
+                        - generic: 8 subscribers
+        - blockquote [ref=f9e121]:
+          - paragraph [ref=f9e122]: Their experience made it very seamless for us.
+        - generic [ref=f9e123]:
+          - paragraph [ref=f9e124]: Gavin Kennelly
+          - paragraph [ref=f9e125]: Founder of Young Irish Entrepreneurs
+      - figure [ref=f9e126]:
+        - blockquote [ref=f9e127]:
+          - paragraph [ref=f9e128]: From 0% to 33% of store revenue.
+          - paragraph [ref=f9e129]:
+            - text: When ESSENCE took over, the brand had no email program. Within 12 months we built the channel from scratch to
+            - strong [ref=f9e130]: 33.4% of total store revenue
+            - text: .
+        - img "Custom Puddle Lights" [ref=f9e132]
+    - link "Check If You're Qualified →" [ref=f9e133] [cursor=pointer]:
+      - /url: /booking

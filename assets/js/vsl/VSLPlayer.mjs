@@ -41,6 +41,7 @@ function loadMuxPlayer() {
  * @property {boolean} [captions]
  * @property {boolean} [resume]
  * @property {number} [previewLoopSeconds] Loop opening seconds as a muted teaser. 0 disables.
+ * @property {number} [playbackRate] Starting speed. Defaults to DEFAULT_PLAYBACK_RATE.
  * @property {string} [poster]
  * @property {string} [className]
  * @property {(time: number, meta: { duration: number, progress: number, teaser: boolean }) => void} [onTimeUpdate]
@@ -72,6 +73,10 @@ export async function mountVSLPlayer(root, options) {
   const previewLoopSeconds = Number.isFinite(options.previewLoopSeconds)
     ? Math.max(0, Number(options.previewLoopSeconds))
     : DEFAULT_PREVIEW_LOOP_SECONDS;
+  const defaultPlaybackRate =
+    Number.isFinite(options.playbackRate) && options.playbackRate > 0
+      ? Number(options.playbackRate)
+      : DEFAULT_PLAYBACK_RATE;
 
   root.replaceChildren();
   root.classList.add('vsl-root');
@@ -129,7 +134,7 @@ export async function mountVSLPlayer(root, options) {
   player.muted = initialMuted;
   player.volume = 1;
   player.defaultVolume = 1;
-  player.playbackRate = DEFAULT_PLAYBACK_RATE;
+  player.playbackRate = defaultPlaybackRate;
   if (autoplay && initialMuted) {
     player.setAttribute('autoplay', 'muted');
   }
@@ -162,7 +167,7 @@ export async function mountVSLPlayer(root, options) {
     currentTime: 0,
     progress: 0,
     volume: 1,
-    playbackRate: DEFAULT_PLAYBACK_RATE,
+    playbackRate: defaultPlaybackRate,
     captionsEnabled,
     captionsAvailable: false,
     overlayMode: 'hidden',
@@ -348,7 +353,7 @@ export async function mountVSLPlayer(root, options) {
 
     player.muted = false;
     player.volume = 1;
-    player.playbackRate = DEFAULT_PLAYBACK_RATE;
+    player.playbackRate = defaultPlaybackRate;
     player.currentTime = 0;
 
     hideOverlayAfterSound();
@@ -599,11 +604,11 @@ export async function mountVSLPlayer(root, options) {
       return;
     }
     player.muted = true;
-    player.playbackRate = DEFAULT_PLAYBACK_RATE;
+    player.playbackRate = defaultPlaybackRate;
     player.currentTime = 0;
     try {
       await player.play();
-      player.playbackRate = DEFAULT_PLAYBACK_RATE;
+      player.playbackRate = defaultPlaybackRate;
       state.autoplaySucceeded = true;
     } catch {
       try {
@@ -615,7 +620,7 @@ export async function mountVSLPlayer(root, options) {
           player.addEventListener('canplay', onReady, { once: true });
           window.setTimeout(() => reject(new Error('autoplay-timeout')), 2000);
         });
-        player.playbackRate = DEFAULT_PLAYBACK_RATE;
+        player.playbackRate = defaultPlaybackRate;
         state.autoplaySucceeded = true;
       } catch {
         state.autoplaySucceeded = false;
@@ -692,6 +697,7 @@ export async function mountAllVSLPlayers(scope = document, defaults = {}) {
       captions: node.dataset.captions !== 'false',
       resume: node.dataset.resume !== 'false',
       previewLoopSeconds,
+      playbackRate: node.dataset.playbackRate ? Number(node.dataset.playbackRate) : defaults.playbackRate,
       className: node.dataset.className,
       onTimeUpdate: defaults.onTimeUpdate,
       onStateChange: defaults.onStateChange,
